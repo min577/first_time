@@ -1,0 +1,130 @@
+.about {
+  height: 100%;
+  padding: 36px 22px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  background: var(--paper);
+}
+
+.about-head {
+  text-align: center;
+}
+
+.about-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--sub);
+  margin-bottom: 8px;
+}
+
+.about-logo {
+  font-size: 30px;
+  color: var(--green);
+}
+
+.about-concept {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--green-light);
+}
+
+.about-section p {
+  font-size: 13px;
+  color: var(--ink);
+  word-break: keep-all;
+}
+
+.about-section-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-light);
+  margin-bottom: 6px;
+}
+
+.about-loop {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.about-loop-step {
+  position: relative;
+  background: var(--green-pale);
+  border-radius: var(--radius-card);
+  padding: 12px 6px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* 단계 사이 화살표 — 루프가 '흐름'임을 다이어그램으로 보여준다 */
+.about-loop-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--green-light);
+  z-index: 1;
+}
+
+.about-loop-num {
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.about-loop-title {
+  font-size: 12px;
+  color: var(--green);
+}
+
+.about-loop-desc {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--sub);
+  word-break: keep-all;
+}
+
+.about-cta {
+  display: block;
+  text-align: center;
+  background: var(--green);
+  color: var(--paper);
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius-pill);
+  padding: 14px 20px;
+}
+
+.about-cta:active {
+  background: var(--green-light);
+}
+
+.about-reset {
+  text-align: center;
+  margin-top: auto;
+}
+
+.about-reset-btn {
+  font-size: 11px;
+  color: var(--sub);
+  opacity: 0.7;
+  padding: 6px 10px;
+  text-decoration: underline;
+}
