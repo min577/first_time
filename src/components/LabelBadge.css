@@ -1,0 +1,12 @@
+.label-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--green);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}

@@ -1,0 +1,33 @@
+.confess {
+  padding: 20px 20px 32px;
+}
+
+.confess-hero {
+  background: var(--green);
+  border-radius: var(--radius-card);
+  padding: 22px 20px;
+  color: var(--paper);
+  margin-bottom: 14px;
+}
+
+.confess-hero-title {
+  font-size: 19px;
+  line-height: 1.45;
+  word-break: keep-all;
+  margin-bottom: 8px;
+}
+
+.confess-hero-sub {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.confess-compose {
+  margin-bottom: 22px;
+}
+
+.confess-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
