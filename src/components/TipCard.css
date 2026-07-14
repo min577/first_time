@@ -1,0 +1,33 @@
+.tip-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  background: var(--paper);
+}
+
+.tip-card.is-mine {
+  background: var(--green-pale);
+  border-color: var(--green-pale);
+}
+
+.tip-text {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  word-break: keep-all;
+}
+
+.tip-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tip-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green-light);
+}

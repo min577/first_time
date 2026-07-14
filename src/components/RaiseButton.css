@@ -1,0 +1,41 @@
+.raise-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--sub);
+  font-size: 13px;
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.raise-btn.is-raised {
+  background: var(--amber-pale);
+  border-color: var(--amber);
+  color: var(--amber-deep);
+  cursor: default;
+}
+
+.raise-glass {
+  display: inline-flex;
+}
+
+.raise-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.raise-float {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--amber-deep);
+  pointer-events: none;
+  white-space: nowrap;
+}
