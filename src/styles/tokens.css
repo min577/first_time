@@ -1,0 +1,22 @@
+:root {
+  /* 컬러 — 병초록 + 종이 + 소주잔 앰버 */
+  --green: #0B5C3F;        /* 병초록 (주조색, 헤더/CTA) */
+  --green-light: #17936A;  /* 새잎 (강조 텍스트, 활성 상태) */
+  --green-pale: #E7F2ED;   /* 연초록 (입력 영역 배경) */
+  --paper: #FAF9F4;        /* 종이 (앱 배경) */
+  --ink: #1B211D;          /* 먹 (본문) */
+  --sub: #6B7570;          /* 보조 텍스트 */
+  --amber: #E8A13D;        /* 소주잔 앰버 (잔 들기 전용 — 다른 곳에 쓰지 않는다) */
+  --amber-pale: #FBF1DE;
+  --amber-deep: #9A6B1E;
+  --line: #E3E5E0;         /* 구분선 */
+
+  /* 타이포 */
+  --font-display: 'Gowun Batang', serif;   /* 제목·고백 본문 — 대학 교재/개론 수업 감성 */
+  --font-body: 'Pretendard Variable', Pretendard, sans-serif;
+
+  /* 레이아웃 */
+  --radius-card: 14px;
+  --radius-pill: 20px;
+  --phone-width: 375px;
+}

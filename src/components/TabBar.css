@@ -1,0 +1,28 @@
+.tabbar {
+  flex: 0 0 auto;
+  display: flex;
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tabbar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 0 7px;
+  color: var(--sub);
+  transition: color 0.15s ease;
+}
+
+.tabbar-item.is-active {
+  color: var(--green);
+}
+
+.tabbar-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}

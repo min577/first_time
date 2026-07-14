@@ -1,0 +1,60 @@
+.splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  background: var(--green);
+  color: var(--paper);
+  text-align: center;
+}
+
+.splash-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  opacity: 0.8;
+}
+
+.splash-logo {
+  font-family: var(--font-display);
+  font-size: 40px;
+  margin: 10px 0 6px;
+}
+
+.splash-subtitle {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 48px;
+}
+
+.splash-stamp-zone {
+  width: 130px;
+  height: 130px;
+  border: 2px dashed rgba(250, 249, 244, 0.55);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  color: var(--paper);
+  touch-action: none;
+}
+
+.splash-stamp-copy {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.splash-caption {
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.splash-footer {
+  position: absolute;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  font-size: 11px;
+  opacity: 0.55;
+}
