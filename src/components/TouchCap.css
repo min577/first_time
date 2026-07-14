@@ -1,0 +1,65 @@
+.touchcap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.touchcap-zone {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border: 2px dashed rgba(250, 249, 244, 0.55);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paper);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.touchcap-zone:active {
+  border-color: rgba(250, 249, 244, 0.9);
+}
+
+.touchcap-zone.is-stamped {
+  border-style: solid;
+  border-color: rgba(250, 249, 244, 0.35);
+}
+
+.touchcap-copy {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.touchcap-copy strong {
+  font-weight: 700;
+}
+
+.touchcap-ink {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 3px solid var(--green-light);
+  pointer-events: none;
+}
+
+.stampmark {
+  display: flex;
+}
+
+.touchcap-status {
+  margin-top: 14px;
+  font-size: 12px;
+  min-height: 18px;
+  color: rgba(250, 249, 244, 0.7);
+  text-align: center;
+}
+
+.touchcap-done {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--paper);
+}

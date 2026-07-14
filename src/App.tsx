@@ -1,4 +1,5 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import DeviceFrame from './components/DeviceFrame'
 import TabBar from './components/TabBar'
 import Splash from './pages/Splash'
 import Courses from './pages/Courses'
@@ -20,18 +21,20 @@ function AppShell() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Splash />} />
-      <Route path="/app" element={<AppShell />}>
-        <Route index element={<Navigate to="courses" replace />} />
-        <Route path="courses" element={<Courses />} />
-        <Route path="courses/:slug" element={<CourseRoom />} />
-        <Route path="confess" element={<Confess />} />
-        <Route path="toast" element={<ToastMaker />} />
-      </Route>
-      <Route path="/about" element={<About />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <DeviceFrame>
+      <Routes>
+        <Route path="/" element={<Splash />} />
+        <Route path="/app" element={<AppShell />}>
+          <Route index element={<Navigate to="courses" replace />} />
+          <Route path="courses" element={<Courses />} />
+          <Route path="courses/:slug" element={<CourseRoom />} />
+          <Route path="confess" element={<Confess />} />
+          <Route path="toast" element={<ToastMaker />} />
+        </Route>
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </DeviceFrame>
   )
 }
 
