@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(27, 33, 29, 0.6);
+  background: rgba(27, 33, 29, 0.72);
 }
 
 .labelpreview-stage {
@@ -17,7 +17,7 @@
 
 .labelpreview-bottle {
   position: relative;
-  width: 176px;
+  width: 150px;
   filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
 }
 
