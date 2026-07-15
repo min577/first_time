@@ -3,6 +3,7 @@
 }
 
 .device-screen {
+  position: relative; /* 라벨 미리보기 오버레이가 폰 화면 안에만 뜨도록 기준점 역할 */
   height: 100%;
   background: var(--paper);
 }

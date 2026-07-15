@@ -149,3 +149,10 @@ export const COURSES: Course[] = [
 export function findCourse(slug: string | undefined): Course | undefined {
   return COURSES.find((c) => c.slug === slug)
 }
+
+// 강의 제목("회식이 처음이라면")을 고백 첫 문장("회식이 처음입니다.")으로 변환
+export function confessionOpener(course: Course): string {
+  if (course.title.endsWith('이라면')) return `${course.title.slice(0, -3)}입니다.`
+  if (course.title.endsWith('라면')) return `${course.title.slice(0, -2)}입니다.`
+  return `${course.title}, 처음입니다.`
+}

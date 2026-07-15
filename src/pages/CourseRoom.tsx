@@ -1,5 +1,5 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
-import { findCourse, type Course, type Tip } from '../data/courses'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { confessionOpener, findCourse, type Course, type Tip } from '../data/courses'
 import { newId, useLocalList } from '../hooks/useLocalList'
 import TipCard from '../components/TipCard'
 import Composer from '../components/Composer'
@@ -14,6 +14,7 @@ export default function CourseRoom() {
 }
 
 function CourseRoomView({ course }: { course: Course }) {
+  const navigate = useNavigate()
   const { items, localIds, add } = useLocalList<Tip>(`chg.tips.${course.slug}`, course.tips)
 
   const submitTip = (text: string) => {
@@ -49,6 +50,20 @@ function CourseRoomView({ course }: { course: Course }) {
           rows={2}
           onSubmit={submitTip}
         />
+      </section>
+
+      {/* 열람 → 고백을 한 흐름으로: 이 수업의 처음을 그대로 고백실로 가져간다 */}
+      <section className="room-confess" aria-label="고백실로 이동">
+        <p className="room-confess-copy">읽어도 여전히 무섭다면, 실토해도 됩니다.</p>
+        <button
+          type="button"
+          className="room-confess-btn"
+          onClick={() => navigate('/app/confess', { state: { courseSlug: course.slug } })}
+          aria-label={`"${confessionOpener(course)}" 고백하러 가기`}
+        >
+          "{confessionOpener(course)}" 고백하러 가기 →
+        </button>
+        <p className="room-confess-sub">익명입니다. 사람들이 이 처음에 잔을 들어줍니다.</p>
       </section>
     </div>
   )

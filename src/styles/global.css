@@ -70,6 +70,15 @@ h3 {
   -webkit-overflow-scrolling: touch;
 }
 
+/* 폰 화면 안 스크롤바 숨김 — 실기기 모바일처럼 보이게 (스크롤 동작은 유지) */
+.device-screen *::-webkit-scrollbar {
+  display: none;
+}
+
+.device-screen * {
+  scrollbar-width: none;
+}
+
 .page-placeholder {
   padding: 48px 20px;
   text-align: center;

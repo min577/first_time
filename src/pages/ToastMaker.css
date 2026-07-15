@@ -99,3 +99,14 @@
   border-top: 1px solid var(--line);
   padding-top: 12px;
 }
+
+/* 절주 가이드 내장 — 건배사와 함께 반드시 한 줄 나온다 */
+.toast-sober {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--green-pale);
+  color: var(--green);
+  font-size: 11px;
+  word-break: keep-all;
+}

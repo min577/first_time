@@ -1,8 +1,12 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
+import { readJSON, writeJSON } from '../hooks/useLocalList'
 import StampMark from './StampMark'
 import './TouchCap.css'
+
+// 출석 도장 적립 — 세계관의 '도장 N회 = 개근상 굿즈'를 프로토에서도 체감시킨다
+const STAMP_GOAL = 5
 
 const CAP_RADIUS = 300 // 세 접점이 이 반경의 원 안에 모여 있으면 터치캡으로 인식
 
@@ -13,11 +17,13 @@ export default function TouchCap() {
   const navigate = useNavigate()
   const reducedMotion = useReducedMotion()
   const [stamped, setStamped] = useState(false)
+  const [stampCount] = useState(() => readJSON<number>('chg.stamps', 0))
   const enteredRef = useRef(false)
 
   const enter = () => {
     if (enteredRef.current) return
     enteredRef.current = true
+    writeJSON('chg.stamps', stampCount + 1)
 
     if (reducedMotion) {
       navigate('/app/courses')
@@ -75,12 +81,19 @@ export default function TouchCap() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: 0.25 }}
           >
-            출석 완료
+            출석 완료 · {stampCount + 1}회차
           </motion.span>
         ) : (
           '한정판 터치캡을 화면에 찍어 입장하세요 · 일반 병은 뚜껑 안 QR로'
         )}
       </p>
+
+      {!stamped && stampCount > 0 && (
+        <p className="touchcap-record">
+          출석 도장 {Math.min(stampCount, STAMP_GOAL)}/{STAMP_GOAL}
+          {stampCount >= STAMP_GOAL ? ' · 개근상 굿즈 교환 가능!' : ' · 다 모으면 개근상 굿즈'}
+        </p>
+      )}
     </div>
   )
 }

@@ -3,6 +3,7 @@ export type Confession = {
   author: string
   text: string
   cheers: number
+  courseSlug?: string // 어느 수업(강의실)에서 온 고백인지 — 열람→고백 루프의 연결 고리
 }
 
 // 부록 B 시드 — 문구 수정 금지
@@ -24,6 +25,7 @@ export const CONFESSIONS: Confession[] = [
     author: '익명의 신입',
     text: '오늘 첫 출근이었습니다. 점심 메뉴 고르는 것도 시험 같았습니다.',
     cheers: 1290,
+    courseSlug: 'first-hoesik',
   },
   {
     id: 'confession-4',

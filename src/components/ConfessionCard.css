@@ -10,8 +10,39 @@
   border-color: var(--green-pale);
 }
 
-.confession-badge {
+.confession-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 8px;
+}
+
+.confession-badge-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+
+.confession-badge-hint {
+  font-size: 10px;
+  color: var(--sub);
+  text-decoration: underline;
+}
+
+.confession-course {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green-light);
+  padding: 3px 9px;
+  border: 1px solid var(--green-pale);
+  border-radius: var(--radius-pill);
+  background: var(--green-pale);
+}
+
+.confession-course:active {
+  color: var(--green);
 }
 
 .confession-text {

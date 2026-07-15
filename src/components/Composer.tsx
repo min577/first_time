@@ -6,12 +6,20 @@ type Props = {
   helper?: string
   submitLabel: string
   rows?: number
+  initialValue?: string
   onSubmit: (text: string) => void
 }
 
 // 고백/한 줄 작성 공용 인풋
-export default function Composer({ placeholder, helper, submitLabel, rows = 3, onSubmit }: Props) {
-  const [text, setText] = useState('')
+export default function Composer({
+  placeholder,
+  helper,
+  submitLabel,
+  rows = 3,
+  initialValue = '',
+  onSubmit,
+}: Props) {
+  const [text, setText] = useState(initialValue)
   const trimmed = text.trim()
 
   const submit = () => {
