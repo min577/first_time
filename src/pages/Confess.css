@@ -26,6 +26,31 @@
   margin-bottom: 22px;
 }
 
+/* 고백 직후 확인 모멘트 — 등록됐음을 즉시 알려주고 잔들기를 예고한다 */
+.confess-done {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-card);
+  background: var(--green);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
+  animation: confess-done-in 0.25s ease-out;
+}
+
+@keyframes confess-done-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* 고백권 소진 — 응모 마감 상태. 새 병을 따야 다시 열린다 */
 .confess-locked {
   margin-bottom: 22px;

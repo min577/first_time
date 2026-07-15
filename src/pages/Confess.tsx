@@ -17,12 +17,15 @@ export default function Confess() {
 
   // 고백권: 병뚜껑으로 입장할 때마다 1장. 고백은 응모처럼 병 하나당 한 번
   const [tickets, setTickets] = useState(() => readJSON<number>('chg.tickets', 0))
+  const [justConfessed, setJustConfessed] = useState(false)
 
   const submit = (text: string) => {
     add({ id: newId(), author: '익명의 나', text, cheers: 0, courseSlug: fromCourse?.slug })
     const next = Math.max(0, tickets - 1)
     writeJSON('chg.tickets', next)
     setTickets(next)
+    setJustConfessed(true)
+    window.setTimeout(() => setJustConfessed(false), 2800)
   }
 
   return (
@@ -31,6 +34,12 @@ export default function Confess() {
         <h1 className="confess-hero-title">어른의 처음은 아무도 축하해주지 않는다</h1>
         <p className="confess-hero-sub">여기선 실토해도 됩니다. 익명이니까.</p>
       </section>
+
+      {justConfessed && (
+        <p className="confess-done" role="status">
+          실토 완료 — 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
+        </p>
+      )}
 
       {tickets > 0 ? (
         <section className="confess-compose" aria-label="고백 작성">

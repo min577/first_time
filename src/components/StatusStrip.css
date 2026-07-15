@@ -1,0 +1,32 @@
+.statusstrip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--green-pale);
+}
+
+.statusstrip-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.statusstrip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--green-light);
+}
+
+.statusstrip-dot.is-filled {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.statusstrip-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+}

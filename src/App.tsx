@@ -1,4 +1,5 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import DeviceFrame from './components/DeviceFrame'
 import TabBar from './components/TabBar'
 import Splash from './pages/Splash'
@@ -10,9 +11,17 @@ import ToastMaker from './pages/ToastMaker'
 import About from './pages/About'
 
 function AppShell() {
+  const { pathname } = useLocation()
+  const mainRef = useRef<HTMLElement>(null)
+
+  // 탭·페이지 이동 시 스크롤을 맨 위로 — 실기기 앱과 동일한 감각
+  useEffect(() => {
+    mainRef.current?.scrollTo(0, 0)
+  }, [pathname])
+
   return (
     <div className="app-shell">
-      <main className="app-main">
+      <main className="app-main" ref={mainRef}>
         <Outlet />
       </main>
       <TabBar />

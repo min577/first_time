@@ -41,6 +41,11 @@
   color: var(--sub);
 }
 
+.composer-count {
+  color: var(--green-light);
+  font-weight: 600;
+}
+
 .composer-submit {
   padding: 8px 18px;
   border-radius: var(--radius-pill);

@@ -23,8 +23,21 @@ export default function ToastMaker() {
   const reducedMotion = useReducedMotion()
   const [occasion, setOccasion] = useState<Occasion>('회식')
   const [result, setResult] = useState<Result | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  const copy = async () => {
+    if (!result) return
+    try {
+      await navigator.clipboard.writeText(`선창: ${result.lead}\n후창: ${result.response}`)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // 클립보드가 막힌 환경(권한 거부 등)에서는 조용히 무시
+    }
+  }
 
   const draw = () => {
+    setCopied(false)
     setResult((prev) => ({
       key: (prev?.key ?? 0) + 1,
       lead: pick(TOAST_LEADS[occasion], prev?.lead),
@@ -75,6 +88,9 @@ export default function ToastMaker() {
             <p className="toast-card-response">"{result.response}"</p>
             <p className="toast-card-foot">따라 읽기만 하면 됩니다. 나머지는 잔이 알아서.</p>
             <p className="toast-sober">🌿 절주 한 줄 — {result.soberTip}</p>
+            <button type="button" className="toast-copy" onClick={copy} aria-label="건배사 복사하기">
+              {copied ? '복사됐습니다 — 단톡방에 미리 공유해두세요' : '건배사 복사하기'}
+            </button>
           </motion.article>
         )}
       </AnimatePresence>

@@ -100,6 +100,19 @@
   padding-top: 12px;
 }
 
+.toast-copy {
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green-light);
+  text-decoration: underline;
+  padding: 4px 8px;
+}
+
+.toast-copy:active {
+  color: var(--green);
+}
+
 /* 절주 가이드 내장 — 건배사와 함께 반드시 한 줄 나온다 */
 .toast-sober {
   margin-top: 12px;

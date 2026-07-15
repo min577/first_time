@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { CATEGORIES, COURSES } from '../data/courses'
+import StatusStrip from '../components/StatusStrip'
 import './Courses.css'
 
 export default function Courses() {
@@ -9,6 +10,7 @@ export default function Courses() {
         <p className="courses-eyebrow">개교 20주년 · 처음학개론</p>
         <h1 className="courses-title">수강신청</h1>
         <p className="courses-sub">지금 내 앞에 온 '처음'을 고르세요. 교수는 없고, 선배만 있습니다.</p>
+        <StatusStrip />
       </header>
 
       {CATEGORIES.map((category) => (

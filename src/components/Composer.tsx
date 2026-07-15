@@ -40,7 +40,15 @@ export default function Composer({
         aria-label={placeholder}
       />
       <div className="composer-foot">
-        {helper ? <span className="composer-helper">{helper}</span> : <span />}
+        <span className="composer-helper">
+          {helper}
+          {text.length > 0 && (
+            <span className="composer-count">
+              {helper ? ' · ' : ''}
+              {text.length}/200
+            </span>
+          )}
+        </span>
         <button
           type="button"
           className="composer-submit"

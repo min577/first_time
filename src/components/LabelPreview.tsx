@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Confession } from '../data/confessions'
 import './LabelPreview.css'
@@ -10,6 +11,14 @@ type Props = {
 // 라벨 인쇄 후보 고백을 실제 소주병에 합성해 보여준다 — 참여가 제품으로 돌아가는 순간
 export default function LabelPreview({ confession, onClose }: Props) {
   const reducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
 
   return (
     <motion.div

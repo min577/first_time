@@ -51,7 +51,8 @@ export default function About() {
         </h2>
         <p>
           병뚜껑을 따면 열리는 수업, 처음학개론. 뚜껑 안 QR — 한정판은 뚜껑을 화면에 도장처럼
-          찍어 — 입장한다.
+          찍어 — 입장한다. 고백은 병 하나당 한 번뿐인 응모이고, 다음 주의 라벨은 사람들의
+          투표로 정해진다.
         </p>
         <ol className="about-loop" aria-label="참여 루프 4단계">
           {LOOP_STEPS.map((step, i) => (

@@ -32,7 +32,8 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
   )
 
   const submitComment = (text: string) => {
-    addComment({ id: newId(), author: '익명의 선배', text })
+    // 조언을 남기는 순간 나도 선배가 된다 — 강의실 한 줄 남기기와 동일한 전환 카피
+    addComment({ id: newId(), author: '나 (오늘부터 선배)', text })
   }
 
   return (
