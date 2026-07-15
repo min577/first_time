@@ -26,6 +26,46 @@
   margin-bottom: 22px;
 }
 
+/* 고백권 소진 — 응모 마감 상태. 새 병을 따야 다시 열린다 */
+.confess-locked {
+  margin-bottom: 22px;
+  padding: 20px 18px;
+  border: 1px dashed var(--green-light);
+  border-radius: var(--radius-card);
+  background: var(--green-pale);
+  text-align: center;
+}
+
+.confess-locked-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.confess-locked-sub {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--sub);
+  word-break: keep-all;
+  margin-bottom: 14px;
+}
+
+.confess-locked-btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--green);
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.confess-locked-btn:active {
+  background: var(--green-light);
+}
+
 .confess-feed {
   display: flex;
   flex-direction: column;

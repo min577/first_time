@@ -37,3 +37,32 @@ export const CONFESSIONS: Confession[] = [
 
 // 이 잔 수를 넘으면 '이번 주 라벨 인쇄 후보'
 export const LABEL_THRESHOLD = 3000
+
+export type ConfessionComment = {
+  id: string
+  author: string
+  text: string
+}
+
+// 고백에 달리는 조언 댓글 시드 — 고백(병당 1회)과 달리 조언은 무제한
+export const CONFESSION_COMMENTS: Record<string, ConfessionComment[]> = {
+  'confession-1': [
+    {
+      id: 'comment-1-1',
+      author: '11년차 팀장',
+      text: '3년차에도 모릅니다. 아는 척을 안 하는 팀장이 제일 좋은 팀장이에요.',
+    },
+    {
+      id: 'comment-1-2',
+      author: '익명의 선배',
+      text: '회의는 진행하는 게 아니라 끝내는 겁니다. 끝내는 시간만 지켜도 중간은 갑니다.',
+    },
+  ],
+  'confession-2': [
+    {
+      id: 'comment-2-1',
+      author: '먼저 겪은 사람',
+      text: '보호자 칸에 이름을 쓰는 순간, 어른이 한 번 더 되는 거래요. 고생하셨습니다.',
+    },
+  ],
+}

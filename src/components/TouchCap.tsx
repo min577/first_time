@@ -24,6 +24,8 @@ export default function TouchCap() {
     if (enteredRef.current) return
     enteredRef.current = true
     writeJSON('chg.stamps', stampCount + 1)
+    // 병 하나를 딴 것과 같다 — 고백권(응모권) 1장 적립
+    writeJSON('chg.tickets', readJSON<number>('chg.tickets', 0) + 1)
 
     if (reducedMotion) {
       navigate('/app/courses')
@@ -81,7 +83,7 @@ export default function TouchCap() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: 0.25 }}
           >
-            출석 완료 · {stampCount + 1}회차
+            출석 완료 · 고백권 +1장
           </motion.span>
         ) : (
           '한정판 터치캡을 화면에 찍어 입장하세요 · 일반 병은 뚜껑 안 QR로'
