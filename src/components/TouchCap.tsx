@@ -1,39 +1,62 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { readJSON, writeJSON } from '../hooks/useLocalList'
+import { readJSON } from '../hooks/useLocalList'
+import { registerEntry } from './entrance'
 import StampMark from './StampMark'
 import './TouchCap.css'
-
-// 출석 도장 적립 — 세계관의 '도장 N회 = 개근상 굿즈'를 프로토에서도 체감시킨다
-const STAMP_GOAL = 5
 
 const CAP_RADIUS = 300 // 세 접점이 이 반경의 원 안에 모여 있으면 터치캡으로 인식
 
 // 스탬프 쾅(0.25s) + 잉크 번짐(0.5s) → "출석 완료" 0.6s 노출 후 이동
 const NAVIGATE_DELAY_MS = 950
+const HOLD_MS = 600 // 꾹 눌러 찍기: 이만큼 누르면 도장이 찍힌다
+const STAMP_GOAL = 5
 
-export default function TouchCap() {
+type Props = {
+  hold?: boolean // 꾹 눌러 찍기 모드 — 누르는 동안 잉크가 차오른다
+  onEntered?: () => void // 지정 시 기본 네비게이션 대신 호출 (병 오프닝 시퀀스용)
+}
+
+export default function TouchCap({ hold = false, onEntered }: Props) {
   const navigate = useNavigate()
   const reducedMotion = useReducedMotion()
   const [stamped, setStamped] = useState(false)
+  const [pressing, setPressing] = useState(false)
   const [stampCount] = useState(() => readJSON<number>('chg.stamps', 0))
   const enteredRef = useRef(false)
+  const holdTimer = useRef<number | undefined>(undefined)
+
+  const finish = () => (onEntered ? onEntered() : navigate('/app/courses'))
 
   const enter = () => {
     if (enteredRef.current) return
     enteredRef.current = true
-    writeJSON('chg.stamps', stampCount + 1)
-    // 병 하나를 딴 것과 같다 — 고백권(응모권) 1장 적립
-    writeJSON('chg.tickets', readJSON<number>('chg.tickets', 0) + 1)
+    window.clearTimeout(holdTimer.current)
+    setPressing(false)
+    registerEntry()
 
     if (reducedMotion) {
-      navigate('/app/courses')
+      finish()
       return
     }
     setStamped(true)
     navigator.vibrate?.(30)
-    window.setTimeout(() => navigate('/app/courses'), NAVIGATE_DELAY_MS)
+    window.setTimeout(finish, NAVIGATE_DELAY_MS)
+  }
+
+  // 꾹 눌러 찍기: 홀드는 연출이지 조건이 아니다 — 짧게 눌러도 입장된다
+  const startHold = () => {
+    if (!hold || enteredRef.current) return
+    setPressing(true)
+    holdTimer.current = window.setTimeout(enter, HOLD_MS)
+  }
+
+  const releaseHold = (commit: boolean) => {
+    if (!hold || enteredRef.current) return
+    window.clearTimeout(holdTimer.current)
+    setPressing(false)
+    if (commit) enter()
   }
 
   // 터치캡 감지: 세 손가락(전도성 접점 시뮬레이션)이 동시에 닿으면 인식
@@ -50,11 +73,19 @@ export default function TouchCap() {
     <div className="touchcap">
       <button
         type="button"
-        className={`touchcap-zone${stamped ? ' is-stamped' : ''}`}
+        className={`touchcap-zone${stamped ? ' is-stamped' : ''}${pressing ? ' is-pressing' : ''}`}
         onClick={enter}
+        onPointerDown={startHold}
+        onPointerUp={() => releaseHold(true)}
+        onPointerLeave={() => releaseHold(false)}
         onTouchStart={handleTouchStart}
         aria-label="입장하기 — 뚜껑을 화면에 대거나 탭하세요"
       >
+        {pressing && !stamped && (
+          <svg className="touchcap-holdring" viewBox="0 0 130 130" aria-hidden="true">
+            <circle cx="65" cy="65" r="61" />
+          </svg>
+        )}
         {stamped ? (
           <>
             <motion.span

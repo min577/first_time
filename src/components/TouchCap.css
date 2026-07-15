@@ -28,6 +28,34 @@
   border-color: rgba(250, 249, 244, 0.35);
 }
 
+.touchcap-zone.is-pressing {
+  transform: scale(0.96);
+}
+
+/* 꾹 눌러 찍기: 누르는 동안 잉크 링이 차오른다 */
+.touchcap-holdring {
+  position: absolute;
+  inset: -4px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.touchcap-holdring circle {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 384;
+  stroke-dashoffset: 384;
+  animation: touchcap-holdfill 0.6s linear forwards;
+}
+
+@keyframes touchcap-holdfill {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 .touchcap-copy {
   font-size: 14px;
   line-height: 1.5;

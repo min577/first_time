@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { CONFESSIONS, type Confession } from '../data/confessions'
+import { CONFESSIONS, LABEL_THRESHOLD, type Confession } from '../data/confessions'
 import { confessionOpener, findCourse } from '../data/courses'
 import { newId, readJSON, useLocalList, writeJSON } from '../hooks/useLocalList'
 import ConfessionCard from '../components/ConfessionCard'
@@ -61,6 +61,11 @@ export default function Confess() {
           </Link>
         </section>
       )}
+
+      <Link to="/app/confess/vote" className="confess-vote">
+        🗳 이번 주 라벨 투표 진행 중 · 후보{' '}
+        {items.filter((c) => c.cheers >= LABEL_THRESHOLD).length}편 — 투표하러 가기 →
+      </Link>
 
       <ul className="confess-feed" aria-label="고백 피드">
         {items.map((confession) => (

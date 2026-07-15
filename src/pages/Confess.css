@@ -66,6 +66,24 @@
   background: var(--green-light);
 }
 
+.confess-vote {
+  display: block;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.confess-vote:active {
+  background: var(--green-pale);
+}
+
 .confess-feed {
   display: flex;
   flex-direction: column;
