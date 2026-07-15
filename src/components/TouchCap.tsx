@@ -13,12 +13,9 @@ const NAVIGATE_DELAY_MS = 950
 const HOLD_MS = 600 // 꾹 눌러 찍기: 이만큼 누르면 도장이 찍힌다
 const STAMP_GOAL = 5
 
-type Props = {
-  hold?: boolean // 꾹 눌러 찍기 모드 — 누르는 동안 잉크가 차오른다
-  onEntered?: () => void // 지정 시 기본 네비게이션 대신 호출 (병 오프닝 시퀀스용)
-}
-
-export default function TouchCap({ hold = false, onEntered }: Props) {
+// 꾹 눌러 찍기: 누르는 동안 잉크 링이 차오르고, 다 차면 도장이 쾅 찍힌다.
+// 홀드는 연출이지 조건이 아니다 — 짧은 탭으로도 입장된다.
+export default function TouchCap() {
   const navigate = useNavigate()
   const reducedMotion = useReducedMotion()
   const [stamped, setStamped] = useState(false)
@@ -27,7 +24,7 @@ export default function TouchCap({ hold = false, onEntered }: Props) {
   const enteredRef = useRef(false)
   const holdTimer = useRef<number | undefined>(undefined)
 
-  const finish = () => (onEntered ? onEntered() : navigate('/app/courses'))
+  const finish = () => navigate('/app/courses')
 
   const enter = () => {
     if (enteredRef.current) return
@@ -45,15 +42,14 @@ export default function TouchCap({ hold = false, onEntered }: Props) {
     window.setTimeout(finish, NAVIGATE_DELAY_MS)
   }
 
-  // 꾹 눌러 찍기: 홀드는 연출이지 조건이 아니다 — 짧게 눌러도 입장된다
   const startHold = () => {
-    if (!hold || enteredRef.current) return
+    if (enteredRef.current) return
     setPressing(true)
     holdTimer.current = window.setTimeout(enter, HOLD_MS)
   }
 
   const releaseHold = (commit: boolean) => {
-    if (!hold || enteredRef.current) return
+    if (enteredRef.current) return
     window.clearTimeout(holdTimer.current)
     setPressing(false)
     if (commit) enter()
