@@ -33,7 +33,7 @@
   left: 50%;
   top: 36%;
   transform: translateX(-50%);
-  width: 62%;
+  width: 68%;
   background: var(--paper);
   border-radius: 8px;
   padding: 10px 8px;
@@ -44,9 +44,10 @@
 .labelpreview-brand {
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.01em;
   color: var(--green);
   margin-bottom: 1px;
+  white-space: nowrap;
 }
 
 .labelpreview-week {
