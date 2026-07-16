@@ -17,7 +17,7 @@
 
 .labelpreview-bottle {
   position: relative;
-  width: 150px;
+  width: 128px;
   filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.35));
 }
 
@@ -27,13 +27,13 @@
   height: auto;
 }
 
-/* 실제 병 사진의 라벨 영역(세로 47% 지점부터)에 얹히는 라벨 */
+/* 실제 병 사진의 라벨 영역(세로 48% 지점부터)에 얹히는 라벨 */
 .labelpreview-label {
   position: absolute;
   left: 50%;
-  top: 47%;
+  top: 48%;
   transform: translateX(-50%);
-  width: 79%;
+  width: 81%;
   background: #fdfcf8;
   border-radius: 6px;
   padding: 10px 8px;
