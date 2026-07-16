@@ -32,7 +32,8 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
   const cheers = confession.cheers + myCap
   const isCandidate = cheers >= LABEL_THRESHOLD
   const fillRatio = Math.min(cheers / LABEL_THRESHOLD, 1)
-  const filledDots = Math.round(fillRatio * GLASS_DOTS)
+  // 잔이 하나라도 있으면 뚜껑 하나는 보인다 — 내가 든 잔이 눈에 보여야 한다
+  const filledDots = cheers > 0 ? Math.max(1, Math.round(fillRatio * GLASS_DOTS)) : 0
 
   const handleRaise = () => {
     setMyCap(1)
@@ -90,7 +91,7 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
         <p className="confession-mosaic-caption">
           {isCandidate
             ? '잔이 가득 찼습니다 — 라벨 인쇄 후보'
-            : `뚜껑이 잔을 ${Math.round(fillRatio * 100)}% 채웠습니다 · 가득 차면 라벨 인쇄 후보`}
+            : `뚜껑 ${cheers.toLocaleString()}개 / 3,000 · 잔이 가득 차면 라벨 인쇄 후보`}
         </p>
       </div>
 
