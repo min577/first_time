@@ -41,38 +41,10 @@ export default function LabelPreview({ confession, onClose }: Props) {
         transition={{ duration: 0.22, ease: 'easeOut' }}
       >
         <div className="labelpreview-bottle">
-          <svg viewBox="0 0 200 560" className="labelpreview-glass" aria-hidden="true">
-            <defs>
-              <linearGradient id="bottle-glass" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#1E8A62" />
-                <stop offset="0.45" stopColor="#0B5C3F" />
-                <stop offset="1" stopColor="#07402C" />
-              </linearGradient>
-            </defs>
-            {/* 뚜껑 */}
-            <rect x="72" y="6" width="56" height="46" rx="8" fill="#0B5C3F" />
-            <rect x="72" y="42" width="56" height="6" fill="#07402C" />
-            <text
-              x="100"
-              y="32"
-              textAnchor="middle"
-              fontSize="14"
-              fontWeight="700"
-              fill="#FAF9F4"
-            >
-              처음
-            </text>
-            {/* 병 몸통 */}
-            <path
-              d="M78,52 h44 v38 c0,32 38,48 38,92 v290 c0,22 -14,34 -36,34 h-48 c-22,0 -36,-12 -36,-34 v-290 c0,-44 38,-60 38,-92 z"
-              fill="url(#bottle-glass)"
-            />
-            {/* 유리 하이라이트 */}
-            <rect x="52" y="122" width="12" height="330" rx="6" fill="#FFFFFF" opacity="0.16" />
-            <rect x="130" y="200" width="6" height="240" rx="3" fill="#FFFFFF" opacity="0.08" />
-          </svg>
+          {/* 실제 처음처럼 병 (롯데칠성 공식 제품 이미지) 위에 라벨을 합성한다 */}
+          <img className="labelpreview-glass" src="/bottle.png" alt="" aria-hidden="true" />
 
-          {/* 병 몸통 위에 합성되는 라벨 */}
+          {/* 병 몸통 라벨 자리에 얹히는 이번 주의 처음 */}
           <div className="labelpreview-label">
             <p className="labelpreview-brand">처음처럼 × 처음학개론</p>
             <p className="labelpreview-week">이번 주의 처음</p>

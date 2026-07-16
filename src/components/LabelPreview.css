@@ -27,18 +27,18 @@
   height: auto;
 }
 
-/* 병 몸통(viewBox y 195~470 부근)에 얹히는 라벨 */
+/* 실제 병 사진의 라벨 영역(세로 47% 지점부터)에 얹히는 라벨 */
 .labelpreview-label {
   position: absolute;
   left: 50%;
-  top: 36%;
+  top: 47%;
   transform: translateX(-50%);
-  width: 68%;
-  background: var(--paper);
-  border-radius: 8px;
+  width: 79%;
+  background: #fdfcf8;
+  border-radius: 6px;
   padding: 10px 8px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .labelpreview-brand {
