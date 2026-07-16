@@ -1,11 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { CONFESSIONS, LABEL_THRESHOLD, type Confession } from '../data/confessions'
 import { confessionOpener, findCourse } from '../data/courses'
 import { newId, readJSON, useLocalList, writeJSON } from '../hooks/useLocalList'
 import ConfessionCard from '../components/ConfessionCard'
+import CapMosaic, { mosaicTotal } from '../components/CapMosaic'
 import Composer from '../components/Composer'
 import './Confess.css'
+
+// 개교 벽화: 모두의 잔(뚜껑)이 병 하나를 채우면 이번 주 라벨이 인쇄소로 간다
+const MURAL_GOAL = 20000
+const BOTTLE_DOTS = mosaicTotal('bottle')
 
 // 강의실에서 "이 처음을 고백하기"로 넘어오면 수업 컨텍스트가 state로 담겨 온다
 type ConfessLocationState = { courseSlug?: string } | null
@@ -18,6 +23,18 @@ export default function Confess() {
   // 고백권: 병뚜껑으로 입장할 때마다 1장. 고백은 응모처럼 병 하나당 한 번
   const [tickets, setTickets] = useState(() => readJSON<number>('chg.tickets', 0))
   const [justConfessed, setJustConfessed] = useState(false)
+
+  // 개교 벽화 — 잔을 들 때마다 실시간으로 병이 차오른다
+  const [raisedCount, setRaisedCount] = useState(() => readJSON<string[]>('chg.raised', []).length)
+  useEffect(() => {
+    const onRaise = () => setRaisedCount(readJSON<string[]>('chg.raised', []).length)
+    window.addEventListener('chg:raise', onRaise)
+    return () => window.removeEventListener('chg:raise', onRaise)
+  }, [])
+
+  const muralCheers = items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount
+  const muralRatio = Math.min(muralCheers / MURAL_GOAL, 1)
+  const muralFilled = Math.round(muralRatio * BOTTLE_DOTS)
 
   const submit = (text: string) => {
     add({ id: newId(), author: '익명의 나', text, cheers: 0, courseSlug: fromCourse?.slug })
@@ -40,6 +57,21 @@ export default function Confess() {
           실토 완료 — 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
         </p>
       )}
+
+      <section className="confess-mural" aria-label="개교 벽화">
+        <CapMosaic shape="bottle" dot={6} filled={muralFilled} />
+        <div className="confess-mural-copy">
+          <h2 className="confess-mural-title">개교 벽화</h2>
+          <p className="confess-mural-desc">
+            잔을 들 때마다 뚜껑이 하나씩 쌓입니다. 병이 가득 차면 이번 주 라벨이 인쇄소로
+            갑니다.
+          </p>
+          <p className="confess-mural-count">
+            {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
+            {Math.round(muralRatio * 100)}%
+          </p>
+        </div>
+      </section>
 
       {tickets > 0 ? (
         <section className="confess-compose" aria-label="고백 작성">
@@ -72,8 +104,11 @@ export default function Confess() {
       )}
 
       <Link to="/app/confess/vote" className="confess-vote">
-        🗳 이번 주 라벨 투표 진행 중 · 후보{' '}
-        {items.filter((c) => c.cheers >= LABEL_THRESHOLD).length}편 — 투표하러 가기 →
+        <span className="confess-vote-tag">주간 공지</span>
+        <span className="confess-vote-body">
+          라벨 투표 진행 중 · 후보 {items.filter((c) => c.cheers >= LABEL_THRESHOLD).length}편
+        </span>
+        <span className="confess-vote-arrow">투표하기 →</span>
       </Link>
 
       <ul className="confess-feed" aria-label="고백 피드">

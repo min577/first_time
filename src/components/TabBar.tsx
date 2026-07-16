@@ -4,7 +4,7 @@ import './TabBar.css'
 const TABS = [
   {
     to: '/app/courses',
-    label: '수강신청',
+    label: '선배 한 줄',
     icon: (
       // 펼친 책
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -15,7 +15,7 @@ const TABS = [
   },
   {
     to: '/app/confess',
-    label: '고백실',
+    label: '처음 고백',
     icon: (
       // 말풍선
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
 import type { Confession, ConfessionComment } from '../data/confessions'
 import { CONFESSION_COMMENTS, LABEL_THRESHOLD } from '../data/confessions'
 import { findCourse } from '../data/courses'
-import { newId, useLocalList } from '../hooks/useLocalList'
+import { newId, readJSON, useLocalList } from '../hooks/useLocalList'
 import RaiseButton from './RaiseButton'
 import LabelBadge from './LabelBadge'
-import LabelPreview from './LabelPreview'
+import CapMosaic, { mosaicTotal } from './CapMosaic'
 import Composer from './Composer'
 import './ConfessionCard.css'
 
@@ -19,11 +18,26 @@ type Props = {
 
 const NO_COMMENTS: ConfessionComment[] = []
 
+const GLASS_DOTS = mosaicTotal('glass')
+
 export default function ConfessionCard({ confession, mine = false, onRemove }: Props) {
-  const [preview, setPreview] = useState(false)
   const [commentsOpen, setCommentsOpen] = useState(false)
-  const isCandidate = confession.cheers >= LABEL_THRESHOLD
+  // 내가 이미 든 잔도 모자이크에 반영한다
+  const [myCap, setMyCap] = useState(() =>
+    readJSON<string[]>('chg.raised', []).includes(confession.id) ? 1 : 0,
+  )
+  const [justRaised, setJustRaised] = useState(false)
   const course = findCourse(confession.courseSlug)
+
+  const cheers = confession.cheers + myCap
+  const isCandidate = cheers >= LABEL_THRESHOLD
+  const fillRatio = Math.min(cheers / LABEL_THRESHOLD, 1)
+  const filledDots = Math.round(fillRatio * GLASS_DOTS)
+
+  const handleRaise = () => {
+    setMyCap(1)
+    setJustRaised(true)
+  }
 
   // 조언 댓글 — 고백(병당 1회)과 달리 무제한으로 달 수 있다
   const { items: comments, add: addComment } = useLocalList<ConfessionComment>(
@@ -40,17 +54,7 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
     <article className={`confession-card${mine ? ' is-mine' : ''}`}>
       {(isCandidate || course) && (
         <div className="confession-meta">
-          {isCandidate && (
-            <button
-              type="button"
-              className="confession-badge-btn"
-              onClick={() => setPreview(true)}
-              aria-label="병 라벨 미리보기 열기"
-            >
-              <LabelBadge />
-              <span className="confession-badge-hint">라벨 미리보기</span>
-            </button>
-          )}
+          {isCandidate && <LabelBadge />}
           {course && (
             <Link
               to={`/app/courses/${course.slug}`}
@@ -77,8 +81,18 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
             </button>
           )}
         </span>
-        <RaiseButton id={confession.id} count={confession.cheers} />
+        <RaiseButton id={confession.id} count={confession.cheers} onRaise={handleRaise} />
       </footer>
+
+      {/* 잔들이 뚜껑이 되어 잔 실루엣을 채운다 — 가득 차면(3,000잔) 라벨 인쇄 후보 */}
+      <div className="confession-mosaic">
+        <CapMosaic shape="glass" dot={5} filled={filledDots} justAdded={justRaised} />
+        <p className="confession-mosaic-caption">
+          {isCandidate
+            ? '잔이 가득 찼습니다 — 라벨 인쇄 후보'
+            : `뚜껑이 잔을 ${Math.round(fillRatio * 100)}% 채웠습니다 · 가득 차면 라벨 인쇄 후보`}
+        </p>
+      </div>
 
       <button
         type="button"
@@ -109,10 +123,6 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
           />
         </div>
       )}
-
-      <AnimatePresence>
-        {preview && <LabelPreview confession={confession} onClose={() => setPreview(false)} />}
-      </AnimatePresence>
     </article>
   )
 }

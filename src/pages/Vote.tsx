@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
 import {
   CONFESSIONS,
   LABEL_THRESHOLD,
@@ -8,7 +7,6 @@ import {
   type Confession,
 } from '../data/confessions'
 import { readJSON, writeJSON } from '../hooks/useLocalList'
-import LabelPreview from '../components/LabelPreview'
 import './Vote.css'
 
 // 라벨 투표소: 이번 주 라벨 인쇄 후보 중 다음 병에 인쇄될 처음을 1인 1표로 결정
@@ -20,7 +18,6 @@ export default function Vote() {
   const [myVote, setMyVote] = useState<string | null>(() =>
     readJSON<string | null>('chg.vote', null),
   )
-  const [preview, setPreview] = useState<Confession | null>(null)
 
   const countOf = (c: Confession) => (VOTE_SEED[c.id] ?? 0) + (myVote === c.id ? 1 : 0)
   const total = candidates.reduce((sum, c) => sum + countOf(c), 0)
@@ -59,25 +56,15 @@ export default function Vote() {
                 {picked && <strong> · 내 한 표</strong>}
               </p>
 
-              <div className="vote-actions">
-                <button
-                  type="button"
-                  className="vote-btn"
-                  onClick={() => vote(confession.id)}
-                  disabled={myVote !== null}
-                  aria-label={`이 처음에 투표: ${confession.text}`}
-                >
-                  {picked ? '투표 완료' : '이 처음에 투표'}
-                </button>
-                <button
-                  type="button"
-                  className="vote-preview"
-                  onClick={() => setPreview(confession)}
-                  aria-label="병 라벨로 미리보기"
-                >
-                  병으로 보기
-                </button>
-              </div>
+              <button
+                type="button"
+                className="vote-btn"
+                onClick={() => vote(confession.id)}
+                disabled={myVote !== null}
+                aria-label={`이 처음에 투표: ${confession.text}`}
+              >
+                {picked ? '투표 완료' : '이 처음에 투표'}
+              </button>
             </li>
           )
         })}
@@ -86,10 +73,6 @@ export default function Vote() {
       <p className="vote-foot">
         일요일 자정 마감 · 최다 득표 고백이 다음 주 '이번 주의 처음' 라벨로 인쇄됩니다
       </p>
-
-      <AnimatePresence>
-        {preview && <LabelPreview confession={preview} onClose={() => setPreview(null)} />}
-      </AnimatePresence>
     </div>
   )
 }

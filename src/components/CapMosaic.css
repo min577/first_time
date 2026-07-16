@@ -1,0 +1,31 @@
+.capmosaic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.capmosaic-row {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+/* 뚜껑 하나 — 비어 있으면 자리만, 차면 병초록 뚜껑 */
+.capmosaic-dot {
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+}
+
+.capmosaic-dot.is-filled {
+  background: var(--green);
+  border-color: var(--green);
+  box-shadow: inset 0 -1px 0 rgba(250, 249, 244, 0.3);
+}
+
+/* 방금 내가 든 잔의 뚜껑 — 앰버 (잔 들기 전용색) */
+.capmosaic-dot.is-mine {
+  background: var(--amber);
+  border-color: var(--amber-deep);
+}

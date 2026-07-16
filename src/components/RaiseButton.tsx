@@ -10,8 +10,14 @@ function readRaisedIds(): string[] {
   return readJSON<string[]>(RAISED_KEY, [])
 }
 
+type Props = {
+  id: string
+  count: number
+  onRaise?: () => void
+}
+
 // 잔 들기 — 1인 1잔. 탭하면 잔이 앰버로 차며 clink 흔들림 + "+1잔" 플로팅.
-export default function RaiseButton({ id, count }: { id: string; count: number }) {
+export default function RaiseButton({ id, count, onRaise }: Props) {
   const reducedMotion = useReducedMotion()
   const [raised, setRaised] = useState(() => readRaisedIds().includes(id))
   const [floating, setFloating] = useState(false)
@@ -24,6 +30,9 @@ export default function RaiseButton({ id, count }: { id: string; count: number }
     const ids = readRaisedIds()
     if (!ids.includes(id)) writeJSON(RAISED_KEY, [...ids, id])
     if (!reducedMotion) setFloating(true)
+    onRaise?.()
+    // 개교 벽화 등 다른 화면 요소가 실시간으로 반응할 수 있게 알린다
+    window.dispatchEvent(new Event('chg:raise'))
   }
 
   return (

@@ -91,22 +91,79 @@
   background: var(--green-light);
 }
 
-.confess-vote {
-  display: block;
+/* 개교 벽화 — 모두의 잔이 병 하나를 채운다 */
+.confess-mural {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 14px;
-  padding: 12px 14px;
-  border: 1px solid var(--green-light);
+  padding: 14px 16px;
+  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--paper);
+}
+
+.confess-mural-copy {
+  flex: 1;
+}
+
+.confess-mural-title {
+  font-size: 15px;
   color: var(--green);
-  font-size: 12px;
-  font-weight: 700;
-  text-align: center;
+  margin-bottom: 4px;
+}
+
+.confess-mural-desc {
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--sub);
   word-break: keep-all;
+  margin-bottom: 6px;
+}
+
+.confess-mural-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* 라벨 투표 배너 — 학사 공지문 스타일 */
+.confess-vote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px dashed var(--green-light);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  font-size: 12px;
 }
 
 .confess-vote:active {
   background: var(--green-pale);
+}
+
+.confess-vote-tag {
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--green);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.confess-vote-body {
+  flex: 1;
+  color: var(--ink);
+  word-break: keep-all;
+}
+
+.confess-vote-arrow {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: var(--green);
 }
 
 .confess-feed {

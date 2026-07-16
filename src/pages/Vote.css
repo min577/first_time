@@ -90,13 +90,8 @@
   color: var(--green);
 }
 
-.vote-actions {
-  display: flex;
-  gap: 8px;
-}
-
 .vote-btn {
-  flex: 1;
+  width: 100%;
   padding: 10px 0;
   border-radius: var(--radius-pill);
   background: var(--green);
@@ -114,15 +109,6 @@
 .vote-card.is-picked .vote-btn:disabled {
   background: var(--green-light);
   color: var(--paper);
-}
-
-.vote-preview {
-  padding: 10px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--green-light);
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .vote-foot {

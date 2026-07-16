@@ -20,6 +20,21 @@
   margin-bottom: 6px;
 }
 
+/* 낙관 — 학사 인쇄물에 찍힌 붉은 인장 */
+.courses-seal {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 4px;
+  border: 1.5px solid var(--seal);
+  border-radius: 3px;
+  color: var(--seal);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transform: rotate(-4deg) translateY(-6px);
+  opacity: 0.85;
+}
+
 .courses-sub {
   font-size: 13px;
   color: var(--sub);
@@ -31,9 +46,21 @@
 }
 
 .courses-category {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
   font-size: 14px;
   color: var(--green);
   margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.courses-category-count {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sub);
 }
 
 .courses-list {
@@ -56,6 +83,19 @@
 
 .course-card:active {
   border-color: var(--green-light);
+}
+
+.course-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.course-code {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--green-light);
 }
 
 .course-title {

@@ -18,19 +18,6 @@
   margin-bottom: 8px;
 }
 
-.confession-badge-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0;
-}
-
-.confession-badge-hint {
-  font-size: 10px;
-  color: var(--sub);
-  text-decoration: underline;
-}
-
 .confession-course {
   font-size: 11px;
   font-weight: 600;
@@ -79,6 +66,24 @@
 
 .confession-delete:active {
   color: var(--ink);
+}
+
+.confession-mosaic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-card);
+}
+
+.confession-mosaic-caption {
+  flex: 1;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--sub);
+  word-break: keep-all;
 }
 
 .confession-comments-toggle {
