@@ -50,9 +50,7 @@ export default function LabelPreview({ confession, onClose }: Props) {
             <img className="labelpreview-art" src="/label-art.png" alt="처음처럼" />
             <p className="labelpreview-text">"{confession.text}"</p>
             <p className="labelpreview-author">— {confession.author}</p>
-            <p className="labelpreview-cheers">
-              {confession.cheers.toLocaleString()}잔이 이 처음에 건배했습니다
-            </p>
+            <p className="labelpreview-cheers">{confession.cheers.toLocaleString()}잔이 건배한 처음</p>
           </div>
         </div>
 
