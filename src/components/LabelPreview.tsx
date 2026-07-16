@@ -44,9 +44,10 @@ export default function LabelPreview({ confession, onClose }: Props) {
           {/* 실제 처음처럼 병 (롯데칠성 공식 제품 이미지) 위에 라벨을 합성한다 */}
           <img className="labelpreview-glass" src="/bottle.png" alt="" aria-hidden="true" />
 
-          {/* 실제 라벨의 붓글씨는 살리고, 하단에 '이번 주의 처음' 덧라벨만 얹는다 */}
+          {/* 실제 라벨 지면(紙面) 위에 에디션을 조판한다 — 붓글씨 아트워크는 원본 사진에서 잘라 재사용 */}
           <div className="labelpreview-label">
-            <p className="labelpreview-week">처음학개론 — 이번 주의 처음</p>
+            <p className="labelpreview-week">처음학개론 · 이번 주의 처음</p>
+            <img className="labelpreview-art" src="/label-art.png" alt="처음처럼" />
             <p className="labelpreview-text">"{confession.text}"</p>
             <p className="labelpreview-author">— {confession.author}</p>
             <p className="labelpreview-cheers">
