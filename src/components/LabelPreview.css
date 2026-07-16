@@ -27,34 +27,27 @@
   height: auto;
 }
 
-/* 실제 병 사진의 라벨 영역(세로 48% 지점부터)에 얹히는 라벨 */
+/* 실제 라벨의 붓글씨(상단)는 그대로 두고, 라벨 하단부에 덧라벨을 얹는다 */
 .labelpreview-label {
   position: absolute;
   left: 50%;
-  top: 48%;
+  top: 63.5%;
   transform: translateX(-50%);
-  width: 81%;
+  width: 79%;
   background: #fdfcf8;
   border-radius: 6px;
-  padding: 10px 8px;
+  padding: 8px 8px 9px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.labelpreview-brand {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--green);
-  margin-bottom: 1px;
-  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
 }
 
 .labelpreview-week {
-  font-size: 7px;
-  color: var(--sub);
-  padding-bottom: 6px;
-  margin-bottom: 7px;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--green);
+  white-space: nowrap;
+  padding-bottom: 5px;
+  margin-bottom: 6px;
   border-bottom: 1px dashed var(--line);
 }
 
@@ -62,12 +55,12 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 10px;
-  line-height: 1.65;
+  line-height: 1.6;
   color: var(--ink);
   word-break: keep-all;
   margin-bottom: 6px;
   display: -webkit-box;
-  -webkit-line-clamp: 7;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
