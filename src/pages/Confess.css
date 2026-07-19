@@ -316,6 +316,29 @@
   color: var(--ink);
 }
 
+.confess-feedtools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.confess-reels-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  padding: 4px 10px;
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+}
+
+.confess-reels-btn:active {
+  background: var(--green-pale);
+}
+
 .confess-feed {
   display: flex;
   flex-direction: column;

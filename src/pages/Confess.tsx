@@ -7,6 +7,7 @@ import { AnimatePresence } from 'framer-motion'
 import ConfessionCard from '../components/ConfessionCard'
 import CapMosaic, { mosaicTotal } from '../components/CapMosaic'
 import MuralView from '../components/MuralView'
+import ReelsView from '../components/ReelsView'
 import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
@@ -64,6 +65,9 @@ export default function Confess() {
   // 피드 정렬 — 최신순(내 글 먼저) / 인기순(잔 많이 받은 처음 먼저)
   const [sort, setSort] = useState<SortMode>('latest')
   const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
+
+  // 릴스식 몰입 보기
+  const [reelsOpen, setReelsOpen] = useState(false)
 
   // 벽화 갤러리 스와이프 위치 + 확대 뷰
   const [muralIndex, setMuralIndex] = useState(0)
@@ -222,6 +226,7 @@ export default function Confess() {
             onClose={() => setMuralOpen(null)}
           />
         )}
+        {reelsOpen && <ReelsView confessions={sorted} onClose={() => setReelsOpen(false)} />}
       </AnimatePresence>
 
       {tickets > 0 ? (
@@ -264,7 +269,31 @@ export default function Confess() {
 
       <div className="confess-feedhead">
         <span className="confess-feedcount">고백 {items.length}편</span>
-        <SortToggle value={sort} onChange={setSort} />
+        <div className="confess-feedtools">
+          <button
+            type="button"
+            className="confess-reels-btn"
+            onClick={() => setReelsOpen(true)}
+            aria-label="고백을 한 장씩 몰입해서 보기"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="5" y="3" width="14" height="18" rx="2.5" />
+              <path d="M12 8v5m0 0-2.2-2.2M12 13l2.2-2.2" />
+            </svg>
+            한 장씩
+          </button>
+          <SortToggle value={sort} onChange={setSort} />
+        </div>
       </div>
 
       <ul className="confess-feed" aria-label="고백 피드">
