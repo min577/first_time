@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { mosaicRows, mosaicTotal, type MosaicShape } from './CapMosaic'
 import { readJSON, writeJSON } from '../hooks/useLocalList'
@@ -7,18 +7,20 @@ import './MuralView.css'
 const CAP_R = 9 // 뚜껑 반지름(px) — 확대 뷰에서는 톱니·하이라이트가 보이는 크기
 const GAP = 5
 
+type Flight = { id: number; sx: number; sy: number; tx: number; ty: number; size: number }
+
 type Props = {
   shape: MosaicShape
   title: string
   desc: string
-  live?: boolean // 진행 중인 벽화 — 잔을 들어 직접 뚜껑을 보탤 수 있다
+  live?: boolean // 진행 중인 벽화 — 잔을 탭해 직접 뚜껑을 보탤 수 있다
   baseCheers?: number // 나의 기여를 제외한 잔 수
   goal?: number
   doneCount?: string // 완성작의 표기 (예: "18,204잔으로 완성")
   onClose: () => void
 }
 
-// 벽화 확대 뷰: 톱니 달린 진짜 병뚜껑들로 그려지고, 잔을 들어 직접 기여한다
+// 벽화 확대 뷰: 잔을 탭하면 뚜껑이 포물선으로 날아가 벽화에 박힌다
 export default function MuralView({
   shape,
   title,
@@ -33,24 +35,29 @@ export default function MuralView({
   const rows = mosaicRows(shape)
   const total = mosaicTotal(shape)
 
+  const containerRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const glassRef = useRef<HTMLButtonElement>(null)
+  const flightId = useRef(0)
+
   // 내가 이 벽화에 보탠 뚜껑 — 앰버색으로 박힌다
   const [myCaps, setMyCaps] = useState(() => readJSON<number>('chg.muralExtra', 0))
+  const [flights, setFlights] = useState<Flight[]>([])
   const [clink, setClink] = useState(0)
+  const [waveDone, setWaveDone] = useState(false)
 
   const cheers = baseCheers + myCaps
   const filled = live
     ? Math.min(cheers > 0 ? Math.max(1, Math.round(Math.min(cheers / goal, 1) * total)) : 0, total)
     : total
   const amberTail = live ? Math.min(myCaps, filled) : 0
+  const complete = filled >= total
 
-  const contribute = () => {
-    const next = myCaps + 1
-    setMyCaps(next)
-    setClink((c) => c + 1)
-    writeJSON('chg.muralExtra', next)
-    navigator.vibrate?.(20)
-    window.dispatchEvent(new Event('chg:raise'))
-  }
+  // 최초 등장 스태거 웨이브가 끝나면, 이후 박히는 뚜껑은 즉시 팝
+  useEffect(() => {
+    const timer = window.setTimeout(() => setWaveDone(true), total * 10 + 500)
+    return () => window.clearTimeout(timer)
+  }, [total])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -73,8 +80,75 @@ export default function MuralView({
   const width = maxW * cell
   const height = rows.length * cell
 
+  // 아래에서부터 order번째 소켓의 SVG 좌표
+  const capPos = (order: number) => {
+    for (let rowIdx = rows.length - 1; rowIdx >= 0; rowIdx -= 1) {
+      const start = rowStart[rowIdx]
+      if (order >= start && order < start + rows[rowIdx]) {
+        const i = order - start
+        return {
+          cx: (width - rows[rowIdx] * cell) / 2 + i * cell + cell / 2,
+          cy: rowIdx * cell + cell / 2,
+        }
+      }
+    }
+    return { cx: width / 2, cy: height / 2 }
+  }
+
+  const commit = () => {
+    setMyCaps((prev) => {
+      const next = prev + 1
+      writeJSON('chg.muralExtra', next)
+      return next
+    })
+    window.dispatchEvent(new Event('chg:raise'))
+  }
+
+  // 잔 탭 → 뚜껑이 잔에서 다음 빈 소켓으로 포물선 비행
+  const launch = () => {
+    if (!live || complete) return
+    setClink((c) => c + 1)
+    navigator.vibrate?.(15)
+
+    if (reducedMotion) {
+      commit()
+      return
+    }
+
+    const cont = containerRef.current?.getBoundingClientRect()
+    const svg = svgRef.current?.getBoundingClientRect()
+    const glass = glassRef.current?.getBoundingClientRect()
+    if (!cont || !svg || !glass) {
+      commit()
+      return
+    }
+
+    const scale = svg.width / width
+    const targetOrder = Math.min(filled + flights.length, total - 1)
+    const { cx, cy } = capPos(targetOrder)
+    const id = (flightId.current += 1)
+    setFlights((prev) => [
+      ...prev,
+      {
+        id,
+        sx: glass.left - cont.left + glass.width / 2,
+        sy: glass.top - cont.top + 8,
+        tx: svg.left - cont.left + cx * scale,
+        ty: svg.top - cont.top + cy * scale,
+        size: CAP_R * 2 * scale,
+      },
+    ])
+  }
+
+  const land = (id: number) => {
+    setFlights((prev) => prev.filter((f) => f.id !== id))
+    commit()
+    navigator.vibrate?.(10)
+  }
+
   return (
     <motion.div
+      ref={containerRef}
       className="muralview"
       role="dialog"
       aria-modal="true"
@@ -84,18 +158,21 @@ export default function MuralView({
       exit={reducedMotion ? undefined : { opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
+      <p className="muralview-eyebrow">개교 벽화 갤러리</p>
       <p className="muralview-title">
         {title}
         {!live && <span className="muralview-done">완성</span>}
       </p>
       <p className="muralview-desc">{desc}</p>
 
-      <div className="muralview-stage">
+      {/* 액자 — 병 라벨식 이중 괘선 프레임 */}
+      <div className={`muralview-frame${live ? ' is-live' : ''}`}>
         <motion.svg
+          ref={svgRef}
           viewBox={`0 0 ${width} ${height}`}
           className="muralview-art"
-          style={{ width: width * 1.35 }}
-          initial={reducedMotion ? false : { scale: 0.8, opacity: 0 }}
+          style={{ width: width * 1.32 }}
+          initial={reducedMotion ? false : { scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
@@ -125,8 +202,8 @@ export default function MuralView({
                     cx={cx}
                     cy={cy}
                     r={CAP_R - 1}
-                    fill="rgba(250, 249, 244, 0.06)"
-                    stroke="rgba(250, 249, 244, 0.3)"
+                    fill="rgba(250, 249, 244, 0.05)"
+                    stroke="rgba(250, 249, 244, 0.28)"
                     strokeWidth="1"
                     strokeDasharray="2.5 3"
                   />
@@ -136,7 +213,7 @@ export default function MuralView({
                 <g
                   key={`${rowIdx}-${i}`}
                   className="muralview-cap"
-                  style={{ animationDelay: `${order * 10}ms` }}
+                  style={{ animationDelay: waveDone ? '0ms' : `${order * 10}ms` }}
                 >
                   {/* 뚜껑 본체 */}
                   <circle
@@ -173,41 +250,88 @@ export default function MuralView({
         </motion.svg>
       </div>
 
-      {live ? (
-        <>
-          <p className="muralview-count">
-            {cheers.toLocaleString()} / {goal.toLocaleString()}잔
-            {myCaps > 0 && <strong> · 내가 보탠 뚜껑 {myCaps}개</strong>}
-          </p>
+      {/* 통계 */}
+      <div className="muralview-stats">
+        {live ? (
+          <>
+            <span className="muralview-stat">
+              모인 잔 <strong>{cheers.toLocaleString()}</strong> / {goal.toLocaleString()}
+            </span>
+            {myCaps > 0 && (
+              <span className="muralview-stat is-mine">
+                내 뚜껑 <strong>{myCaps}</strong>
+              </span>
+            )}
+          </>
+        ) : (
+          <span className="muralview-stat">{doneCount} · 라벨로 인쇄되어 병에 붙었습니다</span>
+        )}
+      </div>
+
+      {/* 기여 — 버튼이 아니라 테이블 위에 놓인 잔 */}
+      {live && (
+        <div className="muralview-table">
           <motion.button
+            ref={glassRef}
             type="button"
-            className="muralview-raise"
-            onClick={contribute}
-            aria-label="이 벽화에 잔 들어 뚜껑 보태기"
-            animate={clink > 0 && !reducedMotion ? { rotate: [0, -12, 8, 0] } : undefined}
+            className="muralview-glass"
+            onClick={launch}
+            disabled={complete}
+            aria-label="잔을 탭해 건배 — 뚜껑이 벽화에 박힙니다"
+            animate={clink > 0 && !reducedMotion ? { rotate: [0, -16, 10, 0] } : undefined}
             transition={{ duration: 0.4 }}
             key={clink}
           >
             <svg
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              viewBox="0 0 40 44"
+              width="44"
+              height="48"
               aria-hidden="true"
             >
-              <path d="M8.1 11.2 7.6 4h8.8l-.5 7.2Z" fill="currentColor" stroke="none" opacity="0.5" />
-              <path d="M7 4h10l-1.2 15a2 2 0 0 1-2 1.8H10.2a2 2 0 0 1-2-1.8L7 4Z" />
+              <path d="M12.5 19 11.6 6h16.8l-.9 13Z" fill="var(--amber)" />
+              <path
+                d="M11 6h18l-1.9 28.5a3.2 3.2 0 0 1-3.2 3H16.1a3.2 3.2 0 0 1-3.2-3L11 6Z"
+                fill="none"
+                stroke="var(--paper)"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <ellipse cx="15.5" cy="14" rx="1.7" ry="4.5" fill="#ffffff" opacity="0.35" />
             </svg>
-            이 벽화에 잔 들기
           </motion.button>
-        </>
-      ) : (
-        <p className="muralview-count">{doneCount} · 라벨로 인쇄되어 병에 붙었습니다</p>
+          <p className="muralview-table-hint">
+            {complete ? '벽화가 완성됐습니다!' : '잔을 탭해 건배 — 뚜껑이 벽화에 박힙니다'}
+          </p>
+        </div>
       )}
+
+      {/* 날아가는 뚜껑들 */}
+      {flights.map((flight) => (
+        <motion.span
+          key={flight.id}
+          className="muralview-flight"
+          style={{ width: flight.size, height: flight.size }}
+          initial={{ x: flight.sx - flight.size / 2, y: flight.sy - flight.size / 2, scale: 0.6 }}
+          animate={{
+            x: [
+              flight.sx - flight.size / 2,
+              (flight.sx + flight.tx) / 2 - flight.size / 2,
+              flight.tx - flight.size / 2,
+            ],
+            y: [
+              flight.sy - flight.size / 2,
+              Math.min(flight.sy, flight.ty) - 64 - flight.size / 2,
+              flight.ty - flight.size / 2,
+            ],
+            scale: [0.6, 1.15, 1],
+            rotate: [0, 200, 380],
+          }}
+          transition={{ duration: 0.55, times: [0, 0.5, 1], ease: 'easeOut' }}
+          onAnimationComplete={() => land(flight.id)}
+          aria-hidden="true"
+        />
+      ))}
 
       <button type="button" className="muralview-close" onClick={onClose} aria-label="닫기">
         닫기

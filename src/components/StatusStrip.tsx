@@ -9,7 +9,7 @@ export default function StatusStrip() {
   const tickets = readJSON<number>('chg.tickets', 0)
 
   return (
-    <div className="statusstrip" aria-label={`출석 도장 ${stamps}개, 고백권 ${tickets}장`}>
+    <div className="statusstrip" aria-label={`도장 ${stamps}개, 고백권 ${tickets}장`}>
       <span className="statusstrip-dots" aria-hidden="true">
         {Array.from({ length: STAMP_GOAL }, (_, i) => (
           <span
@@ -19,7 +19,7 @@ export default function StatusStrip() {
         ))}
       </span>
       <span className="statusstrip-text">
-        출석 {stamps}회{stamps >= STAMP_GOAL ? ' · 개근상 달성!' : ''} · 고백권 {tickets}장
+        도장 {stamps}개{stamps >= STAMP_GOAL ? ' · 개근상 달성!' : ''} · 고백권 {tickets}장
       </span>
     </div>
   )
