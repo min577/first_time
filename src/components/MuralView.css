@@ -6,17 +6,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 24px;
-  background: linear-gradient(165deg, #0d6847 0%, #0b5c3f 55%, #063a27 100%);
+  gap: 5px;
+  padding: 22px 24px;
   color: var(--paper);
   text-align: center;
+  overflow: hidden;
+  /* 이슬 맺힌 병 유리 배경 + 비네트 */
+  background-image:
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.06), transparent 55%),
+    radial-gradient(rgba(255, 255, 255, 0.09) 1.4px, transparent 2px),
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.6px),
+    linear-gradient(165deg, #0d6847 0%, #0b5c3f 55%, #052e1f 100%);
+  background-size:
+    100% 100%,
+    52px 44px,
+    29px 25px,
+    100% 100%;
+}
+
+.muralview-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
 }
 
 .muralview-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 19px;
   word-break: keep-all;
 }
 
@@ -33,21 +51,33 @@
 }
 
 .muralview-desc {
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.6;
-  opacity: 0.8;
+  opacity: 0.75;
   word-break: keep-all;
-  max-width: 260px;
+  max-width: 258px;
 }
 
-.muralview-stage {
-  margin: 14px 0 10px;
-  perspective: 600px;
+/* 액자 — 병 라벨식 이중 괘선, 벽감에 들어간 작품 */
+.muralview-frame {
+  margin: 12px 0 8px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  background: rgba(4, 32, 22, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(250, 249, 244, 0.32),
+    inset 0 0 0 4px rgba(4, 32, 22, 0),
+    inset 0 0 0 5px rgba(250, 249, 244, 0.16),
+    0 18px 34px rgba(0, 0, 0, 0.3);
 }
 
 .muralview-art {
   display: block;
   height: auto;
+}
+
+/* 완성작은 천천히 부유, 진행작은 고정(뚜껑이 정확한 자리에 날아와 박히도록) */
+.muralview-frame:not(.is-live) .muralview-art {
   animation: muralview-float 7s ease-in-out infinite;
   transform-style: preserve-3d;
 }
@@ -83,41 +113,79 @@
   }
 }
 
-.muralview-count {
-  font-size: 12px;
+.muralview-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.muralview-stat {
+  font-size: 11px;
   opacity: 0.9;
-}
-
-.muralview-count strong {
-  color: var(--amber);
-}
-
-/* 잔 들기 — 앰버 존 */
-.muralview-raise {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 12px 22px;
+  background: rgba(250, 249, 244, 0.12);
+  padding: 5px 12px;
   border-radius: var(--radius-pill);
-  background: var(--amber);
-  color: var(--ink);
-  font-size: 14px;
+}
+
+.muralview-stat strong {
   font-weight: 700;
 }
 
-.muralview-raise:active {
-  transform: scale(0.97);
+.muralview-stat.is-mine {
+  color: var(--amber);
+}
+
+/* 테이블 위의 잔 — 버튼이 아니라 오브젝트 */
+.muralview-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.muralview-glass {
+  padding: 6px 18px 2px;
+  border-radius: 14px;
+  -webkit-tap-highlight-color: transparent;
+  /* 테이블 면 */
+  background: linear-gradient(180deg, transparent 74%, rgba(4, 32, 22, 0.5) 74%);
+}
+
+.muralview-glass:active {
+  transform: scale(0.94);
+}
+
+.muralview-glass:disabled {
+  opacity: 0.45;
+}
+
+.muralview-table-hint {
+  font-size: 10.5px;
+  opacity: 0.65;
+}
+
+/* 날아가는 뚜껑 */
+.muralview-flight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #f5c06a 0%, var(--amber) 55%, #8a5e18 100%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
 }
 
 .muralview-close {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(14px + env(safe-area-inset-bottom));
+  bottom: calc(12px + env(safe-area-inset-bottom));
   font-size: 12px;
   font-weight: 600;
-  color: rgba(250, 249, 244, 0.75);
+  color: rgba(250, 249, 244, 0.7);
   text-decoration: underline;
   padding: 6px;
 }
