@@ -120,6 +120,7 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
             placeholder="이 처음에 조언 한 줄 (무제한)"
             submitLabel="조언 남기기"
             rows={1}
+            adviceGuard
             onSubmit={submitComment}
           />
         </div>

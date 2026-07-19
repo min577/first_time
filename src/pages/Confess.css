@@ -166,6 +166,19 @@
   color: var(--green);
 }
 
+.confess-feedhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.confess-feedcount {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
 .confess-feed {
   display: flex;
   flex-direction: column;

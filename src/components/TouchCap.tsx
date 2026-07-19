@@ -13,9 +13,13 @@ const NAVIGATE_DELAY_MS = 950
 const HOLD_MS = 600 // 꾹 눌러 찍기: 이만큼 누르면 도장이 찍힌다
 const STAMP_GOAL = 5
 
+type Props = {
+  onEntered?: () => void // 지정 시 기본 네비게이션 대신 호출 (입장 통계 인터스티셜용)
+}
+
 // 꾹 눌러 찍기: 누르는 동안 잉크 링이 차오르고, 다 차면 도장이 쾅 찍힌다.
 // 홀드는 연출이지 조건이 아니다 — 짧은 탭으로도 입장된다.
-export default function TouchCap() {
+export default function TouchCap({ onEntered }: Props) {
   const navigate = useNavigate()
   const reducedMotion = useReducedMotion()
   const [stamped, setStamped] = useState(false)
@@ -24,7 +28,7 @@ export default function TouchCap() {
   const enteredRef = useRef(false)
   const holdTimer = useRef<number | undefined>(undefined)
 
-  const finish = () => navigate('/app/courses')
+  const finish = () => (onEntered ? onEntered() : navigate('/app/courses'))
 
   const enter = () => {
     if (enteredRef.current) return

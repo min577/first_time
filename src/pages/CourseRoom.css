@@ -37,6 +37,12 @@
   color: var(--sub);
 }
 
+.room-sorthead {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
 .room-tips {
   display: flex;
   flex-direction: column;

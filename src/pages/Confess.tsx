@@ -5,6 +5,7 @@ import { confessionOpener, findCourse } from '../data/courses'
 import { newId, readJSON, useLocalList, writeJSON } from '../hooks/useLocalList'
 import ConfessionCard from '../components/ConfessionCard'
 import CapMosaic, { mosaicTotal } from '../components/CapMosaic'
+import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
 
@@ -35,6 +36,10 @@ export default function Confess() {
   const muralCheers = items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount
   const muralRatio = Math.min(muralCheers / MURAL_GOAL, 1)
   const muralFilled = Math.round(muralRatio * BOTTLE_DOTS)
+
+  // 피드 정렬 — 최신순(내 글 먼저) / 인기순(잔 많이 받은 처음 먼저)
+  const [sort, setSort] = useState<SortMode>('latest')
+  const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
 
   const submit = (text: string) => {
     add({ id: newId(), author: '익명의 나', text, cheers: 0, courseSlug: fromCourse?.slug })
@@ -111,8 +116,13 @@ export default function Confess() {
         <span className="confess-vote-arrow">투표하기 →</span>
       </Link>
 
+      <div className="confess-feedhead">
+        <span className="confess-feedcount">고백 {items.length}편</span>
+        <SortToggle value={sort} onChange={setSort} />
+      </div>
+
       <ul className="confess-feed" aria-label="고백 피드">
-        {items.map((confession) => (
+        {sorted.map((confession) => (
           <li key={confession.id}>
             <ConfessionCard
               confession={confession}

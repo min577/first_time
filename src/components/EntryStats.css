@@ -1,0 +1,67 @@
+.entrystats {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--green);
+  color: var(--paper);
+  text-align: center;
+  padding: 24px;
+}
+
+.entrystats-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+  margin-bottom: 14px;
+}
+
+.entrystats-glass {
+  width: 108px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.entrystats-pct {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.entrystats-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 2px;
+  word-break: keep-all;
+}
+
+.entrystats-desc {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 8px;
+  word-break: keep-all;
+}
+
+.entrystats-attendee {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 14px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(250, 249, 244, 0.14);
+}
+
+.entrystats-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  font-size: 11px;
+  opacity: 0.55;
+}

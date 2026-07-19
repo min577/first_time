@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { confessionOpener, findCourse, type Course, type Tip } from '../data/courses'
 import { newId, useLocalList } from '../hooks/useLocalList'
 import TipCard from '../components/TipCard'
+import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './CourseRoom.css'
 
@@ -16,6 +18,10 @@ export default function CourseRoom() {
 function CourseRoomView({ course }: { course: Course }) {
   const navigate = useNavigate()
   const { items, localIds, add } = useLocalList<Tip>(`chg.tips.${course.slug}`, course.tips)
+  const [sort, setSort] = useState<SortMode>('latest')
+
+  // 최신순 = 내 글 먼저(작성순), 인기순 = 잔 많이 받은 조언 먼저 — 좋은 조언이 떠오른다
+  const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
 
   const submitTip = (text: string) => {
     // 수혜자 → 기여자 전환: 한 줄을 남기는 순간 나도 선배가 된다
@@ -33,8 +39,12 @@ function CourseRoomView({ course }: { course: Course }) {
         <p className="room-sub">선배의 한 줄 {items.length}개 · 마음에 닿으면 잔을 들어주세요</p>
       </header>
 
+      <div className="room-sorthead">
+        <SortToggle value={sort} onChange={setSort} />
+      </div>
+
       <ul className="room-tips">
-        {items.map((tip) => (
+        {sorted.map((tip) => (
           <li key={tip.id}>
             <TipCard tip={tip} mine={localIds.has(tip.id)} />
           </li>
@@ -48,6 +58,7 @@ function CourseRoomView({ course }: { course: Course }) {
           helper="남기는 순간, 당신도 선배가 됩니다"
           submitLabel="한 줄 남기기"
           rows={2}
+          adviceGuard
           onSubmit={submitTip}
         />
       </section>
