@@ -1,6 +1,10 @@
 .muralview {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* 하단 탭바는 덮지 않는다 - 탭 이동 가능 */
+  bottom: calc(58px + env(safe-area-inset-bottom));
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -182,7 +186,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(12px + env(safe-area-inset-bottom));
+  bottom: 8px;
   font-size: 12px;
   font-weight: 600;
   color: rgba(250, 249, 244, 0.7);

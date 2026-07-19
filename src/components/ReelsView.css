@@ -1,6 +1,10 @@
 .reels {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* 하단 탭바는 덮지 않는다 - 탭을 누르면 바로 다른 화면으로 이동 */
+  bottom: calc(58px + env(safe-area-inset-bottom));
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -200,7 +204,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(12px + env(safe-area-inset-bottom));
+  bottom: 10px;
   text-align: center;
   font-size: 10.5px;
   opacity: 0.55;
