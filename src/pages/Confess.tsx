@@ -20,15 +20,15 @@ const PAST_MURALS = [
   {
     key: 'last-week',
     shape: 'glass' as const,
-    title: '지난주 벽화 · 잔',
-    desc: "'보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다'가 라벨 2호로 인쇄됐습니다.",
+    title: '지난주의 잔',
+    desc: "지난주에 다 함께 완성한 그림입니다. '보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다'가 라벨 2호로 인쇄됐습니다.",
     count: '18,204잔으로 완성',
   },
   {
     key: 'anniversary',
     shape: 'cap' as const,
-    title: '개교 기념 벽화 · 병뚜껑',
-    desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 벽화입니다.',
+    title: '개교 기념 병뚜껑',
+    desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 그림입니다.',
     count: '32,000잔으로 완성',
   },
 ]
@@ -96,6 +96,7 @@ export default function Confess() {
       )}
 
       <section className="confess-mural" aria-label="개교 벽화 갤러리">
+        <p className="confess-mural-eyebrow">개교 벽화 · 모두의 잔이 모여 그림이 됩니다</p>
         <div className="confess-mural-track" onScroll={onMuralScroll}>
           <article
             className="confess-mural-slide"
@@ -111,10 +112,10 @@ export default function Confess() {
               </div>
             </div>
             <div className="confess-mural-copy">
-              <h2 className="confess-mural-title">이번 주 벽화 · 병</h2>
+              <h2 className="confess-mural-title">이번 주의 병</h2>
               <p className="confess-mural-desc">
-                잔을 들 때마다 뚜껑이 하나씩 쌓입니다. 병이 가득 차면 이번 주 라벨이
-                인쇄소로 갑니다.
+                누군가의 고백에 잔을 들면, 그 잔이 병뚜껑이 되어 여기에 쌓입니다. 병이 가득
+                차면 이번 주 라벨이 실제로 인쇄됩니다.
               </p>
               <p className="confess-mural-count">
                 {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
@@ -172,8 +173,8 @@ export default function Confess() {
         {muralOpen === 0 && (
           <MuralView
             shape="bottle"
-            title="이번 주 벽화 · 병"
-            desc="잔을 들 때마다 뚜껑이 쌓입니다. 병이 가득 차면 이번 주 라벨이 인쇄소로 갑니다."
+            title="이번 주의 병"
+            desc="누군가의 고백에 잔을 들면 그 잔이 병뚜껑이 되어 쌓입니다. 병이 가득 차면 이번 주 라벨이 실제로 인쇄됩니다."
             live
             baseCheers={items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount}
             goal={MURAL_GOAL}

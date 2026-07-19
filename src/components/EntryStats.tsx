@@ -62,8 +62,9 @@ export default function EntryStats() {
 
       <svg viewBox="0 0 120 140" className="entrystats-glass" aria-hidden="true">
         <defs>
-          <clipPath id="entry-glass-clip">
-            <path d="M22,18 L98,18 L88,124 Q60,134 32,124 Z" />
+          {/* 유리 두께만큼 안쪽 — 액체는 잔벽에 닿지 않고 이 안에서만 찬다 */}
+          <clipPath id="entry-glass-inner">
+            <path d="M26,21 L94,21 L85,121 Q60,130 35,121 Z" />
           </clipPath>
           <linearGradient id="entry-liquid" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#F3BA5E" />
@@ -71,7 +72,10 @@ export default function EntryStats() {
           </linearGradient>
         </defs>
 
-        <g clipPath="url(#entry-glass-clip)">
+        {/* 유리 몸체 — 액체가 담기기 전에도 그릇이 보인다 */}
+        <path d="M22,18 L98,18 L88,124 Q60,134 32,124 Z" fill="rgba(255, 255, 255, 0.08)" />
+
+        <g clipPath="url(#entry-glass-inner)">
           {/* 술이 차오른다 — 수면은 물결치며 좌우로 흐른다 */}
           <motion.g
             initial={reducedMotion ? { y: liquidY } : { y: 132 }}
@@ -97,6 +101,16 @@ export default function EntryStats() {
           stroke="var(--paper)"
           strokeWidth="4"
           strokeLinecap="round"
+        />
+        {/* 잔 입구 림 — 위에서 본 타원이 그릇의 깊이를 만든다 */}
+        <ellipse
+          cx="60"
+          cy="18"
+          rx="38"
+          ry="4.5"
+          fill="none"
+          stroke="rgba(250, 249, 244, 0.55)"
+          strokeWidth="2"
         />
       </svg>
 
