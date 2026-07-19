@@ -4,7 +4,7 @@ import './About.css'
 
 const LOOP_STEPS = [
   { title: '열람', desc: '선배의 한 줄을 읽고' },
-  { title: '고백', desc: '나의 처음을 실토하면' },
+  { title: '고백', desc: '나의 처음을 털어놓으면' },
   { title: '잔 들기', desc: '사람들이 잔을 들어주고' },
   { title: '라벨 인쇄', desc: '베스트 고백은 병 라벨로' },
 ]

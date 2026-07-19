@@ -86,12 +86,12 @@ export default function Confess() {
     <div className="confess">
       <section className="confess-hero">
         <h1 className="confess-hero-title">어른의 처음은 아무도 축하해주지 않는다</h1>
-        <p className="confess-hero-sub">여기선 실토해도 됩니다. 익명이니까.</p>
+        <p className="confess-hero-sub">여기선 털어놔도 됩니다. 익명이니까.</p>
       </section>
 
       {justConfessed && (
         <p className="confess-done" role="status">
-          실토 완료 - 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
+          고백 완료 - 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
         </p>
       )}
 

@@ -88,7 +88,7 @@ function CourseRoomView({ course }: { course: Course }) {
 
       {/* 열람 → 고백을 한 흐름으로: 이 수업의 처음을 그대로 고백실로 가져간다 */}
       <section className="room-confess" aria-label="고백실로 이동">
-        <p className="room-confess-copy">읽어도 여전히 무섭다면, 실토해도 됩니다.</p>
+        <p className="room-confess-copy">읽어도 여전히 무섭다면, 털어놔도 됩니다.</p>
         <button
           type="button"
           className="room-confess-btn"
