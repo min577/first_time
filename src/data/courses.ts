@@ -5,12 +5,19 @@ export type Tip = {
   cheers: number
 }
 
+export type Memory = {
+  id: string
+  author: string // 학번·연차 등 시대 표기
+  text: string
+}
+
 export type Course = {
   slug: string
   title: string
   category: string
   comfort: string // 안내서 '들어가며' — 챕터를 여는 위로 한 줄
   tips: Tip[]
+  memories?: Memory[] // '그 시절엔' — 3049의 향수, 2030의 재미
 }
 
 export const CATEGORIES = ['학생편', '직장인편', '인생편'] as const
@@ -56,6 +63,23 @@ export const COURSES: Course[] = [
         cheers: 243,
       },
     ],
+    memories: [
+      {
+        id: 'first-mt-mem-1',
+        author: '94학번',
+        text: '청량리에서 기차 타고 대성리로 갔다. 통기타 하나면 밤이 갔다.',
+      },
+      {
+        id: 'first-mt-mem-2',
+        author: '02학번',
+        text: '장기자랑 준비한다고 과방에서 밤새 춤을 외웠다. 그게 제일 재밌었다.',
+      },
+      {
+        id: 'first-mt-mem-3',
+        author: '08학번',
+        text: '큰 솥에 라면 스무 개를 끓였다. 맛은 기억 안 나는데 그 김은 기억난다.',
+      },
+    ],
   },
   {
     slug: 'first-game',
@@ -68,6 +92,18 @@ export const COURSES: Course[] = [
         author: '동아리 회장',
         text: "룰 몰라도 괜찮아. '저 처음이에요!' 하면 오히려 다들 신나서 가르쳐줌.",
         cheers: 98,
+      },
+    ],
+    memories: [
+      {
+        id: 'first-game-mem-1',
+        author: '99학번',
+        text: '그때는 3·6·9랑 훈민정음이 전부였다. 룰이 단순해서 다 같이 놀았다.',
+      },
+      {
+        id: 'first-game-mem-2',
+        author: '05학번',
+        text: '핸드폰이 없으니 벌칙이 노래였다. 못 불러도 박수는 나왔다.',
       },
     ],
   },
@@ -150,6 +186,26 @@ export const COURSES: Course[] = [
         author: '스무 살 딸의 아빠',
         text: '가르치려 하지 말고 따라줘라. 첫 잔은 교육이 아니라 환영식이니까.',
         cheers: 458,
+      },
+    ],
+  },
+  {
+    slug: 'first-parent-friend',
+    title: '자녀와 친해지고 싶다면',
+    category: '인생편',
+    comfort: '친해지고 싶다는 마음이 벌써 절반입니다.',
+    tips: [
+      {
+        id: 'first-parent-friend-1',
+        author: '스무 살 아들의 엄마',
+        text: '궁금해도 캐묻지 말고, 내 오늘 얘기를 먼저 해줘라. 아이는 들을 준비가 되어 있다.',
+        cheers: 384,
+      },
+      {
+        id: 'first-parent-friend-2',
+        author: '대학생 딸과 매주 통화하는 아빠',
+        text: '용돈 보낼 때 이모티콘 하나만 붙여봐라. 답장이 길어진다.',
+        cheers: 297,
       },
     ],
   },

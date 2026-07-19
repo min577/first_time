@@ -58,6 +58,22 @@ function CourseRoomView({ course }: { course: Course }) {
         ))}
       </ul>
 
+      {/* 그 시절엔 - 3049에겐 향수, 2030에겐 재미. 세대를 한 테이블에 앉히는 장치 */}
+      {course.memories && course.memories.length > 0 && (
+        <section className="room-memories" aria-label="그 시절의 처음">
+          <h2 className="room-section-title">그 시절엔</h2>
+          <ul className="room-memories-list">
+            {course.memories.map((memory) => (
+              <li key={memory.id} className="room-memory">
+                <span className="room-memory-era">{memory.author}</span>
+                <p className="room-memory-text">{memory.text}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="room-memories-hint">당신의 그 시절도 아래 한 줄로 보태주세요</p>
+        </section>
+      )}
+
       <section className="room-composer" aria-label="한 줄 남기기">
         <h2 className="room-composer-title">이 안내서에 한 줄 보태기</h2>
         <Composer

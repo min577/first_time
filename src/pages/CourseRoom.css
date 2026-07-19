@@ -85,6 +85,54 @@
   margin-bottom: 26px;
 }
 
+/* 그 시절엔 - 학번 뱃지가 붙은 회상 카드 */
+.room-memories {
+  margin-bottom: 26px;
+}
+
+.room-memories .room-section-title {
+  margin-bottom: 10px;
+}
+
+.room-memories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.room-memory {
+  padding: 12px 14px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-card);
+}
+
+.room-memory-era {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--green-light);
+  border: 1px solid var(--green-pale);
+  background: var(--green-pale);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 6px;
+}
+
+.room-memory-text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink);
+  word-break: keep-all;
+}
+
+.room-memories-hint {
+  font-size: 11px;
+  color: var(--sub);
+  text-align: right;
+}
+
 .room-composer-title {
   font-size: 15px;
   color: var(--green);

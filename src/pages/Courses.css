@@ -41,6 +41,48 @@
   word-break: keep-all;
 }
 
+/* 요즘 나는 — 세대 선택 시 내 편이 맨 위로 */
+.courses-persona {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.courses-persona-label {
+  font-size: 11px;
+  color: var(--sub);
+  margin-right: 2px;
+}
+
+.courses-persona-chip {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sub);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.courses-persona-chip.is-active {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--paper);
+}
+
+.courses-category-mine {
+  margin-left: 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--green-light);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  vertical-align: middle;
+}
+
 .courses-section {
   margin-bottom: 22px;
 }
