@@ -34,6 +34,7 @@ export const CONFESSIONS: Confession[] = [
     author: '12년차 주부',
     text: '올해 처음으로 제가 제사를 주관했습니다. 어머니가 하시던 게 이렇게 어려운 일이었습니다.',
     cheers: 2871,
+    photo: '/photos/first-jesa.png',
   },
 ]
 

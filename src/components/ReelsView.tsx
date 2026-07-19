@@ -79,6 +79,8 @@ export default function ReelsView({ confessions, startIndex = 0, onClose }: Prop
   const trackRef = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(startIndex)
   const [flipped, setFlipped] = useState<Set<string>>(new Set())
+  // 사진 파일이 아직 없으면 일러스트로 폴백
+  const [photoFailed, setPhotoFailed] = useState<Set<string>>(new Set())
 
   const toggleFlip = (id: string) => {
     setFlipped((prev) => {
@@ -161,12 +163,15 @@ export default function ReelsView({ confessions, startIndex = 0, onClose }: Prop
                   </div>
                   <div className="reels-face reels-back">
                     <div className="reels-polaroid">
-                      {confession.photo ? (
+                      {confession.photo && !photoFailed.has(confession.id) ? (
                         <img
                           className="reels-photo-img"
                           src={confession.photo}
                           alt="그날의 사진"
                           loading="lazy"
+                          onError={() =>
+                            setPhotoFailed((prev) => new Set(prev).add(confession.id))
+                          }
                         />
                       ) : (
                         <SojuScene variant={variant} />
