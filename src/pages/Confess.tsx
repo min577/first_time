@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { CONFESSIONS, LABEL_THRESHOLD, type Confession } from '../data/confessions'
 import { confessionOpener, findCourse } from '../data/courses'
@@ -68,9 +68,15 @@ export default function Confess() {
   // 벽화 갤러리 스와이프 위치 + 확대 뷰
   const [muralIndex, setMuralIndex] = useState(0)
   const [muralOpen, setMuralOpen] = useState<number | null>(null)
+  const muralTrackRef = useRef<HTMLDivElement>(null)
   const onMuralScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const el = e.currentTarget
     setMuralIndex(Math.round(el.scrollLeft / el.clientWidth))
+  }
+  // 데스크톱(마우스)에서도 넘길 수 있게 — 화살표·점 클릭 이동
+  const goMural = (i: number) => {
+    const el = muralTrackRef.current
+    el?.scrollTo({ left: i * el.clientWidth, behavior: 'smooth' })
   }
 
   const submit = (text: string) => {
@@ -96,8 +102,9 @@ export default function Confess() {
       )}
 
       <section className="confess-mural" aria-label="개교 벽화 갤러리">
-        <p className="confess-mural-eyebrow">개교 벽화 · 모두의 잔이 모여 그림이 됩니다</p>
-        <div className="confess-mural-track" onScroll={onMuralScroll}>
+        <p className="confess-mural-eyebrow">개교 벽화 · 단골집 벽에 뚜껑 붙이듯, 잔이 그림이 됩니다</p>
+        <div className="confess-mural-viewport">
+          <div className="confess-mural-track" ref={muralTrackRef} onScroll={onMuralScroll}>
           <article
             className="confess-mural-slide"
             role="button"
@@ -154,18 +161,43 @@ export default function Confess() {
               </div>
             </article>
           ))}
+          </div>
+
+          {muralIndex > 0 && (
+            <button
+              type="button"
+              className="confess-mural-nav is-prev"
+              onClick={() => goMural(muralIndex - 1)}
+              aria-label="이전 벽화"
+            >
+              ‹
+            </button>
+          )}
+          {muralIndex < 2 && (
+            <button
+              type="button"
+              className="confess-mural-nav is-next"
+              onClick={() => goMural(muralIndex + 1)}
+              aria-label="다음 벽화"
+            >
+              ›
+            </button>
+          )}
         </div>
 
         <div className="confess-mural-foot">
-          <div className="confess-mural-dots" aria-hidden="true">
+          <div className="confess-mural-dots">
             {[0, 1, 2].map((i) => (
-              <span
+              <button
+                type="button"
                 key={i}
                 className={`confess-mural-dot${muralIndex === i ? ' is-active' : ''}`}
+                onClick={() => goMural(i)}
+                aria-label={`${i + 1}번째 벽화로 이동`}
               />
             ))}
           </div>
-          <span className="confess-mural-hint">누르면 크게 · 밀어서 지난 벽화</span>
+          <span className="confess-mural-hint">누르면 크게 · 옆으로 넘겨보세요</span>
         </div>
       </section>
 

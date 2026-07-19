@@ -120,11 +120,39 @@
   color: var(--green-light);
 }
 
+.confess-mural-viewport {
+  position: relative;
+}
+
 .confess-mural-track {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+}
+
+/* 데스크톱용 좌우 넘김 화살표 */
+.confess-mural-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(250, 249, 244, 0.92);
+  border: 1px solid var(--line);
+  color: var(--green);
+  font-size: 16px;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(27, 33, 29, 0.15);
+}
+
+.confess-mural-nav.is-prev {
+  left: 6px;
+}
+
+.confess-mural-nav.is-next {
+  right: 6px;
 }
 
 .confess-mural-slide {
@@ -136,10 +164,23 @@
   padding: 14px 16px 8px;
 }
 
-/* 3D 부유 — 벽화가 천천히 좌우로 기울며 살아 숨쉰다 */
+/* 담벼락 — 단골집 벽에 뚜껑 붙이듯, 어두운 벽 위에 뚜껑이 박힌다 */
 .confess-mural-stage {
   flex: 0 0 auto;
   perspective: 480px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 5px),
+    linear-gradient(170deg, #0e6144 0%, #084a32 100%);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 어두운 벽 위에서는 빈 소켓이 밝게 보여야 한다 */
+.confess-mural-stage .capmosaic-dot {
+  border-color: rgba(250, 249, 244, 0.3);
 }
 
 .confess-mural-float {
