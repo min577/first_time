@@ -6,7 +6,6 @@ import Splash from './pages/Splash'
 import Courses from './pages/Courses'
 import CourseRoom from './pages/CourseRoom'
 import Confess from './pages/Confess'
-import Vote from './pages/Vote'
 import ToastMaker from './pages/ToastMaker'
 import About from './pages/About'
 
@@ -39,7 +38,6 @@ function App() {
           <Route path="courses" element={<Courses />} />
           <Route path="courses/:slug" element={<CourseRoom />} />
           <Route path="confess" element={<Confess />} />
-          <Route path="confess/vote" element={<Vote />} />
           <Route path="toast" element={<ToastMaker />} />
         </Route>
         <Route path="/about" element={<About />} />

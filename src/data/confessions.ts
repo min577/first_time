@@ -41,12 +41,6 @@ export const CONFESSIONS: Confession[] = [
 // 이 잔 수를 넘으면 '이번 주 라벨 인쇄 후보'
 export const LABEL_THRESHOLD = 3000
 
-// 라벨 투표소 시드 득표 수 — 이번 주 후보들의 현재 판세
-export const VOTE_SEED: Record<string, number> = {
-  'confession-1': 1284,
-  'confession-2': 1531,
-}
-
 export type ConfessionComment = {
   id: string
   author: string

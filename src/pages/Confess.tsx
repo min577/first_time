@@ -4,7 +4,6 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   CONFESSIONS,
   CONFESSION_COMMENTS,
-  LABEL_THRESHOLD,
   type Confession,
   type ConfessionComment,
 } from '../data/confessions'
@@ -182,8 +181,6 @@ export default function Confess() {
     }, 80)
   }
 
-  const candidates = items.filter((c) => c.cheers >= LABEL_THRESHOLD).length
-
   return (
     <div className="confessr">
       {/* 상단 오버레이 바 */}
@@ -196,9 +193,6 @@ export default function Confess() {
         </span>
         <div className="confessr-tools">
           <SortToggle value={sort} onChange={setSort} />
-          <Link to="/app/confess/vote" className="confessr-vote" aria-label="라벨 투표소">
-            투표 {candidates}
-          </Link>
         </div>
       </header>
 
