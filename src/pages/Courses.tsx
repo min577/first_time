@@ -33,6 +33,7 @@ export default function Courses() {
   return (
     <div className="courses">
       <header className="courses-head">
+        <img src="/cap.png" alt="" aria-hidden="true" className="courses-cap" />
         <p className="courses-eyebrow">개교 20주년 · 처음학개론</p>
         <h1 className="courses-title">
           처음 안내서

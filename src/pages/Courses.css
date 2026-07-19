@@ -2,43 +2,92 @@
   padding: 24px 20px 32px;
 }
 
+/* 교재 표지 - 병초록 표지에 크림 타이포, 병 라벨의 이중 괘선 */
 .courses-head {
+  position: relative;
   margin-bottom: 24px;
+  padding: 20px 18px 18px;
+  background: var(--green);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 0 0 4px var(--green), inset 0 0 0 5px rgba(250, 249, 244, 0.45);
+}
+
+.courses-cap {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 62px;
+  height: auto;
+  opacity: 0.95;
 }
 
 .courses-eyebrow {
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: var(--green-light);
+  color: rgba(250, 249, 244, 0.75);
   font-weight: 700;
   margin-bottom: 6px;
 }
 
 .courses-title {
   font-size: 26px;
-  color: var(--ink);
+  color: var(--paper);
   margin-bottom: 6px;
 }
 
-/* 낙관 — 학사 인쇄물에 찍힌 붉은 인장 */
+/* 낙관 — 표지에 찍힌 붉은 인장 */
 .courses-seal {
   display: inline-block;
   margin-left: 8px;
   padding: 3px 4px;
-  border: 1.5px solid var(--seal);
+  border: 1.5px solid #d96a5f;
   border-radius: 3px;
-  color: var(--seal);
+  color: #f0a49b;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.06em;
   transform: rotate(-4deg) translateY(-6px);
-  opacity: 0.85;
 }
 
 .courses-sub {
   font-size: 13px;
-  color: var(--sub);
+  color: rgba(250, 249, 244, 0.85);
   word-break: keep-all;
+  max-width: 250px;
+}
+
+/* 표지(초록) 위에 놓이는 출석부·세대 선택 재조색 */
+.courses-head .statusstrip {
+  background: rgba(250, 249, 244, 0.14);
+}
+
+.courses-head .statusstrip-text {
+  color: var(--paper);
+}
+
+.courses-head .statusstrip-dot {
+  border-color: rgba(250, 249, 244, 0.5);
+}
+
+.courses-head .statusstrip-dot.is-filled {
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+.courses-head .courses-persona-label {
+  color: rgba(250, 249, 244, 0.7);
+}
+
+.courses-head .courses-persona-chip {
+  border-color: rgba(250, 249, 244, 0.4);
+  color: rgba(250, 249, 244, 0.85);
+  background: transparent;
+}
+
+.courses-head .courses-persona-chip.is-active {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--green);
 }
 
 /* 요즘 나는 — 세대 선택 시 내 편이 맨 위로 */

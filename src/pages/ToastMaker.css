@@ -3,7 +3,19 @@
 }
 
 .toast-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 3px solid var(--amber);
+}
+
+.toast-head-glass {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  margin-top: 2px;
 }
 
 .toast-title {
@@ -61,6 +73,7 @@
 
 .toast-card {
   border: 1px solid var(--line);
+  border-top: 3px solid var(--amber);
   border-radius: var(--radius-card);
   padding: 22px 20px;
   background: var(--paper);

@@ -56,8 +56,24 @@ export default function ToastMaker() {
   return (
     <div className="toastmaker">
       <header className="toast-head">
-        <h1 className="toast-title">건배사 생성기</h1>
-        <p className="toast-sub">건배사가 처음이어도 괜찮습니다. 자리를 고르고 뽑으세요.</p>
+        {/* 앰버 존 시그니처 - 채워진 소주잔 */}
+        <svg
+          viewBox="0 0 24 24"
+          className="toast-head-glass"
+          fill="none"
+          stroke="var(--amber-deep)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M8.1 11.2 7.6 4h8.8l-.5 7.2Z" fill="var(--amber)" stroke="none" />
+          <path d="M7 4h10l-1.2 15a2 2 0 0 1-2 1.8H10.2a2 2 0 0 1-2-1.8L7 4Z" />
+        </svg>
+        <div>
+          <h1 className="toast-title">건배사 생성기</h1>
+          <p className="toast-sub">건배사가 처음이어도 괜찮습니다. 자리를 고르고 뽑으세요.</p>
+        </div>
       </header>
 
       <div className="toast-occasions" role="radiogroup" aria-label="자리 선택">

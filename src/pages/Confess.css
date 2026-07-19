@@ -2,8 +2,20 @@
   padding: 20px 20px 32px;
 }
 
+/* 이슬 맺힌 병 유리 - 처음처럼 병을 정면에서 본 질감 */
 .confess-hero {
-  background: var(--green);
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.16) 1.6px, transparent 2.4px),
+    radial-gradient(rgba(255, 255, 255, 0.09) 1.1px, transparent 1.7px),
+    linear-gradient(155deg, #1e8a62 0%, var(--green) 55%, #07402c 100%);
+  background-size:
+    47px 39px,
+    26px 22px,
+    100% 100%;
+  background-position:
+    9px 7px,
+    0 0,
+    0 0;
   border-radius: var(--radius-card);
   padding: 22px 20px;
   color: var(--paper);
