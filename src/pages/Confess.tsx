@@ -13,6 +13,24 @@ import './Confess.css'
 const MURAL_GOAL = 20000
 const BOTTLE_DOTS = mosaicTotal('bottle')
 
+// 벽화 갤러리 - 완성된 지난 벽화들. 캠페인이 살아 움직여 왔다는 증거
+const PAST_MURALS = [
+  {
+    key: 'last-week',
+    shape: 'glass' as const,
+    title: '지난주 벽화 · 잔',
+    desc: "'보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다'가 라벨 2호로 인쇄됐습니다.",
+    count: '18,204잔으로 완성',
+  },
+  {
+    key: 'anniversary',
+    shape: 'cap' as const,
+    title: '개교 기념 벽화 · 병뚜껑',
+    desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 벽화입니다.',
+    count: '32,000잔으로 완성',
+  },
+]
+
 // 강의실에서 "이 처음을 고백하기"로 넘어오면 수업 컨텍스트가 state로 담겨 온다
 type ConfessLocationState = { courseSlug?: string } | null
 
@@ -41,6 +59,13 @@ export default function Confess() {
   const [sort, setSort] = useState<SortMode>('latest')
   const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
 
+  // 벽화 갤러리 스와이프 위치
+  const [muralIndex, setMuralIndex] = useState(0)
+  const onMuralScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget
+    setMuralIndex(Math.round(el.scrollLeft / el.clientWidth))
+  }
+
   const submit = (text: string) => {
     add({ id: newId(), author: '익명의 나', text, cheers: 0, courseSlug: fromCourse?.slug })
     const next = Math.max(0, tickets - 1)
@@ -63,18 +88,61 @@ export default function Confess() {
         </p>
       )}
 
-      <section className="confess-mural" aria-label="개교 벽화">
-        <CapMosaic shape="bottle" dot={6} filled={muralFilled} />
-        <div className="confess-mural-copy">
-          <h2 className="confess-mural-title">개교 벽화</h2>
-          <p className="confess-mural-desc">
-            잔을 들 때마다 뚜껑이 하나씩 쌓입니다. 병이 가득 차면 이번 주 라벨이 인쇄소로
-            갑니다.
-          </p>
-          <p className="confess-mural-count">
-            {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
-            {Math.round(muralRatio * 100)}%
-          </p>
+      <section className="confess-mural" aria-label="개교 벽화 갤러리">
+        <div className="confess-mural-track" onScroll={onMuralScroll}>
+          <article className="confess-mural-slide">
+            <div className="confess-mural-stage">
+              <div className="confess-mural-float">
+                <CapMosaic shape="bottle" dot={6} filled={muralFilled} animateIn />
+              </div>
+            </div>
+            <div className="confess-mural-copy">
+              <h2 className="confess-mural-title">이번 주 벽화 · 병</h2>
+              <p className="confess-mural-desc">
+                잔을 들 때마다 뚜껑이 하나씩 쌓입니다. 병이 가득 차면 이번 주 라벨이
+                인쇄소로 갑니다.
+              </p>
+              <p className="confess-mural-count">
+                {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
+                {Math.round(muralRatio * 100)}%
+              </p>
+            </div>
+          </article>
+
+          {PAST_MURALS.map((mural) => (
+            <article className="confess-mural-slide" key={mural.key}>
+              <div className="confess-mural-stage">
+                <div className="confess-mural-float">
+                  <CapMosaic
+                    shape={mural.shape}
+                    dot={6}
+                    filled={mosaicTotal(mural.shape)}
+                    animateIn
+                  />
+                </div>
+              </div>
+              <div className="confess-mural-copy">
+                <h2 className="confess-mural-title">
+                  {mural.title}
+                  <span className="confess-mural-done">완성</span>
+                </h2>
+                <p className="confess-mural-desc">{mural.desc}</p>
+                <p className="confess-mural-count">{mural.count}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="confess-mural-foot">
+          <div className="confess-mural-dots" aria-hidden="true">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className={`confess-mural-dot${muralIndex === i ? ' is-active' : ''}`}
+              />
+            ))}
+          </div>
+          <span className="confess-mural-hint">밀어서 지난 벽화 보기</span>
         </div>
       </section>
 

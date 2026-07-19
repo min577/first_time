@@ -103,16 +103,50 @@
   background: var(--green-light);
 }
 
-/* 개교 벽화 — 모두의 잔이 병 하나를 채운다 */
+/* 개교 벽화 갤러리 — 좌우로 밀어 지난 벽화까지 본다 */
 .confess-mural {
-  display: flex;
-  align-items: center;
-  gap: 16px;
   margin-bottom: 14px;
-  padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--paper);
+  overflow: hidden;
+}
+
+.confess-mural-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.confess-mural-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px 8px;
+}
+
+/* 3D 부유 — 벽화가 천천히 좌우로 기울며 살아 숨쉰다 */
+.confess-mural-stage {
+  flex: 0 0 auto;
+  perspective: 480px;
+}
+
+.confess-mural-float {
+  animation: confess-mural-float 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes confess-mural-float {
+  0%,
+  100% {
+    transform: rotateY(-12deg) rotateX(4deg);
+  }
+  50% {
+    transform: rotateY(12deg) rotateX(-4deg);
+  }
 }
 
 .confess-mural-copy {
@@ -123,6 +157,18 @@
   font-size: 15px;
   color: var(--green);
   margin-bottom: 4px;
+}
+
+.confess-mural-done {
+  margin-left: 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--green-light);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  vertical-align: middle;
 }
 
 .confess-mural-desc {
@@ -137,6 +183,36 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--green);
+}
+
+.confess-mural-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px 10px;
+}
+
+.confess-mural-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.confess-mural-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--line);
+  transition: background 0.2s ease;
+}
+
+.confess-mural-dot.is-active {
+  background: var(--green);
+}
+
+.confess-mural-hint {
+  font-size: 10px;
+  color: var(--sub);
+  opacity: 0.8;
 }
 
 /* 라벨 투표 배너 — 학사 공지문 스타일 */

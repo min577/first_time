@@ -29,3 +29,22 @@
   background: var(--amber);
   border-color: var(--amber-deep);
 }
+
+/* 등장 시 아래부터 뚜껑이 하나씩 쾅쾅 박힌다 */
+.capmosaic-dot.is-pop {
+  animation: capmosaic-pop 0.3s ease-out backwards;
+}
+
+@keyframes capmosaic-pop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.35);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

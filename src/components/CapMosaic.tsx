@@ -5,6 +5,7 @@ import './CapMosaic.css'
 const SHAPES = {
   glass: [9, 9, 8, 8, 8, 7, 7, 6], // 소주잔 (위가 넓다)
   bottle: [2, 2, 2, 3, 5, 7, 8, 8, 8, 8, 8, 8, 8, 7], // 소주병
+  cap: [4, 6, 8, 9, 9, 9, 9, 8, 6, 4], // 병뚜껑 (원형)
 }
 
 export type MosaicShape = keyof typeof SHAPES
@@ -18,9 +19,16 @@ type Props = {
   filled: number // 채워진 뚜껑 수 (0..total)
   dot?: number // 뚜껑 지름(px)
   justAdded?: boolean // 방금 잔을 들었다 — 마지막 뚜껑(내 뚜껑)이 앰버로 쾅 박힌다
+  animateIn?: boolean // 등장 시 뚜껑이 아래부터 하나씩 박히는 스태거 웨이브
 }
 
-export default function CapMosaic({ shape, filled, dot = 6, justAdded = false }: Props) {
+export default function CapMosaic({
+  shape,
+  filled,
+  dot = 6,
+  justAdded = false,
+  animateIn = false,
+}: Props) {
   const rows = SHAPES[shape]
   const total = mosaicTotal(shape)
   const capped = Math.max(0, Math.min(filled, total))
@@ -56,8 +64,14 @@ export default function CapMosaic({ shape, filled, dot = 6, justAdded = false }:
             return (
               <span
                 key={i}
-                className={`capmosaic-dot${isFilled ? ' is-filled' : ''}`}
-                style={{ width: dot, height: dot }}
+                className={`capmosaic-dot${isFilled ? ' is-filled' : ''}${
+                  isFilled && animateIn ? ' is-pop' : ''
+                }`}
+                style={{
+                  width: dot,
+                  height: dot,
+                  ...(isFilled && animateIn ? { animationDelay: `${order * 14}ms` } : {}),
+                }}
               />
             )
           })}
