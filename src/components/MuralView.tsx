@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { gridOrders, gridTotal, type DotGrid } from './mosaicText'
 import { readJSON, writeJSON } from '../hooks/useLocalList'
@@ -6,8 +6,6 @@ import './MuralView.css'
 
 const CAP_R = 7 // 뚜껑 반지름(px) — 확대 뷰에서는 톱니·하이라이트가 보이는 크기
 const GAP = 4
-
-type Flight = { id: number; sx: number; sy: number; tx: number; ty: number; size: number }
 
 type Props = {
   grid: DotGrid // 글자 도트 그리드
@@ -35,16 +33,15 @@ export default function MuralView({
   const total = gridTotal(grid)
   const orders = useMemo(() => gridOrders(grid), [grid])
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
-  const glassRef = useRef<HTMLButtonElement>(null)
-  const flightId = useRef(0)
-
   // 내가 이 벽화에 보탠 뚜껑 — 앰버색으로 박힌다
   const [myCaps, setMyCaps] = useState(() => readJSON<number>('chg.muralExtra', 0))
-  const [flights, setFlights] = useState<Flight[]>([])
+  const [pending, setPending] = useState<{ cx: number; cy: number } | null>(null)
   const [clink, setClink] = useState(0)
   const [waveDone, setWaveDone] = useState(false)
+
+  // 병을 딸 때(입장)마다 뚜껑이 하나 생긴다 — 무제한이 아니다
+  const stamps = readJSON<number>('chg.stamps', 0)
+  const remaining = Math.max(0, stamps - myCaps)
 
   const cheers = baseCheers + myCaps
   const filled = live
@@ -97,51 +94,28 @@ export default function MuralView({
     window.dispatchEvent(new Event('chg:raise'))
   }
 
-  // 잔 탭 → 뚜껑이 잔에서 다음 빈 소켓으로 포물선 비행
-  const launch = () => {
-    if (!live || complete) return
+  // 뚜껑 누르기 → 다음 자리가 은은히 빛나고, 그 자리에서 뚜껑이 스며나듯 맺힌다
+  const attach = () => {
+    if (!live || complete || remaining <= 0 || pending) return
     setClink((c) => c + 1)
-    navigator.vibrate?.(15)
+    navigator.vibrate?.(12)
 
     if (reducedMotion) {
       commit()
       return
     }
 
-    const cont = containerRef.current?.getBoundingClientRect()
-    const svg = svgRef.current?.getBoundingClientRect()
-    const glass = glassRef.current?.getBoundingClientRect()
-    if (!cont || !svg || !glass) {
+    const target = capPos(Math.min(filled, total - 1))
+    setPending(target)
+    window.setTimeout(() => {
       commit()
-      return
-    }
-
-    const scale = svg.width / width
-    const targetOrder = Math.min(filled + flights.length, total - 1)
-    const { cx, cy } = capPos(targetOrder)
-    const id = (flightId.current += 1)
-    setFlights((prev) => [
-      ...prev,
-      {
-        id,
-        sx: glass.left - cont.left + glass.width / 2,
-        sy: glass.top - cont.top + 8,
-        tx: svg.left - cont.left + cx * scale,
-        ty: svg.top - cont.top + cy * scale,
-        size: CAP_R * 2 * scale,
-      },
-    ])
-  }
-
-  const land = (id: number) => {
-    setFlights((prev) => prev.filter((f) => f.id !== id))
-    commit()
-    navigator.vibrate?.(10)
+      setPending(null)
+      navigator.vibrate?.(8)
+    }, 430)
   }
 
   return (
     <motion.div
-      ref={containerRef}
       className="muralview"
       role="dialog"
       aria-modal="true"
@@ -161,7 +135,6 @@ export default function MuralView({
       {/* 액자 — 병 라벨식 이중 괘선 프레임 */}
       <div className={`muralview-frame${live ? ' is-live' : ''}`}>
         <motion.svg
-          ref={svgRef}
           viewBox={`0 0 ${width} ${height}`}
           className="muralview-art"
           style={{ width: Math.min(width * 1.05, 300) }}
@@ -241,6 +214,30 @@ export default function MuralView({
               )
             }),
           )}
+
+          {/* 뚜껑이 맺히는 자리 — 앰버 빛이 잉크 번지듯 퍼진다 */}
+          {pending && (
+            <g>
+              <motion.circle
+                cx={pending.cx}
+                cy={pending.cy}
+                fill="var(--amber)"
+                initial={{ r: 0, opacity: 0 }}
+                animate={{ r: CAP_R * 0.9, opacity: 0.55 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+              />
+              <motion.circle
+                cx={pending.cx}
+                cy={pending.cy}
+                fill="none"
+                stroke="var(--amber)"
+                strokeWidth="2"
+                initial={{ r: 2, opacity: 0.9 }}
+                animate={{ r: cell * 1.6, opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+              />
+            </g>
+          )}
         </motion.svg>
       </div>
 
@@ -262,15 +259,14 @@ export default function MuralView({
         )}
       </div>
 
-      {/* 기여 — 손에 쥔 내 뚜껑. 누르면 벽화에 날아가 붙는다 */}
+      {/* 기여 — 손에 쥔 내 뚜껑. 누르면 벽화에 스며나듯 맺힌다 */}
       {live && (
         <div className="muralview-table">
           <motion.button
-            ref={glassRef}
             type="button"
             className="muralview-glass"
-            onClick={launch}
-            disabled={complete}
+            onClick={attach}
+            disabled={complete || remaining <= 0 || pending !== null}
             aria-label="뚜껑을 눌러 벽화에 붙이기"
             animate={clink > 0 && !reducedMotion ? { scale: [1, 0.82, 1.06, 1] } : undefined}
             transition={{ duration: 0.35 }}
@@ -300,37 +296,14 @@ export default function MuralView({
             </svg>
           </motion.button>
           <p className="muralview-table-hint">
-            {complete ? '벽화가 완성됐습니다!' : '내 뚜껑을 눌러 벽화에 붙여보세요'}
+            {complete
+              ? '벽화가 완성됐습니다!'
+              : remaining > 0
+                ? `내 뚜껑 ${remaining}개 · 눌러서 벽화에 붙이기`
+                : '뚜껑을 다 붙였습니다 · 새 병을 따면 또 생깁니다'}
           </p>
         </div>
       )}
-
-      {/* 날아가는 뚜껑들 */}
-      {flights.map((flight) => (
-        <motion.span
-          key={flight.id}
-          className="muralview-flight"
-          style={{ width: flight.size, height: flight.size }}
-          initial={{ x: flight.sx - flight.size / 2, y: flight.sy - flight.size / 2, scale: 0.6 }}
-          animate={{
-            x: [
-              flight.sx - flight.size / 2,
-              (flight.sx + flight.tx) / 2 - flight.size / 2,
-              flight.tx - flight.size / 2,
-            ],
-            y: [
-              flight.sy - flight.size / 2,
-              Math.min(flight.sy, flight.ty) - 64 - flight.size / 2,
-              flight.ty - flight.size / 2,
-            ],
-            scale: [0.6, 1.15, 1],
-            rotate: [0, 200, 380],
-          }}
-          transition={{ duration: 0.55, times: [0, 0.5, 1], ease: 'easeOut' }}
-          onAnimationComplete={() => land(flight.id)}
-          aria-hidden="true"
-        />
-      ))}
 
       <button type="button" className="muralview-close" onClick={onClose} aria-label="닫기">
         닫기
