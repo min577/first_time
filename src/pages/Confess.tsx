@@ -59,7 +59,7 @@ export default function Confess() {
 
       {justConfessed && (
         <p className="confess-done" role="status">
-          실토 완료 — 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
+          실토 완료 - 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
         </p>
       )}
 

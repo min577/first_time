@@ -24,7 +24,7 @@ export default function DeviceFrame({ children }: { children: ReactNode }) {
                 {i + 1}
               </span>
               <span>
-                <strong>{step.title}</strong> — {step.desc}
+                <strong>{step.title}</strong> - {step.desc}
               </span>
             </li>
           ))}

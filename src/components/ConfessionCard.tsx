@@ -90,7 +90,7 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
         <CapMosaic shape="glass" dot={5} filled={filledDots} justAdded={justRaised} />
         <p className="confession-mosaic-caption">
           {isCandidate
-            ? '잔이 가득 찼습니다 — 라벨 인쇄 후보'
+            ? '잔이 가득 찼습니다 - 라벨 인쇄 후보'
             : `뚜껑 ${cheers.toLocaleString()}개 / 3,000 · 잔이 가득 차면 라벨 인쇄 후보`}
         </p>
       </div>

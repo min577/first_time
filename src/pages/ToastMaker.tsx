@@ -87,9 +87,9 @@ export default function ToastMaker() {
             <p className="toast-card-label">후창</p>
             <p className="toast-card-response">"{result.response}"</p>
             <p className="toast-card-foot">따라 읽기만 하면 됩니다. 나머지는 잔이 알아서.</p>
-            <p className="toast-sober">절주 한 줄 — {result.soberTip}</p>
+            <p className="toast-sober">절주 한 줄 - {result.soberTip}</p>
             <button type="button" className="toast-copy" onClick={copy} aria-label="건배사 복사하기">
-              {copied ? '복사됐습니다 — 단톡방에 미리 공유해두세요' : '건배사 복사하기'}
+              {copied ? '복사됐습니다 - 단톡방에 미리 공유해두세요' : '건배사 복사하기'}
             </button>
           </motion.article>
         )}
