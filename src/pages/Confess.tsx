@@ -187,9 +187,11 @@ export default function Confess() {
       <header className="confessr-top">
         <span className="confessr-title">
           처음 고백
-          <span className="confessr-counter">
-            {index === 0 ? `사연 ${sorted.length}편` : `${index} / ${sorted.length}`}
-          </span>
+          {index > 0 && (
+            <span className="confessr-counter">
+              {index} / {sorted.length}
+            </span>
+          )}
         </span>
         <div className="confessr-tools">
           <SortToggle value={sort} onChange={setSort} />
