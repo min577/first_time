@@ -48,8 +48,13 @@ export default function EntryStats() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // 잔 내부 높이: viewBox y 18(위)~130(아래)
+  // 잔 내부 높이: viewBox y 18(위)~130(아래). 수면(물결 중심)이 이 높이에 맞춰 올라온다
   const fillHeight = (target / 100) * 112
+  const liquidY = 127 - fillHeight
+
+  // 주기 40px짜리 물결 — x를 -40→0으로 무한 이동시키면 이음새 없이 흐른다
+  const wave =
+    'M-40,6 Q-30,0 -20,6 T0,6 T20,6 T40,6 T60,6 T80,6 T100,6 T120,6 T140,6 T160,6'
 
   return (
     <button type="button" className="entrystats" onClick={go} aria-label="강의실로 입장하기">
@@ -60,20 +65,32 @@ export default function EntryStats() {
           <clipPath id="entry-glass-clip">
             <path d="M22,18 L98,18 L88,124 Q60,134 32,124 Z" />
           </clipPath>
+          <linearGradient id="entry-liquid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#F3BA5E" />
+            <stop offset="1" stopColor="#D28E29" />
+          </linearGradient>
         </defs>
-        <motion.rect
-          x="0"
-          width="120"
-          clipPath="url(#entry-glass-clip)"
-          fill="var(--amber)"
-          initial={
-            reducedMotion
-              ? { y: 130 - fillHeight, height: fillHeight }
-              : { y: 130, height: 0 }
-          }
-          animate={{ y: 130 - fillHeight, height: fillHeight }}
-          transition={{ duration: FILL_MS / 1000, ease: 'easeOut', delay: 0.15 }}
-        />
+
+        <g clipPath="url(#entry-glass-clip)">
+          {/* 술이 차오른다 — 수면은 물결치며 좌우로 흐른다 */}
+          <motion.g
+            initial={reducedMotion ? { y: liquidY } : { y: 132 }}
+            animate={{ y: liquidY }}
+            transition={{ duration: FILL_MS / 1000, ease: 'easeOut', delay: 0.15 }}
+          >
+            <motion.g
+              animate={reducedMotion ? undefined : { x: [-40, 0] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: 'linear' }}
+            >
+              <path d={`${wave} L160,150 L-40,150 Z`} fill="url(#entry-liquid)" />
+              {/* 수면 하이라이트 */}
+              <path d={wave} fill="none" stroke="#FBE3B4" strokeWidth="1.6" opacity="0.75" />
+            </motion.g>
+            {/* 잔 벽에 비치는 술 반사광 */}
+            <ellipse cx="38" cy="46" rx="5" ry="26" fill="#ffffff" opacity="0.18" />
+          </motion.g>
+        </g>
+
         <path
           d="M22,18 L32,124 Q60,134 88,124 L98,18"
           fill="none"
