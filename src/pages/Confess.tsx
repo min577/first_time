@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { CONFESSIONS, LABEL_THRESHOLD, type Confession } from '../data/confessions'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import {
+  CONFESSIONS,
+  CONFESSION_COMMENTS,
+  LABEL_THRESHOLD,
+  type Confession,
+  type ConfessionComment,
+} from '../data/confessions'
 import { confessionOpener, findCourse } from '../data/courses'
 import { newId, readJSON, useLocalList, writeJSON } from '../hooks/useLocalList'
-import { AnimatePresence } from 'framer-motion'
-import ConfessionCard from '../components/ConfessionCard'
+import ConfessionSlide from '../components/ConfessionSlide'
 import CapMosaic from '../components/CapMosaic'
 import { gridTotal, useTextDots } from '../components/mosaicText'
 import MuralView from '../components/MuralView'
-import ReelsView from '../components/ReelsView'
 import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
@@ -16,7 +21,6 @@ import './Confess.css'
 // 개교 벽화: 모두의 잔(뚜껑)이 글자를 완성하면 이번 주 라벨이 인쇄소로 간다
 const MURAL_GOAL = 20000
 
-// 벽화 갤러리 - 완성된 지난 글자들. 캠페인이 살아 움직여 왔다는 증거
 const PAST_MURALS = [
   {
     key: 'last-week',
@@ -37,16 +41,80 @@ const PAST_MURALS = [
 // 강의실에서 "이 처음을 고백하기"로 넘어오면 수업 컨텍스트가 state로 담겨 온다
 type ConfessLocationState = { courseSlug?: string } | null
 
+const NO_COMMENTS: ConfessionComment[] = []
+
+// 조언 바텀 시트 — 무제한, 선배 서약·리라이트 필터 적용
+function CommentsSheet({
+  confession,
+  onClose,
+  onChanged,
+}: {
+  confession: Confession
+  onClose: () => void
+  onChanged: () => void
+}) {
+  const reducedMotion = useReducedMotion()
+  const { items: comments, add } = useLocalList<ConfessionComment>(
+    `chg.comments.${confession.id}`,
+    CONFESSION_COMMENTS[confession.id] ?? NO_COMMENTS,
+  )
+
+  const submit = (text: string) => {
+    add({ id: newId(), author: '나 (오늘부터 선배)', text })
+    onChanged()
+  }
+
+  return (
+    <motion.div
+      className="confessr-sheetwrap"
+      onClick={onClose}
+      initial={reducedMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={reducedMotion ? undefined : { opacity: 0 }}
+      transition={{ duration: 0.18 }}
+    >
+      <motion.div
+        className="confessr-sheet"
+        onClick={(e) => e.stopPropagation()}
+        initial={reducedMotion ? false : { y: '100%' }}
+        animate={{ y: 0 }}
+        exit={reducedMotion ? undefined : { y: '100%' }}
+        transition={{ duration: 0.28, ease: 'easeOut' }}
+      >
+        <p className="confessr-sheet-title">조언 {comments.length}</p>
+        <p className="confessr-sheet-quote">"{confession.text}"</p>
+        {comments.length > 0 && (
+          <ul className="confessr-comments" aria-label="조언 목록">
+            {comments.map((comment) => (
+              <li key={comment.id} className="confessr-comment">
+                <strong>{comment.author}</strong> {comment.text}
+              </li>
+            ))}
+          </ul>
+        )}
+        <Composer
+          placeholder="이 처음에 조언 한 줄"
+          submitLabel="조언 남기기"
+          rows={1}
+          adviceGuard
+          onSubmit={submit}
+        />
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export default function Confess() {
   const { items, localIds, add, remove } = useLocalList<Confession>('chg.confessions', CONFESSIONS)
   const state = useLocation().state as ConfessLocationState
   const fromCourse = findCourse(state?.courseSlug)
+  const reducedMotion = useReducedMotion()
 
   // 고백권: 병뚜껑으로 입장할 때마다 1장. 고백은 응모처럼 병 하나당 한 번
   const [tickets, setTickets] = useState(() => readJSON<number>('chg.tickets', 0))
   const [justConfessed, setJustConfessed] = useState(false)
 
-  // 개교 벽화 — 잔을 들거나 벽화에 직접 뚜껑을 보탤 때마다 실시간으로 차오른다
+  // 개교 벽화 — 잔을 들거나 뚜껑을 보탤 때마다 실시간으로 차오른다
   const [raisedCount, setRaisedCount] = useState(() => readJSON<string[]>('chg.raised', []).length)
   const [muralExtra, setMuralExtra] = useState(() => readJSON<number>('chg.muralExtra', 0))
   useEffect(() => {
@@ -58,7 +126,6 @@ export default function Confess() {
     return () => window.removeEventListener('chg:raise', onRaise)
   }, [])
 
-  // 글자 도트 그리드 - 이번 주 '처음', 지난주 '건배', 개교 기념 '20'
   const gridThisWeek = useTextDots('처음', 20)
   const gridLastWeek = useTextDots('건배', 20)
   const gridAnniv = useTextDots('20', 13)
@@ -68,148 +135,138 @@ export default function Confess() {
   const muralRatio = Math.min(muralCheers / MURAL_GOAL, 1)
   const muralFilled = Math.round(muralRatio * gridTotal(gridThisWeek))
 
-  // 피드 정렬 — 최신순(내 글 먼저) / 인기순(잔 많이 받은 처음 먼저)
+  // 정렬 + 릴스 트랙
   const [sort, setSort] = useState<SortMode>('latest')
   const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
-
-  // 릴스식 몰입 보기
-  const [reelsOpen, setReelsOpen] = useState(false)
-
-  // 벽화 갤러리 스와이프 위치 + 확대 뷰
-  const [muralIndex, setMuralIndex] = useState(0)
-  const [muralOpen, setMuralOpen] = useState<number | null>(null)
-  const muralTrackRef = useRef<HTMLDivElement>(null)
-  const onMuralScroll = (e: React.UIEvent<HTMLDivElement>) => {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [index, setIndex] = useState(0)
+  const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const el = e.currentTarget
-    setMuralIndex(Math.round(el.scrollLeft / el.clientWidth))
-  }
-  // 데스크톱(마우스)에서도 넘길 수 있게 — 화살표·점 클릭 이동
-  const goMural = (i: number) => {
-    const el = muralTrackRef.current
-    el?.scrollTo({ left: i * el.clientWidth, behavior: 'smooth' })
+    setIndex(Math.round(el.scrollTop / el.clientHeight))
   }
 
-  const submit = (text: string) => {
+  // 오버레이들
+  const [muralOpen, setMuralOpen] = useState<number | null>(null)
+  const [commentsFor, setCommentsFor] = useState<Confession | null>(null)
+  const [composerOpen, setComposerOpen] = useState(false)
+  const [commentVersion, setCommentVersion] = useState(0)
+
+  // 안내서에서 "이 처음을 고백하기"로 넘어오면 작성 시트가 바로 열린다
+  useEffect(() => {
+    if (fromCourse) setComposerOpen(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const commentCount = (id: string) => {
+    void commentVersion // 시트에서 조언이 추가되면 다시 센다
+    return (
+      (CONFESSION_COMMENTS[id]?.length ?? 0) + readJSON<ConfessionComment[]>(`chg.comments.${id}`, []).length
+    )
+  }
+
+  const submitConfession = (text: string) => {
     add({ id: newId(), author: '익명의 나', text, cheers: 0, courseSlug: fromCourse?.slug })
     const next = Math.max(0, tickets - 1)
     writeJSON('chg.tickets', next)
     setTickets(next)
+    setComposerOpen(false)
     setJustConfessed(true)
-    window.setTimeout(() => setJustConfessed(false), 2800)
+    window.setTimeout(() => setJustConfessed(false), 2600)
+    // 최신순으로 바꾸고 내 고백(첫 사연 슬라이드)으로 이동
+    setSort('latest')
+    window.setTimeout(() => {
+      trackRef.current?.scrollTo({
+        top: trackRef.current.clientHeight,
+        behavior: reducedMotion ? 'auto' : 'smooth',
+      })
+    }, 80)
   }
 
+  const candidates = items.filter((c) => c.cheers >= LABEL_THRESHOLD).length
+
   return (
-    <div className="confess">
-      <section className="confess-hero">
-        <h1 className="confess-hero-title">어른의 처음은 아무도 축하해주지 않는다</h1>
-        <p className="confess-hero-sub">여기선 털어놔도 됩니다. 익명이니까.</p>
-      </section>
+    <div className="confessr">
+      {/* 상단 오버레이 바 */}
+      <header className="confessr-top">
+        <span className="confessr-title">
+          처음 고백
+          <span className="confessr-counter">
+            {index === 0 ? `사연 ${sorted.length}편` : `${index} / ${sorted.length}`}
+          </span>
+        </span>
+        <div className="confessr-tools">
+          <SortToggle value={sort} onChange={setSort} />
+          <Link to="/app/confess/vote" className="confessr-vote" aria-label="라벨 투표소">
+            투표 {candidates}
+          </Link>
+        </div>
+      </header>
+
+      {/* 릴스 트랙: 첫 장은 개교 벽화, 이후 사연들 */}
+      <div className="confessr-track" ref={trackRef} onScroll={onScroll}>
+        <section className="confessr-intro">
+          <h1 className="confessr-hero">어른의 처음은 아무도 축하해주지 않는다</h1>
+          <p className="confessr-hero-sub">여기선 털어놔도 됩니다. 익명이니까.</p>
+
+          <button
+            type="button"
+            className="confessr-mural"
+            onClick={() => setMuralOpen(0)}
+            aria-label="이번 주 벽화 크게 보기"
+          >
+            <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
+          </button>
+          <p className="confessr-mural-count">
+            개교 벽화 '처음' · {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
+            {Math.round(muralRatio * 100)}%
+          </p>
+          <p className="confessr-mural-desc">
+            잔을 들면 뚜껑이 글자를 채웁니다. 완성되면 이번 주 라벨이 인쇄됩니다.
+          </p>
+          <div className="confessr-pastchips">
+            {PAST_MURALS.map((mural, i) => (
+              <button
+                key={mural.key}
+                type="button"
+                className="confessr-pastchip"
+                onClick={() => setMuralOpen(i + 1)}
+              >
+                {mural.title.replace(' 벽화', '')} 完
+              </button>
+            ))}
+          </div>
+
+          <p className="confessr-swipe-hint">위로 쓸어올려 사연 보기</p>
+        </section>
+
+        {sorted.map((confession) => (
+          <ConfessionSlide
+            key={confession.id}
+            confession={confession}
+            mine={localIds.has(confession.id)}
+            commentCount={commentCount(confession.id)}
+            onOpenComments={setCommentsFor}
+            onRemove={remove}
+          />
+        ))}
+      </div>
+
+      {/* 고백하기 플로팅 — 고백권이 응모권이다 */}
+      <button
+        type="button"
+        className="confessr-add"
+        onClick={() => setComposerOpen(true)}
+        aria-label="고백 작성하기"
+      >
+        + 고백
+        <span className="confessr-add-ticket">{tickets}</span>
+      </button>
 
       {justConfessed && (
-        <p className="confess-done" role="status">
+        <p className="confessr-toast" role="status">
           고백 완료 - 사람들이 잔을 들면 라벨 인쇄 후보가 됩니다
         </p>
       )}
-
-      <section className="confess-mural" aria-label="개교 벽화 갤러리">
-        <p className="confess-mural-eyebrow">개교 벽화 · 단골집 벽에 뚜껑 붙이듯, 잔이 그림이 됩니다</p>
-        <div className="confess-mural-viewport">
-          <div className="confess-mural-track" ref={muralTrackRef} onScroll={onMuralScroll}>
-          <article
-            className="confess-mural-slide"
-            role="button"
-            tabIndex={0}
-            aria-label="이번 주 벽화 크게 보기"
-            onClick={() => setMuralOpen(0)}
-            onKeyDown={(e) => e.key === 'Enter' && setMuralOpen(0)}
-          >
-            <div className="confess-mural-stage">
-              <div className="confess-mural-float">
-                <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
-              </div>
-            </div>
-            <div className="confess-mural-copy">
-              <h2 className="confess-mural-title">이번 주 벽화 · 처음</h2>
-              <p className="confess-mural-desc">
-                누군가의 고백에 잔을 들면, 그 잔이 병뚜껑이 되어 글자를 채웁니다. '처음'
-                두 글자가 완성되면 이번 주 라벨이 실제로 인쇄됩니다.
-              </p>
-              <p className="confess-mural-count">
-                {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
-                {Math.round(muralRatio * 100)}%
-              </p>
-            </div>
-          </article>
-
-          {PAST_MURALS.map((mural, i) => (
-            <article
-              className="confess-mural-slide"
-              key={mural.key}
-              role="button"
-              tabIndex={0}
-              aria-label={`${mural.title} 크게 보기`}
-              onClick={() => setMuralOpen(i + 1)}
-              onKeyDown={(e) => e.key === 'Enter' && setMuralOpen(i + 1)}
-            >
-              <div className="confess-mural-stage">
-                <div className="confess-mural-float">
-                  <CapMosaic
-                    grid={pastGrids[i]}
-                    dot={5}
-                    filled={gridTotal(pastGrids[i])}
-                    animateIn
-                  />
-                </div>
-              </div>
-              <div className="confess-mural-copy">
-                <h2 className="confess-mural-title">
-                  {mural.title}
-                  <span className="confess-mural-done">완성</span>
-                </h2>
-                <p className="confess-mural-desc">{mural.desc}</p>
-                <p className="confess-mural-count">{mural.count}</p>
-              </div>
-            </article>
-          ))}
-          </div>
-
-          {muralIndex > 0 && (
-            <button
-              type="button"
-              className="confess-mural-nav is-prev"
-              onClick={() => goMural(muralIndex - 1)}
-              aria-label="이전 벽화"
-            >
-              ‹
-            </button>
-          )}
-          {muralIndex < 2 && (
-            <button
-              type="button"
-              className="confess-mural-nav is-next"
-              onClick={() => goMural(muralIndex + 1)}
-              aria-label="다음 벽화"
-            >
-              ›
-            </button>
-          )}
-        </div>
-
-        <div className="confess-mural-foot">
-          <div className="confess-mural-dots">
-            {[0, 1, 2].map((i) => (
-              <button
-                type="button"
-                key={i}
-                className={`confess-mural-dot${muralIndex === i ? ' is-active' : ''}`}
-                onClick={() => goMural(i)}
-                aria-label={`${i + 1}번째 벽화로 이동`}
-              />
-            ))}
-          </div>
-          <span className="confess-mural-hint">누르면 크게 · 옆으로 넘겨보세요</span>
-        </div>
-      </section>
 
       <AnimatePresence>
         {muralOpen === 0 && (
@@ -234,89 +291,68 @@ export default function Confess() {
             onClose={() => setMuralOpen(null)}
           />
         )}
-        {reelsOpen && (
-          <ReelsView key="reels" confessions={sorted} onClose={() => setReelsOpen(false)} />
+
+        {commentsFor && (
+          <CommentsSheet
+            key={`comments-${commentsFor.id}`}
+            confession={commentsFor}
+            onClose={() => setCommentsFor(null)}
+            onChanged={() => setCommentVersion((v) => v + 1)}
+          />
+        )}
+
+        {composerOpen && (
+          <motion.div
+            key="composer"
+            className="confessr-sheetwrap"
+            onClick={() => setComposerOpen(false)}
+            initial={reducedMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reducedMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.18 }}
+          >
+            <motion.div
+              className="confessr-sheet"
+              onClick={(e) => e.stopPropagation()}
+              initial={reducedMotion ? false : { y: '100%' }}
+              animate={{ y: 0 }}
+              exit={reducedMotion ? undefined : { y: '100%' }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
+            >
+              {tickets > 0 ? (
+                <>
+                  <p className="confessr-sheet-title">나의 처음 고백하기</p>
+                  <Composer
+                    key={fromCourse?.slug ?? 'plain'}
+                    placeholder="○○이 처음입니다…"
+                    helper={
+                      fromCourse
+                        ? `'${fromCourse.title}' 수업에서 온 고백 · 고백권 ${tickets}장`
+                        : `고백권 ${tickets}장 · 병 하나당 한 번, 익명 보장`
+                    }
+                    submitLabel="고백하기"
+                    rows={3}
+                    initialValue={fromCourse ? `${confessionOpener(fromCourse)} ` : ''}
+                    onSubmit={submitConfession}
+                  />
+                </>
+              ) : (
+                <div className="confessr-locked">
+                  <p className="confessr-sheet-title">고백은 병 하나당 한 번입니다</p>
+                  <p className="confessr-locked-sub">
+                    새 처음처럼의 뚜껑으로 입장하면 고백권이 다시 생깁니다.
+                    <br />
+                    그동안 다른 처음에 잔과 조언을 건네보세요.
+                  </p>
+                  <Link to="/" className="confessr-locked-btn">
+                    뚜껑 찍으러 가기 →
+                  </Link>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
-
-      {tickets > 0 ? (
-        <section className="confess-compose" aria-label="고백 작성">
-          <Composer
-            key={fromCourse?.slug ?? 'plain'}
-            placeholder="○○이 처음입니다…"
-            helper={
-              fromCourse
-                ? `'${fromCourse.title}' 수업에서 온 고백 · 고백권 ${tickets}장`
-                : `고백권 ${tickets}장 · 병 하나당 한 번, 익명 보장`
-            }
-            submitLabel="고백하기"
-            rows={3}
-            initialValue={fromCourse ? `${confessionOpener(fromCourse)} ` : ''}
-            onSubmit={submit}
-          />
-        </section>
-      ) : (
-        <section className="confess-locked" aria-label="고백권 없음">
-          <p className="confess-locked-title">고백은 병 하나당 한 번입니다</p>
-          <p className="confess-locked-sub">
-            새 처음처럼의 뚜껑으로 입장하면 고백권이 다시 생깁니다.
-            <br />
-            그동안 다른 처음에 잔과 조언을 건네보세요. 조언은 무제한이니까.
-          </p>
-          <Link to="/" className="confess-locked-btn">
-            뚜껑 찍으러 가기 →
-          </Link>
-        </section>
-      )}
-
-      <Link to="/app/confess/vote" className="confess-vote">
-        <span className="confess-vote-tag">주간 공지</span>
-        <span className="confess-vote-body">
-          라벨 투표 진행 중 · 후보 {items.filter((c) => c.cheers >= LABEL_THRESHOLD).length}편
-        </span>
-        <span className="confess-vote-arrow">투표하기 →</span>
-      </Link>
-
-      <div className="confess-feedhead">
-        <span className="confess-feedcount">고백 {items.length}편</span>
-        <div className="confess-feedtools">
-          <button
-            type="button"
-            className="confess-reels-btn"
-            onClick={() => setReelsOpen(true)}
-            aria-label="고백을 한 장씩 몰입해서 보기"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="13"
-              height="13"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <rect x="5" y="3" width="14" height="18" rx="2.5" />
-              <path d="M12 8v5m0 0-2.2-2.2M12 13l2.2-2.2" />
-            </svg>
-            한 장씩
-          </button>
-          <SortToggle value={sort} onChange={setSort} />
-        </div>
-      </div>
-
-      <ul className="confess-feed" aria-label="고백 피드">
-        {sorted.map((confession) => (
-          <li key={confession.id}>
-            <ConfessionCard
-              confession={confession}
-              mine={localIds.has(confession.id)}
-              onRemove={remove}
-            />
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }
