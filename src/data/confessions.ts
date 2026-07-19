@@ -4,6 +4,7 @@ export type Confession = {
   text: string
   cheers: number
   courseSlug?: string // 어느 수업(강의실)에서 온 고백인지 — 열람→고백 루프의 연결 고리
+  photo?: string // 릴스 뒷면 '그날의 사진' (public/photos/*) — 없으면 일러스트 폴백
 }
 
 // 부록 B 시드 — 문구 수정 금지
@@ -26,6 +27,7 @@ export const CONFESSIONS: Confession[] = [
     text: '오늘 첫 출근이었습니다. 점심 메뉴 고르는 것도 시험 같았습니다.',
     cheers: 1290,
     courseSlug: 'first-hoesik',
+    photo: '/photos/first-hoesik.png',
   },
   {
     id: 'confession-4',

@@ -262,7 +262,7 @@ export default function MuralView({
         )}
       </div>
 
-      {/* 기여 — 버튼이 아니라 테이블 위에 놓인 잔 */}
+      {/* 기여 — 손에 쥔 내 뚜껑. 누르면 벽화에 날아가 붙는다 */}
       {live && (
         <div className="muralview-table">
           <motion.button
@@ -271,31 +271,36 @@ export default function MuralView({
             className="muralview-glass"
             onClick={launch}
             disabled={complete}
-            aria-label="잔을 탭해 건배 — 뚜껑이 벽화에 박힙니다"
-            animate={clink > 0 && !reducedMotion ? { rotate: [0, -16, 10, 0] } : undefined}
-            transition={{ duration: 0.4 }}
+            aria-label="뚜껑을 눌러 벽화에 붙이기"
+            animate={clink > 0 && !reducedMotion ? { scale: [1, 0.82, 1.06, 1] } : undefined}
+            transition={{ duration: 0.35 }}
             key={clink}
           >
-            <svg
-              viewBox="0 0 40 44"
-              width="44"
-              height="48"
-              aria-hidden="true"
-            >
-              <path d="M12.5 19 11.6 6h16.8l-.9 13Z" fill="var(--amber)" />
-              <path
-                d="M11 6h18l-1.9 28.5a3.2 3.2 0 0 1-3.2 3H16.1a3.2 3.2 0 0 1-3.2-3L11 6Z"
+            <svg viewBox="0 0 48 48" width="46" height="46" aria-hidden="true">
+              <defs>
+                <radialGradient id="mv-mycap" cx="0.32" cy="0.28" r="0.85">
+                  <stop offset="0%" stopColor="#f5c06a" />
+                  <stop offset="55%" stopColor="#E8A13D" />
+                  <stop offset="100%" stopColor="#8a5e18" />
+                </radialGradient>
+              </defs>
+              <circle cx="24" cy="24" r="20" fill="url(#mv-mycap)" />
+              <circle
+                cx="24"
+                cy="24"
+                r="17"
                 fill="none"
-                stroke="var(--paper)"
-                strokeWidth="2.4"
+                stroke="#7a5213"
+                strokeWidth="3"
                 strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeDasharray="0.1 6.4"
+                opacity="0.85"
               />
-              <ellipse cx="15.5" cy="14" rx="1.7" ry="4.5" fill="#ffffff" opacity="0.35" />
+              <ellipse cx="18" cy="17" rx="5.5" ry="3.5" fill="#ffffff" opacity="0.4" />
             </svg>
           </motion.button>
           <p className="muralview-table-hint">
-            {complete ? '벽화가 완성됐습니다!' : '잔을 탭해 건배 — 뚜껑이 벽화에 박힙니다'}
+            {complete ? '벽화가 완성됐습니다!' : '내 뚜껑을 눌러 벽화에 붙여보세요'}
           </p>
         </div>
       )}

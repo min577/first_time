@@ -214,6 +214,7 @@ export default function Confess() {
       <AnimatePresence>
         {muralOpen === 0 && (
           <MuralView
+            key="mural-live"
             grid={gridThisWeek}
             title="이번 주 벽화 · 처음"
             desc="누군가의 고백에 잔을 들면 그 잔이 병뚜껑이 되어 글자를 채웁니다. '처음' 두 글자가 완성되면 이번 주 라벨이 실제로 인쇄됩니다."
@@ -225,6 +226,7 @@ export default function Confess() {
         )}
         {muralOpen !== null && muralOpen > 0 && (
           <MuralView
+            key={`mural-past-${muralOpen}`}
             grid={pastGrids[muralOpen - 1]}
             title={PAST_MURALS[muralOpen - 1].title}
             desc={PAST_MURALS[muralOpen - 1].desc}
@@ -232,7 +234,9 @@ export default function Confess() {
             onClose={() => setMuralOpen(null)}
           />
         )}
-        {reelsOpen && <ReelsView confessions={sorted} onClose={() => setReelsOpen(false)} />}
+        {reelsOpen && (
+          <ReelsView key="reels" confessions={sorted} onClose={() => setReelsOpen(false)} />
+        )}
       </AnimatePresence>
 
       {tickets > 0 ? (

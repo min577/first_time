@@ -161,7 +161,16 @@ export default function ReelsView({ confessions, startIndex = 0, onClose }: Prop
                   </div>
                   <div className="reels-face reels-back">
                     <div className="reels-polaroid">
-                      <SojuScene variant={variant} />
+                      {confession.photo ? (
+                        <img
+                          className="reels-photo-img"
+                          src={confession.photo}
+                          alt="그날의 사진"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <SojuScene variant={variant} />
+                      )}
                       <p className="reels-polaroid-caption">{confession.author}, 그날 밤</p>
                     </div>
                   </div>
