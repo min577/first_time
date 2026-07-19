@@ -25,6 +25,13 @@ export default function ToastMaker() {
   const [result, setResult] = useState<Result | null>(null)
   const [copied, setCopied] = useState(false)
 
+  // 자리를 바꾸면 이전 자리의 건배사는 치운다
+  const pickOccasion = (next: Occasion) => {
+    setOccasion(next)
+    setResult(null)
+    setCopied(false)
+  }
+
   const copy = async () => {
     if (!result) return
     try {
@@ -61,7 +68,7 @@ export default function ToastMaker() {
             role="radio"
             aria-checked={occasion === item}
             className={`toast-occasion${occasion === item ? ' is-active' : ''}`}
-            onClick={() => setOccasion(item)}
+            onClick={() => pickOccasion(item)}
           >
             {item}
           </button>
