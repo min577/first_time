@@ -5,31 +5,31 @@ import { confessionOpener, findCourse } from '../data/courses'
 import { newId, readJSON, useLocalList, writeJSON } from '../hooks/useLocalList'
 import { AnimatePresence } from 'framer-motion'
 import ConfessionCard from '../components/ConfessionCard'
-import CapMosaic, { mosaicTotal } from '../components/CapMosaic'
+import CapMosaic from '../components/CapMosaic'
+import { gridTotal, useTextDots } from '../components/mosaicText'
 import MuralView from '../components/MuralView'
 import ReelsView from '../components/ReelsView'
 import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
 
-// 개교 벽화: 모두의 잔(뚜껑)이 병 하나를 채우면 이번 주 라벨이 인쇄소로 간다
+// 개교 벽화: 모두의 잔(뚜껑)이 글자를 완성하면 이번 주 라벨이 인쇄소로 간다
 const MURAL_GOAL = 20000
-const BOTTLE_DOTS = mosaicTotal('bottle')
 
-// 벽화 갤러리 - 완성된 지난 벽화들. 캠페인이 살아 움직여 왔다는 증거
+// 벽화 갤러리 - 완성된 지난 글자들. 캠페인이 살아 움직여 왔다는 증거
 const PAST_MURALS = [
   {
     key: 'last-week',
-    shape: 'glass' as const,
-    title: '지난주의 잔',
-    desc: "지난주에 다 함께 완성한 그림입니다. '보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다'가 라벨 2호로 인쇄됐습니다.",
+    text: '건배',
+    title: '지난주 벽화 · 건배',
+    desc: "지난주에 다 함께 완성한 글자입니다. '보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다'가 라벨 2호로 인쇄됐습니다.",
     count: '18,204잔으로 완성',
   },
   {
     key: 'anniversary',
-    shape: 'cap' as const,
-    title: '개교 기념 병뚜껑',
-    desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 그림입니다.',
+    text: '20',
+    title: '개교 기념 · 20',
+    desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 글자입니다.',
     count: '32,000잔으로 완성',
   },
 ]
@@ -58,9 +58,15 @@ export default function Confess() {
     return () => window.removeEventListener('chg:raise', onRaise)
   }, [])
 
+  // 글자 도트 그리드 - 이번 주 '처음', 지난주 '건배', 개교 기념 '20'
+  const gridThisWeek = useTextDots('처음', 20)
+  const gridLastWeek = useTextDots('건배', 20)
+  const gridAnniv = useTextDots('20', 13)
+  const pastGrids = [gridLastWeek, gridAnniv]
+
   const muralCheers = items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount + muralExtra
   const muralRatio = Math.min(muralCheers / MURAL_GOAL, 1)
-  const muralFilled = Math.round(muralRatio * BOTTLE_DOTS)
+  const muralFilled = Math.round(muralRatio * gridTotal(gridThisWeek))
 
   // 피드 정렬 — 최신순(내 글 먼저) / 인기순(잔 많이 받은 처음 먼저)
   const [sort, setSort] = useState<SortMode>('latest')
@@ -119,14 +125,14 @@ export default function Confess() {
           >
             <div className="confess-mural-stage">
               <div className="confess-mural-float">
-                <CapMosaic shape="bottle" dot={6} filled={muralFilled} animateIn />
+                <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
               </div>
             </div>
             <div className="confess-mural-copy">
-              <h2 className="confess-mural-title">이번 주의 병</h2>
+              <h2 className="confess-mural-title">이번 주 벽화 · 처음</h2>
               <p className="confess-mural-desc">
-                누군가의 고백에 잔을 들면, 그 잔이 병뚜껑이 되어 여기에 쌓입니다. 병이 가득
-                차면 이번 주 라벨이 실제로 인쇄됩니다.
+                누군가의 고백에 잔을 들면, 그 잔이 병뚜껑이 되어 글자를 채웁니다. '처음'
+                두 글자가 완성되면 이번 주 라벨이 실제로 인쇄됩니다.
               </p>
               <p className="confess-mural-count">
                 {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
@@ -148,9 +154,9 @@ export default function Confess() {
               <div className="confess-mural-stage">
                 <div className="confess-mural-float">
                   <CapMosaic
-                    shape={mural.shape}
-                    dot={6}
-                    filled={mosaicTotal(mural.shape)}
+                    grid={pastGrids[i]}
+                    dot={5}
+                    filled={gridTotal(pastGrids[i])}
                     animateIn
                   />
                 </div>
@@ -208,9 +214,9 @@ export default function Confess() {
       <AnimatePresence>
         {muralOpen === 0 && (
           <MuralView
-            shape="bottle"
-            title="이번 주의 병"
-            desc="누군가의 고백에 잔을 들면 그 잔이 병뚜껑이 되어 쌓입니다. 병이 가득 차면 이번 주 라벨이 실제로 인쇄됩니다."
+            grid={gridThisWeek}
+            title="이번 주 벽화 · 처음"
+            desc="누군가의 고백에 잔을 들면 그 잔이 병뚜껑이 되어 글자를 채웁니다. '처음' 두 글자가 완성되면 이번 주 라벨이 실제로 인쇄됩니다."
             live
             baseCheers={items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount}
             goal={MURAL_GOAL}
@@ -219,7 +225,7 @@ export default function Confess() {
         )}
         {muralOpen !== null && muralOpen > 0 && (
           <MuralView
-            shape={PAST_MURALS[muralOpen - 1].shape}
+            grid={pastGrids[muralOpen - 1]}
             title={PAST_MURALS[muralOpen - 1].title}
             desc={PAST_MURALS[muralOpen - 1].desc}
             doneCount={PAST_MURALS[muralOpen - 1].count}

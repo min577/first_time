@@ -18,6 +18,12 @@
   border: 1px dashed var(--line);
 }
 
+/* 글자 획 밖 — 자리만 차지하고 보이지 않는다 */
+.capmosaic-dot.is-void {
+  visibility: hidden;
+  border: none;
+}
+
 /* 병뚜껑 — 유리 하이라이트가 도는 입체 캡 */
 .capmosaic-dot.is-filled {
   border: none;

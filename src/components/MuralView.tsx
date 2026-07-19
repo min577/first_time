@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { mosaicRows, mosaicTotal, type MosaicShape } from './CapMosaic'
+import { gridOrders, gridTotal, type DotGrid } from './mosaicText'
 import { readJSON, writeJSON } from '../hooks/useLocalList'
 import './MuralView.css'
 
-const CAP_R = 9 // 뚜껑 반지름(px) — 확대 뷰에서는 톱니·하이라이트가 보이는 크기
-const GAP = 5
+const CAP_R = 7 // 뚜껑 반지름(px) — 확대 뷰에서는 톱니·하이라이트가 보이는 크기
+const GAP = 4
 
 type Flight = { id: number; sx: number; sy: number; tx: number; ty: number; size: number }
 
 type Props = {
-  shape: MosaicShape
+  grid: DotGrid // 글자 도트 그리드
   title: string
   desc: string
   live?: boolean // 진행 중인 벽화 — 잔을 탭해 직접 뚜껑을 보탤 수 있다
@@ -20,9 +20,9 @@ type Props = {
   onClose: () => void
 }
 
-// 벽화 확대 뷰: 잔을 탭하면 뚜껑이 포물선으로 날아가 벽화에 박힌다
+// 벽화 확대 뷰: 잔을 탭하면 뚜껑이 포물선으로 날아가 글자에 박힌다
 export default function MuralView({
-  shape,
+  grid,
   title,
   desc,
   live = false,
@@ -32,8 +32,8 @@ export default function MuralView({
   onClose,
 }: Props) {
   const reducedMotion = useReducedMotion()
-  const rows = mosaicRows(shape)
-  const total = mosaicTotal(shape)
+  const total = gridTotal(grid)
+  const orders = useMemo(() => gridOrders(grid), [grid])
 
   const containerRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
@@ -67,33 +67,26 @@ export default function MuralView({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  // 아래 행부터 채우는 순번 계산 (CapMosaic과 동일 규칙)
-  const rowStart: number[] = new Array(rows.length)
-  let below = 0
-  for (let i = rows.length - 1; i >= 0; i -= 1) {
-    rowStart[i] = below
-    below += rows[i]
-  }
-
   const cell = CAP_R * 2 + GAP
-  const maxW = Math.max(...rows)
-  const width = maxW * cell
-  const height = rows.length * cell
+  const cols = grid[0]?.length ?? 1
+  const width = cols * cell
+  const height = grid.length * cell
 
-  // 아래에서부터 order번째 소켓의 SVG 좌표
-  const capPos = (order: number) => {
-    for (let rowIdx = rows.length - 1; rowIdx >= 0; rowIdx -= 1) {
-      const start = rowStart[rowIdx]
-      if (order >= start && order < start + rows[rowIdx]) {
-        const i = order - start
-        return {
-          cx: (width - rows[rowIdx] * cell) / 2 + i * cell + cell / 2,
-          cy: rowIdx * cell + cell / 2,
+  // order번째 뚜껑의 SVG 좌표 (아래 행부터, 왼쪽에서 오른쪽)
+  const positions = useMemo(() => {
+    const out: { cx: number; cy: number }[] = []
+    for (let r = grid.length - 1; r >= 0; r -= 1) {
+      for (let c = 0; c < grid[r].length; c += 1) {
+        if (grid[r][c]) out[orders[r][c] as number] = {
+          cx: c * cell + cell / 2,
+          cy: r * cell + cell / 2,
         }
       }
     }
-    return { cx: width / 2, cy: height / 2 }
-  }
+    return out
+  }, [grid, orders, cell])
+
+  const capPos = (order: number) => positions[order] ?? { cx: width / 2, cy: height / 2 }
 
   const commit = () => {
     setMyCaps((prev) => {
@@ -171,7 +164,7 @@ export default function MuralView({
           ref={svgRef}
           viewBox={`0 0 ${width} ${height}`}
           className="muralview-art"
-          style={{ width: width * 1.32 }}
+          style={{ width: Math.min(width * 1.05, 300) }}
           initial={reducedMotion ? false : { scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -188,17 +181,18 @@ export default function MuralView({
               <stop offset="100%" stopColor="#8a5e18" />
             </radialGradient>
           </defs>
-          {rows.map((rowWidth, rowIdx) =>
-            Array.from({ length: rowWidth }, (_, i) => {
-              const order = rowStart[rowIdx] + i
+          {grid.map((row, rowIdx) =>
+            row.map((isLetter, colIdx) => {
+              if (!isLetter) return null
+              const order = orders[rowIdx][colIdx] as number
               const isFilled = order < filled
               const isMine = isFilled && order >= filled - amberTail
-              const cx = (width - rowWidth * cell) / 2 + i * cell + cell / 2
+              const cx = colIdx * cell + cell / 2
               const cy = rowIdx * cell + cell / 2
               if (!isFilled) {
                 return (
                   <circle
-                    key={`${rowIdx}-${i}`}
+                    key={`${rowIdx}-${colIdx}`}
                     cx={cx}
                     cy={cy}
                     r={CAP_R - 1}
@@ -211,7 +205,7 @@ export default function MuralView({
               }
               return (
                 <g
-                  key={`${rowIdx}-${i}`}
+                  key={`${rowIdx}-${colIdx}`}
                   className="muralview-cap"
                   style={{ animationDelay: waveDone ? '0ms' : `${order * 10}ms` }}
                 >

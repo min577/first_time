@@ -15,11 +15,79 @@ type Props = {
   onClose: () => void
 }
 
+// 그날의 술상 — 사연마다 소품이 다른 폴라로이드 속 장면
+function SojuScene({ variant }: { variant: number }) {
+  return (
+    <svg viewBox="0 0 200 150" className="reels-scene" aria-hidden="true">
+      {/* 밤의 방 */}
+      <rect x="0" y="0" width="200" height="150" fill="#12241c" />
+      <circle cx="100" cy="14" r="30" fill="#f6e7c1" opacity="0.14" />
+      <circle cx="100" cy="12" r="13" fill="#f6e7c1" opacity="0.28" />
+      {/* 테이블 */}
+      <rect x="0" y="108" width="200" height="42" fill="#3a2b20" />
+      <rect x="0" y="108" width="200" height="3" fill="#54402f" />
+      {/* 처음처럼 병 */}
+      <rect x="84" y="34" width="9" height="18" fill="#1e8a62" />
+      <rect x="82.5" y="27" width="12" height="9" rx="2.5" fill="#0B5C3F" />
+      <rect x="77" y="48" width="23" height="62" rx="7" fill="#1e8a62" />
+      <rect x="80" y="68" width="17" height="26" rx="2" fill="#f6f3e8" />
+      <line x1="83" y1="76" x2="94" y2="76" stroke="#0B5C3F" strokeWidth="2.4" />
+      <line x1="83" y1="82" x2="94" y2="82" stroke="#0B5C3F" strokeWidth="2.4" />
+      <ellipse cx="82" cy="60" rx="2" ry="9" fill="#ffffff" opacity="0.25" />
+      {/* 잔 */}
+      <path d="M112,92 L114.5,111 L124.5,111 L127,92 Z" fill="#0d1b15" stroke="#d9d4c5" strokeWidth="2" />
+      <path d="M114,100 L115.5,110 L123.5,110 L125,100 Z" fill="#E8A13D" />
+      {/* 소품 - 사연마다 다르다 */}
+      {variant === 0 && (
+        <g>
+          <rect x="42" y="86" width="22" height="24" rx="3" fill="#d94f35" />
+          <ellipse cx="53" cy="86" rx="11" ry="3.5" fill="#f3ede0" />
+          <path d="M46,92 h14 M46,98 h14" stroke="#b53a24" strokeWidth="2" />
+        </g>
+      )}
+      {variant === 1 && (
+        <g transform="rotate(-5 52 102)">
+          <rect x="38" y="95" width="28" height="16" rx="2" fill="#ece6d4" />
+          <line x1="42" y1="100" x2="60" y2="100" stroke="#9a9381" strokeWidth="1.6" />
+          <line x1="42" y1="105" x2="56" y2="105" stroke="#9a9381" strokeWidth="1.6" />
+          <rect x="60" y="88" width="2.6" height="14" rx="1.3" fill="#c9a24b" transform="rotate(28 61 95)" />
+        </g>
+      )}
+      {variant === 2 && (
+        <g>
+          <circle cx="49" cy="104" r="7" fill="#f0932f" />
+          <circle cx="62" cy="107" r="6" fill="#f0932f" />
+          <path d="M49,97 q2,-3 5,-3" stroke="#3f7d4e" strokeWidth="2" fill="none" />
+        </g>
+      )}
+      {variant === 3 && (
+        <g>
+          {/* 마주 앉은 사람의 잔 - 같이 마신 밤 */}
+          <path d="M46,92 L48.5,111 L58.5,111 L61,92 Z" fill="#0d1b15" stroke="#d9d4c5" strokeWidth="2" />
+          <path d="M48,100 L49.5,110 L57.5,110 L59,100 Z" fill="#E8A13D" />
+        </g>
+      )}
+      {/* 비네트 */}
+      <rect x="0" y="0" width="200" height="150" fill="none" stroke="#0a1510" strokeWidth="10" opacity="0.35" />
+    </svg>
+  )
+}
+
 // 릴스식 몰입 보기: 한 화면에 하나의 처음, 위로 쓸어올려 다음 처음으로
 export default function ReelsView({ confessions, startIndex = 0, onClose }: Props) {
   const reducedMotion = useReducedMotion()
   const trackRef = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(startIndex)
+  const [flipped, setFlipped] = useState<Set<string>>(new Set())
+
+  const toggleFlip = (id: string) => {
+    setFlipped((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -64,6 +132,10 @@ export default function ReelsView({ confessions, startIndex = 0, onClose }: Prop
       <div className="reels-track" ref={trackRef} onScroll={onScroll}>
         {confessions.map((confession) => {
           const course = findCourse(confession.courseSlug)
+          // 사연마다 다른 그날의 술상이 나온다
+          const variant =
+            Array.from(confession.id).reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % 4
+          const isFlipped = flipped.has(confession.id)
           return (
             <article className="reels-slide" key={confession.id}>
               {confession.cheers >= LABEL_THRESHOLD && (
@@ -71,8 +143,30 @@ export default function ReelsView({ confessions, startIndex = 0, onClose }: Prop
                   <LabelBadge />
                 </div>
               )}
-              <p className="reels-text">"{confession.text}"</p>
-              <p className="reels-author">— {confession.author}</p>
+
+              {/* 문구를 누르면 카드가 뒤집히며 그날의 사진이 나온다 */}
+              <div
+                className="reels-card"
+                role="button"
+                tabIndex={0}
+                aria-label={isFlipped ? '사연으로 돌아가기' : '그날의 사진 보기'}
+                onClick={() => toggleFlip(confession.id)}
+                onKeyDown={(e) => e.key === 'Enter' && toggleFlip(confession.id)}
+              >
+                <div className={`reels-card-inner${isFlipped ? ' is-flipped' : ''}`}>
+                  <div className="reels-face reels-front">
+                    <p className="reels-text">"{confession.text}"</p>
+                    <p className="reels-author">— {confession.author}</p>
+                    <span className="reels-flip-hint">누르면 그날의 사진</span>
+                  </div>
+                  <div className="reels-face reels-back">
+                    <div className="reels-polaroid">
+                      <SojuScene variant={variant} />
+                      <p className="reels-polaroid-caption">{confession.author}, 그날 밤</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div className="reels-actions">
                 <RaiseButton id={confession.id} count={confession.cheers} />
