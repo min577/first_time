@@ -23,6 +23,12 @@ export default function Vote() {
   const total = candidates.reduce((sum, c) => sum + countOf(c), 0)
 
   const vote = (id: string) => {
+    // 내 표를 다시 누르면 취소
+    if (myVote === id) {
+      writeJSON('chg.vote', null)
+      setMyVote(null)
+      return
+    }
     if (myVote) return
     writeJSON('chg.vote', id)
     setMyVote(id)
@@ -60,10 +66,12 @@ export default function Vote() {
                 type="button"
                 className="vote-btn"
                 onClick={() => vote(confession.id)}
-                disabled={myVote !== null}
-                aria-label={`이 처음에 투표: ${confession.text}`}
+                disabled={myVote !== null && !picked}
+                aria-label={
+                  picked ? '투표 취소하기' : `이 처음에 투표: ${confession.text}`
+                }
               >
-                {picked ? '투표 완료' : '이 처음에 투표'}
+                {picked ? '투표 완료 · 다시 누르면 취소' : '이 처음에 투표'}
               </button>
             </li>
           )

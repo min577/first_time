@@ -25,9 +25,17 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
   const total = count + (raised ? 1 : 0)
 
   const raise = () => {
-    if (raised) return
-    setRaised(true)
     const ids = readRaisedIds()
+
+    // 다시 누르면 잔을 거둔다 - 마음이 바뀌는 것도 존중
+    if (raised) {
+      setRaised(false)
+      writeJSON(RAISED_KEY, ids.filter((raisedId) => raisedId !== id))
+      window.dispatchEvent(new Event('chg:raise'))
+      return
+    }
+
+    setRaised(true)
     if (!ids.includes(id)) writeJSON(RAISED_KEY, [...ids, id])
     if (!reducedMotion) setFloating(true)
     onRaise?.()
@@ -40,8 +48,11 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
       type="button"
       className={`raise-btn${raised ? ' is-raised' : ''}`}
       onClick={raise}
-      disabled={raised}
-      aria-label={raised ? `잔을 들었습니다. 현재 ${total.toLocaleString()}잔` : '이 글에 잔 들기'}
+      aria-label={
+        raised
+          ? `잔을 들었습니다. 다시 누르면 거둡니다. 현재 ${total.toLocaleString()}잔`
+          : '이 글에 잔 들기'
+      }
     >
       <motion.span
         className="raise-glass"

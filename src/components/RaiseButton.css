@@ -18,7 +18,6 @@
   background: var(--amber-pale);
   border-color: var(--amber);
   color: var(--amber-deep);
-  cursor: default;
 }
 
 .raise-glass {

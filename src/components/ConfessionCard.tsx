@@ -89,7 +89,7 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
             </ul>
           )}
           <Composer
-            placeholder="이 처음에 조언 한 줄 (무제한)"
+            placeholder="이 처음에 조언 한 줄"
             submitLabel="조언 남기기"
             rows={1}
             adviceGuard
