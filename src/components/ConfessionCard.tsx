@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom'
 import type { Confession, ConfessionComment } from '../data/confessions'
 import { CONFESSION_COMMENTS, LABEL_THRESHOLD } from '../data/confessions'
 import { findCourse } from '../data/courses'
-import { newId, readJSON, useLocalList } from '../hooks/useLocalList'
+import { newId, useLocalList } from '../hooks/useLocalList'
 import RaiseButton from './RaiseButton'
 import LabelBadge from './LabelBadge'
-import CapMosaic, { mosaicTotal } from './CapMosaic'
 import Composer from './Composer'
 import './ConfessionCard.css'
 
@@ -18,27 +17,10 @@ type Props = {
 
 const NO_COMMENTS: ConfessionComment[] = []
 
-const GLASS_DOTS = mosaicTotal('glass')
-
 export default function ConfessionCard({ confession, mine = false, onRemove }: Props) {
   const [commentsOpen, setCommentsOpen] = useState(false)
-  // 내가 이미 든 잔도 모자이크에 반영한다
-  const [myCap, setMyCap] = useState(() =>
-    readJSON<string[]>('chg.raised', []).includes(confession.id) ? 1 : 0,
-  )
-  const [justRaised, setJustRaised] = useState(false)
   const course = findCourse(confession.courseSlug)
-
-  const cheers = confession.cheers + myCap
-  const isCandidate = cheers >= LABEL_THRESHOLD
-  const fillRatio = Math.min(cheers / LABEL_THRESHOLD, 1)
-  // 잔이 하나라도 있으면 뚜껑 하나는 보인다 — 내가 든 잔이 눈에 보여야 한다
-  const filledDots = cheers > 0 ? Math.max(1, Math.round(fillRatio * GLASS_DOTS)) : 0
-
-  const handleRaise = () => {
-    setMyCap(1)
-    setJustRaised(true)
-  }
+  const isCandidate = confession.cheers >= LABEL_THRESHOLD
 
   // 조언 댓글 — 고백(병당 1회)과 달리 무제한으로 달 수 있다
   const { items: comments, add: addComment } = useLocalList<ConfessionComment>(
@@ -82,18 +64,8 @@ export default function ConfessionCard({ confession, mine = false, onRemove }: P
             </button>
           )}
         </span>
-        <RaiseButton id={confession.id} count={confession.cheers} onRaise={handleRaise} />
+        <RaiseButton id={confession.id} count={confession.cheers} />
       </footer>
-
-      {/* 잔들이 뚜껑이 되어 잔 실루엣을 채운다 — 가득 차면(3,000잔) 라벨 인쇄 후보 */}
-      <div className="confession-mosaic">
-        <CapMosaic shape="glass" dot={5} filled={filledDots} justAdded={justRaised} />
-        <p className="confession-mosaic-caption">
-          {isCandidate
-            ? '잔이 가득 찼습니다 - 라벨 인쇄 후보'
-            : `뚜껑 ${cheers.toLocaleString()}개 / 3,000 · 잔이 가득 차면 라벨 인쇄 후보`}
-        </p>
-      </div>
 
       <button
         type="button"
