@@ -22,8 +22,14 @@
 }
 
 .splash-logo {
-  font-size: 40px;
-  margin: 10px 0 6px;
+  margin: 14px 0 4px;
+  line-height: 0;
+}
+
+.splash-logo-img {
+  width: 236px;
+  max-width: 78%;
+  height: auto;
 }
 
 .splash-subtitle {

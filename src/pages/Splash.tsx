@@ -10,7 +10,9 @@ export default function Splash() {
     <div className="splash">
       <header className="splash-head">
         <p className="splash-eyebrow">개교 20주년 · 처음처럼</p>
-        <h1 className="splash-logo">처음학개론</h1>
+        <h1 className="splash-logo">
+          <img src="/logo.png" alt="처음학개론" className="splash-logo-img" />
+        </h1>
         <p className="splash-subtitle">교수는 없고, 선배만 있는 수업</p>
       </header>
 
