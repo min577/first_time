@@ -14,12 +14,14 @@ export const CONFESSIONS: Confession[] = [
     author: '익명의 팀장',
     text: '팀장이 처음입니다. 사실 회의 진행하는 법을 아직도 모릅니다.',
     cheers: 3482,
+    photo: '/photos/first-meeting.jpg',
   },
   {
     id: 'confession-2',
     author: '마흔셋',
     text: '처음으로 아버지를 병원에 모시고 갔습니다. 보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다.',
     cheers: 5104,
+    photo: '/photos/first-guardian.jpg',
   },
   {
     id: 'confession-3',
