@@ -3,6 +3,7 @@
 }
 
 .device-screen {
+  position: relative; /* 벽화 확대 뷰 오버레이가 폰 화면 안에만 뜨도록 기준점 역할 */
   height: 100%;
   background: var(--paper);
 }

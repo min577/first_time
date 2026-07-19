@@ -14,6 +14,10 @@ export function mosaicTotal(shape: MosaicShape): number {
   return SHAPES[shape].reduce((a, b) => a + b, 0)
 }
 
+export function mosaicRows(shape: MosaicShape): number[] {
+  return SHAPES[shape]
+}
+
 type Props = {
   shape: MosaicShape
   filled: number // 채워진 뚜껑 수 (0..total)

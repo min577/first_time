@@ -3,8 +3,10 @@ import { Link, useLocation } from 'react-router-dom'
 import { CONFESSIONS, LABEL_THRESHOLD, type Confession } from '../data/confessions'
 import { confessionOpener, findCourse } from '../data/courses'
 import { newId, readJSON, useLocalList, writeJSON } from '../hooks/useLocalList'
+import { AnimatePresence } from 'framer-motion'
 import ConfessionCard from '../components/ConfessionCard'
 import CapMosaic, { mosaicTotal } from '../components/CapMosaic'
+import MuralView from '../components/MuralView'
 import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
@@ -43,15 +45,19 @@ export default function Confess() {
   const [tickets, setTickets] = useState(() => readJSON<number>('chg.tickets', 0))
   const [justConfessed, setJustConfessed] = useState(false)
 
-  // 개교 벽화 — 잔을 들 때마다 실시간으로 병이 차오른다
+  // 개교 벽화 — 잔을 들거나 벽화에 직접 뚜껑을 보탤 때마다 실시간으로 차오른다
   const [raisedCount, setRaisedCount] = useState(() => readJSON<string[]>('chg.raised', []).length)
+  const [muralExtra, setMuralExtra] = useState(() => readJSON<number>('chg.muralExtra', 0))
   useEffect(() => {
-    const onRaise = () => setRaisedCount(readJSON<string[]>('chg.raised', []).length)
+    const onRaise = () => {
+      setRaisedCount(readJSON<string[]>('chg.raised', []).length)
+      setMuralExtra(readJSON<number>('chg.muralExtra', 0))
+    }
     window.addEventListener('chg:raise', onRaise)
     return () => window.removeEventListener('chg:raise', onRaise)
   }, [])
 
-  const muralCheers = items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount
+  const muralCheers = items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount + muralExtra
   const muralRatio = Math.min(muralCheers / MURAL_GOAL, 1)
   const muralFilled = Math.round(muralRatio * BOTTLE_DOTS)
 
@@ -59,8 +65,9 @@ export default function Confess() {
   const [sort, setSort] = useState<SortMode>('latest')
   const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
 
-  // 벽화 갤러리 스와이프 위치
+  // 벽화 갤러리 스와이프 위치 + 확대 뷰
   const [muralIndex, setMuralIndex] = useState(0)
+  const [muralOpen, setMuralOpen] = useState<number | null>(null)
   const onMuralScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const el = e.currentTarget
     setMuralIndex(Math.round(el.scrollLeft / el.clientWidth))
@@ -90,7 +97,14 @@ export default function Confess() {
 
       <section className="confess-mural" aria-label="개교 벽화 갤러리">
         <div className="confess-mural-track" onScroll={onMuralScroll}>
-          <article className="confess-mural-slide">
+          <article
+            className="confess-mural-slide"
+            role="button"
+            tabIndex={0}
+            aria-label="이번 주 벽화 크게 보기"
+            onClick={() => setMuralOpen(0)}
+            onKeyDown={(e) => e.key === 'Enter' && setMuralOpen(0)}
+          >
             <div className="confess-mural-stage">
               <div className="confess-mural-float">
                 <CapMosaic shape="bottle" dot={6} filled={muralFilled} animateIn />
@@ -109,8 +123,16 @@ export default function Confess() {
             </div>
           </article>
 
-          {PAST_MURALS.map((mural) => (
-            <article className="confess-mural-slide" key={mural.key}>
+          {PAST_MURALS.map((mural, i) => (
+            <article
+              className="confess-mural-slide"
+              key={mural.key}
+              role="button"
+              tabIndex={0}
+              aria-label={`${mural.title} 크게 보기`}
+              onClick={() => setMuralOpen(i + 1)}
+              onKeyDown={(e) => e.key === 'Enter' && setMuralOpen(i + 1)}
+            >
               <div className="confess-mural-stage">
                 <div className="confess-mural-float">
                   <CapMosaic
@@ -142,9 +164,32 @@ export default function Confess() {
               />
             ))}
           </div>
-          <span className="confess-mural-hint">밀어서 지난 벽화 보기</span>
+          <span className="confess-mural-hint">누르면 크게 · 밀어서 지난 벽화</span>
         </div>
       </section>
+
+      <AnimatePresence>
+        {muralOpen === 0 && (
+          <MuralView
+            shape="bottle"
+            title="이번 주 벽화 · 병"
+            desc="잔을 들 때마다 뚜껑이 쌓입니다. 병이 가득 차면 이번 주 라벨이 인쇄소로 갑니다."
+            live
+            baseCheers={items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount}
+            goal={MURAL_GOAL}
+            onClose={() => setMuralOpen(null)}
+          />
+        )}
+        {muralOpen !== null && muralOpen > 0 && (
+          <MuralView
+            shape={PAST_MURALS[muralOpen - 1].shape}
+            title={PAST_MURALS[muralOpen - 1].title}
+            desc={PAST_MURALS[muralOpen - 1].desc}
+            doneCount={PAST_MURALS[muralOpen - 1].count}
+            onClose={() => setMuralOpen(null)}
+          />
+        )}
+      </AnimatePresence>
 
       {tickets > 0 ? (
         <section className="confess-compose" aria-label="고백 작성">
