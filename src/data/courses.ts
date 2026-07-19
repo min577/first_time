@@ -9,6 +9,7 @@ export type Course = {
   slug: string
   title: string
   category: string
+  comfort: string // 안내서 '들어가며' — 챕터를 여는 위로 한 줄
   tips: Tip[]
 }
 
@@ -20,6 +21,7 @@ export const COURSES: Course[] = [
     slug: 'first-drink',
     title: '술자리가 처음이라면',
     category: '학생편',
+    comfort: '취하려고 마시는 자리가 아니라, 곁에 있으려고 마시는 자리입니다. 서툰 건 아무도 기억하지 않아요.',
     tips: [
       {
         id: 'first-drink-1',
@@ -39,6 +41,7 @@ export const COURSES: Course[] = [
     slug: 'first-mt',
     title: 'MT가 처음이라면',
     category: '학생편',
+    comfort: '어색한 건 당신만이 아닙니다. 그 방의 절반이 처음입니다.',
     tips: [
       {
         id: 'first-mt-1',
@@ -58,6 +61,7 @@ export const COURSES: Course[] = [
     slug: 'first-game',
     title: '술게임이 처음이라면',
     category: '학생편',
+    comfort: '틀려도 벌주 한 잔이지, 사람을 평가하는 시험이 아닙니다.',
     tips: [
       {
         id: 'first-game-1',
@@ -71,6 +75,7 @@ export const COURSES: Course[] = [
     slug: 'first-hoesik',
     title: '회식이 처음이라면',
     category: '직장인편',
+    comfort: '회식이 무겁게 느껴진다면, 당신이 예의를 아는 사람이라는 뜻입니다.',
     tips: [
       {
         id: 'first-hoesik-1',
@@ -90,6 +95,7 @@ export const COURSES: Course[] = [
     slug: 'first-sales',
     title: '첫 영업 자리라면',
     category: '직장인편',
+    comfort: '잔을 채우는 손보다 끝까지 앉아 있는 마음이 더 오래 기억됩니다.',
     tips: [
       {
         id: 'first-sales-1',
@@ -103,6 +109,7 @@ export const COURSES: Course[] = [
     slug: 'first-solo',
     title: '혼술이 처음이라면',
     category: '직장인편',
+    comfort: '혼자 마시는 날이 있다는 건, 자신을 돌볼 줄 안다는 뜻입니다.',
     tips: [
       {
         id: 'first-solo-1',
@@ -116,6 +123,7 @@ export const COURSES: Course[] = [
     slug: 'first-mourning',
     title: '조문이 처음이라면',
     category: '인생편',
+    comfort: '서툰 절보다 와준 발걸음이 더 큰 위로입니다.',
     tips: [
       {
         id: 'first-mourning-1',
@@ -135,6 +143,7 @@ export const COURSES: Course[] = [
     slug: 'first-child',
     title: '자녀와의 첫 잔이라면',
     category: '인생편',
+    comfort: '떨린다는 건 이 순간을 소중히 여긴다는 증거입니다.',
     tips: [
       {
         id: 'first-child-1',

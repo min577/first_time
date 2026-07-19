@@ -4,7 +4,7 @@ import './TabBar.css'
 const TABS = [
   {
     to: '/app/courses',
-    label: '선배 한 줄',
+    label: '안내서',
     icon: (
       // 펼친 책
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

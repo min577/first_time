@@ -31,15 +31,22 @@ function CourseRoomView({ course }: { course: Course }) {
   return (
     <div className="course-room">
       <header className="room-head">
-        <Link to="/app/courses" className="room-back" aria-label="수강신청으로 돌아가기">
-          ← 수강신청
+        <Link to="/app/courses" className="room-back" aria-label="안내서 목록으로 돌아가기">
+          ← 안내서 목록
         </Link>
         <p className="room-category">{course.category}</p>
         <h1 className="room-title">{course.title}</h1>
-        <p className="room-sub">선배의 한 줄 {items.length}개 · 마음에 닿으면 잔을 들어주세요</p>
+        <p className="room-sub">먼저 겪은 사람들이 쓴 안내와 위로입니다</p>
       </header>
 
+      {/* 들어가며 - 챕터를 여는 위로 한 줄 */}
+      <blockquote className="room-comfort">
+        <p className="room-comfort-label">들어가며</p>
+        <p className="room-comfort-text">{course.comfort}</p>
+      </blockquote>
+
       <div className="room-sorthead">
+        <h2 className="room-section-title">안내 {items.length}줄</h2>
         <SortToggle value={sort} onChange={setSort} />
       </div>
 
@@ -52,10 +59,10 @@ function CourseRoomView({ course }: { course: Course }) {
       </ul>
 
       <section className="room-composer" aria-label="한 줄 남기기">
-        <h2 className="room-composer-title">나의 한 줄 남기기</h2>
+        <h2 className="room-composer-title">이 안내서에 한 줄 보태기</h2>
         <Composer
-          placeholder="다음 사람의 처음이 덜 무섭도록, 한 줄을 남겨주세요"
-          helper="남기는 순간, 당신도 선배가 됩니다"
+          placeholder="다음 사람의 처음이 덜 무섭도록, 안내 또는 위로 한 줄"
+          helper="남기는 순간, 당신도 이 안내서의 저자가 됩니다"
           submitLabel="한 줄 남기기"
           rows={2}
           adviceGuard

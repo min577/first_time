@@ -37,10 +37,45 @@
   color: var(--sub);
 }
 
+/* 들어가며 - 안내서 챕터를 여는 위로 한 줄 */
+.room-comfort {
+  margin-bottom: 20px;
+  padding: 18px 20px;
+  background: var(--green-pale);
+  border-radius: var(--radius-card);
+  text-align: center;
+}
+
+.room-comfort-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--green-light);
+  margin-bottom: 8px;
+}
+
+.room-comfort-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--green);
+  word-break: keep-all;
+}
+
 .room-sorthead {
   display: flex;
-  justify-content: flex-end;
+  align-items: baseline;
+  justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.room-section-title {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--sub);
 }
 
 .room-tips {

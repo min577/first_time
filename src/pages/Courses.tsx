@@ -9,12 +9,14 @@ export default function Courses() {
       <header className="courses-head">
         <p className="courses-eyebrow">개교 20주년 · 처음학개론</p>
         <h1 className="courses-title">
-          수강신청
+          처음 안내서
           <span className="courses-seal" aria-hidden="true">
             처음
           </span>
         </h1>
-        <p className="courses-sub">지금 내 앞에 온 '처음'을 고르세요. 교수는 없고, 선배만 있습니다.</p>
+        <p className="courses-sub">
+          지금 내 앞에 온 '처음'을 고르세요. 먼저 겪은 사람들이 쓴 안내와 위로가 있습니다.
+        </p>
         <StatusStrip />
       </header>
 
@@ -36,7 +38,7 @@ export default function Courses() {
                       <span className="course-title">{course.title}</span>
                     </span>
                     <span className="course-meta">
-                      선배의 한 줄 {course.tips.length}개
+                      안내 {course.tips.length}줄
                       <span className="course-arrow" aria-hidden="true">
                         →
                       </span>
