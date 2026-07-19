@@ -24,7 +24,7 @@ export const CONFESSIONS: Confession[] = [
   {
     id: 'confession-3',
     author: '익명의 신입',
-    text: '오늘 첫 출근이었습니다. 점심 메뉴 고르는 것도 시험 같았습니다.',
+    text: '오늘 첫 회식이었습니다. 잔을 채우는 타이밍도 시험 같았습니다.',
     cheers: 1290,
     courseSlug: 'first-hoesik',
     photo: '/photos/first-hoesik.png',
