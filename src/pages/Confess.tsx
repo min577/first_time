@@ -138,11 +138,6 @@ export default function Confess() {
   const [sort, setSort] = useState<SortMode>('latest')
   const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
   const trackRef = useRef<HTMLDivElement>(null)
-  const [index, setIndex] = useState(0)
-  const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const el = e.currentTarget
-    setIndex(Math.round(el.scrollTop / el.clientHeight))
-  }
 
   // 오버레이들
   const [muralOpen, setMuralOpen] = useState<number | null>(null)
@@ -185,21 +180,14 @@ export default function Confess() {
     <div className="confessr">
       {/* 상단 오버레이 바 */}
       <header className="confessr-top">
-        <span className="confessr-title">
-          처음 고백
-          {index > 0 && (
-            <span className="confessr-counter">
-              {index} / {sorted.length}
-            </span>
-          )}
-        </span>
+        <span className="confessr-title">처음 고백</span>
         <div className="confessr-tools">
           <SortToggle value={sort} onChange={setSort} />
         </div>
       </header>
 
       {/* 릴스 트랙: 첫 장은 개교 벽화, 이후 사연들 */}
-      <div className="confessr-track" ref={trackRef} onScroll={onScroll}>
+      <div className="confessr-track" ref={trackRef}>
         <section className="confessr-intro">
           <h1 className="confessr-hero">어른의 처음은 아무도 축하해주지 않는다</h1>
           <p className="confessr-hero-sub">여기선 털어놔도 됩니다. 익명이니까.</p>
