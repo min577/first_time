@@ -1,12 +1,19 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { TOAST_LEADS, TOAST_OCCASIONS, TOAST_RESPONSES, type Occasion } from '../data/toasts'
+import {
+  SOBER_TIPS,
+  TOAST_LEADS,
+  TOAST_OCCASIONS,
+  TOAST_RESPONSES,
+  type Occasion,
+} from '../data/toasts'
 import './ToastMaker.css'
 
 type Result = {
   key: number
   lead: string
   response: string
+  sober: string
 }
 
 function pick<T>(list: readonly T[], avoid?: T): T {
@@ -47,6 +54,7 @@ export default function ToastMaker() {
       key: (previous?.key ?? 0) + 1,
       lead: pick(TOAST_LEADS[occasion], previous?.lead),
       response: pick(TOAST_RESPONSES, previous?.response),
+      sober: pick(SOBER_TIPS, previous?.sober),
     }))
   }
 
@@ -100,7 +108,7 @@ export default function ToastMaker() {
               <p className="toast-card-label">후창</p>
               <p className="toast-card-response">“{result.response}”</p>
             </div>
-            <p className="toast-sober">건배 사이에 물도 함께 마셔요.</p>
+            <p className="toast-sober">{result.sober}</p>
             <div className="toast-actions">
               <button type="button" className="toast-copy" onClick={copy}>
                 {copied ? '복사했어요' : '복사하기'}
