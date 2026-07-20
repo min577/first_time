@@ -99,7 +99,7 @@ export default function ConfessionSlide({
           <div className="cslide-face cslide-front">
             <p className="cslide-text">"{confession.text}"</p>
             <p className="cslide-author">
-              — {confession.author}
+              - {confession.author}
               {mine && onRemove && (
                 <button
                   type="button"

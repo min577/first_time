@@ -88,7 +88,7 @@ export async function saveConfessionCard(confession: Confession) {
   ctx.font = '400 34px Pretendard, sans-serif'
   ctx.fillStyle = 'rgba(250,249,244,0.72)'
   const authorY = textTop + lines.length * lineHeight + 30
-  ctx.fillText(`— ${confession.author}`, W / 2, authorY)
+  ctx.fillText(`- ${confession.author}`, W / 2, authorY)
 
   // 잔 수 (앰버)
   ctx.font = '700 40px Pretendard, sans-serif'

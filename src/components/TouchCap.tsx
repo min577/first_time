@@ -79,7 +79,7 @@ export default function TouchCap({ onEntered }: Props) {
         onPointerUp={() => releaseHold(true)}
         onPointerLeave={() => releaseHold(false)}
         onTouchStart={handleTouchStart}
-        aria-label="입장하기 — 뚜껑을 화면에 대거나 탭하세요"
+        aria-label="입장하기 - 뚜껑을 화면에 대거나 탭하세요"
       >
         {pressing && !stamped && (
           <svg className="touchcap-holdring" viewBox="0 0 130 130" aria-hidden="true">
