@@ -49,7 +49,7 @@
 }
 
 .confessr-intro {
-  padding: var(--space-md) var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-md);
   border-bottom: 1px solid var(--color-on-brand-rule);
 }
 
@@ -69,7 +69,7 @@
 .confessr-mural {
   display: flex;
   width: 100%;
-  min-height: 132px;
+  min-height: 112px;
   align-items: center;
   justify-content: center;
   padding: var(--space-md);
@@ -96,24 +96,11 @@
   font-size: var(--text-sm);
 }
 
-.confessr-mural-link {
-  display: inline-flex;
-  min-height: var(--control-height);
-  align-items: center;
-  margin-top: var(--space-xs);
-  color: var(--color-on-brand);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  white-space: nowrap;
-}
-
 .confessr-pastchips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-  margin-top: var(--space-xs);
+  margin-top: var(--space-sm);
 }
 
 .confessr-pastchip {
@@ -134,7 +121,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  margin: var(--space-md) var(--space-md) var(--space-lg);
+  margin: var(--space-md) var(--space-md);
   padding: 8px;
   border: 1px solid var(--color-on-brand-rule);
   border-radius: var(--radius-card);

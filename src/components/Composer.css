@@ -35,6 +35,7 @@
 
 .composer-foot {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-xs);
@@ -42,9 +43,12 @@
 }
 
 .composer-helper {
+  min-width: 0;
   min-height: 1.5em;
+  flex: 1 1 12ch;
   color: var(--color-muted);
   font-size: var(--text-sm);
+  word-break: keep-all;
 }
 
 .composer-count {
@@ -55,6 +59,7 @@
 .composer-submit,
 .composer-guard-confirm,
 .composer-guard-pass {
+  flex: 0 0 auto;
   min-height: var(--control-height);
   padding-inline: var(--space-md);
   border-radius: var(--radius-control);

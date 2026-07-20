@@ -27,8 +27,8 @@ const PAST_MURALS = [
     text: '건배',
     title: '지난주 벽화',
     buttonLabel: '지난주 벽화 보기',
-    desc: '지난주에 모인 처음들이 완성한 글자입니다.',
-    count: '9,821개의 처음으로 완성',
+    desc: '지난주에 모인 뚜껑으로 완성한 글자예요.',
+    count: '9,821개의 처음으로 완성했어요.',
   },
   {
     key: 'anniversary',
@@ -36,7 +36,7 @@ const PAST_MURALS = [
     title: '처음처럼 20주년 벽화',
     buttonLabel: '20주년 벽화 보기',
     desc: '처음처럼 20주년에 모인 뚜껑으로 완성한 벽화예요.',
-    count: '20,000개의 처음으로 완성',
+    count: '20,000개의 처음으로 완성했어요.',
   },
 ]
 
@@ -83,7 +83,7 @@ function CommentsSheet({
         exit={reducedMotion ? undefined : { y: '100%' }}
         transition={{ duration: 0.28, ease: 'easeOut' }}
       >
-        <p className="confessr-sheet-title">조언 {comments.length}</p>
+        <p className="confessr-sheet-title">조언 {comments.length}개</p>
         <p className="confessr-sheet-quote">"{confession.text}"</p>
         {comments.length > 0 && (
           <ul className="confessr-comments" aria-label="조언 목록">
@@ -95,7 +95,7 @@ function CommentsSheet({
           </ul>
         )}
         <Composer
-          placeholder="이 처음에 조언 한 줄"
+          placeholder="이 처음에 도움이 될 조언을 적어주세요."
           submitLabel="조언 남기기"
           rows={1}
           adviceGuard
@@ -189,10 +189,9 @@ export default function Confess() {
             <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
           </button>
           <p className="confessr-mural-count">이번 주 벽화 {Math.round(muralRatio * 100)}%</p>
-          <p className="confessr-mural-desc">{muralCaps.toLocaleString()}개의 처음이 모였어요.</p>
-          <button type="button" className="confessr-mural-link" onClick={() => setMuralOpen(0)}>
-            벽화 크게 보기
-          </button>
+          <p className="confessr-mural-desc">
+            {muralCaps.toLocaleString()}개의 처음이 모였어요. 벽화를 누르면 크게 볼 수 있어요.
+          </p>
           <div className="confessr-pastchips">
             {PAST_MURALS.map((mural, i) => (
               <button
@@ -296,7 +295,7 @@ export default function Confess() {
                     placeholder="어떤 처음을 겪고 있는지 적어주세요."
                     helper={
                       fromCourse
-                        ? `${fromCourse.title} 강의에서 이어진 고백이에요. 남은 고백권 ${tickets}장`
+                        ? `'${fromCourse.title}' 강의에서 이어진 고백이에요 · 고백권 ${tickets}장`
                         : `남은 고백권 ${tickets}장 · 이름은 공개되지 않아요.`
                     }
                     submitLabel="고백하기"

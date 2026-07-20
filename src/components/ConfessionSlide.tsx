@@ -93,7 +93,12 @@ export default function ConfessionSlide({
         tabIndex={0}
         aria-label={isFlipped ? '사연으로 돌아가기' : '그날의 사진 보기'}
         onClick={() => setIsFlipped((f) => !f)}
-        onKeyDown={(e) => e.key === 'Enter' && setIsFlipped((f) => !f)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setIsFlipped((f) => !f)
+          }
+        }}
       >
         {isFlipped ? (
           <div className="cslide-face cslide-back">
