@@ -272,27 +272,71 @@ export default function MuralView({
             transition={{ duration: 0.35 }}
             key={clink}
           >
-            <svg viewBox="0 0 48 48" width="46" height="46" aria-hidden="true">
+            {/* 실제 처음처럼 병뚜껑 (윗면) - 초록 톱니 캡에 흰 붓글씨 로고 */}
+            <svg viewBox="0 0 52 52" width="50" height="50" aria-hidden="true">
               <defs>
-                <radialGradient id="mv-mycap" cx="0.32" cy="0.28" r="0.85">
-                  <stop offset="0%" stopColor="#f5c06a" />
-                  <stop offset="55%" stopColor="#E8A13D" />
-                  <stop offset="100%" stopColor="#8a5e18" />
+                <radialGradient id="mv-realcap" cx="0.35" cy="0.3" r="0.9">
+                  <stop offset="0%" stopColor="#4cbf7e" />
+                  <stop offset="55%" stopColor="#1e8a62" />
+                  <stop offset="100%" stopColor="#0b5c3f" />
                 </radialGradient>
               </defs>
-              <circle cx="24" cy="24" r="20" fill="url(#mv-mycap)" />
+              {/* 톱니 주름 */}
+              {Array.from({ length: 20 }, (_, i) => {
+                const angle = (i / 20) * Math.PI * 2
+                return (
+                  <circle
+                    key={i}
+                    cx={26 + Math.cos(angle) * 22}
+                    cy={26 + Math.sin(angle) * 22}
+                    r="2.6"
+                    fill="#0b5c3f"
+                  />
+                )
+              })}
+              <circle cx="26" cy="26" r="22" fill="url(#mv-realcap)" />
+              {/* 상판 프레스 라인 */}
               <circle
-                cx="24"
-                cy="24"
-                r="17"
+                cx="26"
+                cy="26"
+                r="18"
                 fill="none"
-                stroke="#7a5213"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray="0.1 6.4"
-                opacity="0.85"
+                stroke="rgba(255, 255, 255, 0.4)"
+                strokeWidth="1"
               />
-              <ellipse cx="18" cy="17" rx="5.5" ry="3.5" fill="#ffffff" opacity="0.4" />
+              {/* 두루미 */}
+              <path
+                d="M21.5,14.5 q2.5,-2.6 4.5,-0.3 q2,-2.3 4.5,-0.6"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+              {/* 붓글씨 로고 */}
+              <text
+                x="26"
+                y="26.5"
+                textAnchor="middle"
+                fill="#ffffff"
+                fontFamily="var(--font-display)"
+                fontWeight="700"
+                fontSize="9.5"
+              >
+                처음
+              </text>
+              <text
+                x="26"
+                y="37"
+                textAnchor="middle"
+                fill="#ffffff"
+                fontFamily="var(--font-display)"
+                fontWeight="700"
+                fontSize="9.5"
+              >
+                처럼
+              </text>
+              {/* 금속 광택 */}
+              <ellipse cx="19" cy="16" rx="6.5" ry="4" fill="#ffffff" opacity="0.28" />
             </svg>
           </motion.button>
           <p className="muralview-table-hint">
