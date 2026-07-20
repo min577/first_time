@@ -26,15 +26,15 @@ const PAST_MURALS = [
     key: 'last-week',
     text: '건배',
     title: '지난주 벽화 · 건배',
-    desc: '지난주에 출석한 9,821명의 뚜껑으로 완성된 글자입니다.',
-    count: '병 9,821개로 완성',
+    desc: '지난주에 모인 처음들이 완성한 글자입니다.',
+    count: '9,821개의 처음으로 완성',
   },
   {
     key: 'anniversary',
     text: '20',
     title: '개교 기념 · 20',
     desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 글자입니다.',
-    count: '병 20,000개로 완성',
+    count: '20,000개의 처음으로 완성',
   },
 ]
 
@@ -198,8 +198,8 @@ export default function Confess() {
             <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
           </button>
           <p className="confessr-mural-count">
-            개교 벽화 '처음' · 병 {muralCaps.toLocaleString()} / {MURAL_GOAL.toLocaleString()}개 ·{' '}
-            {Math.round(muralRatio * 100)}%
+            개교 벽화 '처음' · 모인 처음 {muralCaps.toLocaleString()} /{' '}
+            {MURAL_GOAL.toLocaleString()} · {Math.round(muralRatio * 100)}%
           </p>
           <p className="confessr-mural-desc">
             병을 딴 사람의 뚜껑이 출석 도장처럼 글자에 박힙니다. 다 차면 이번 주 벽화가

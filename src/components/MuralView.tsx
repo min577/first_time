@@ -36,7 +36,6 @@ export default function MuralView({
   // 내가 이 벽화에 보탠 뚜껑 — 앰버색으로 박힌다
   const [myCaps, setMyCaps] = useState(() => readJSON<number>('chg.muralExtra', 0))
   const [pending, setPending] = useState<{ cx: number; cy: number } | null>(null)
-  const [clink, setClink] = useState(0)
   const [waveDone, setWaveDone] = useState(false)
 
   // 병을 딸 때(입장)마다 뚜껑이 하나 생긴다 — 무제한이 아니다
@@ -97,7 +96,6 @@ export default function MuralView({
   // 뚜껑 누르기 → 다음 자리가 은은히 빛나고, 그 자리에서 뚜껑이 스며나듯 맺힌다
   const attach = () => {
     if (!live || complete || remaining <= 0 || pending) return
-    setClink((c) => c + 1)
     navigator.vibrate?.(12)
 
     if (reducedMotion) {
@@ -132,8 +130,14 @@ export default function MuralView({
       </p>
       <p className="muralview-desc">{desc}</p>
 
-      {/* 액자 — 병 라벨식 이중 괘선 프레임 */}
-      <div className={`muralview-frame${live ? ' is-live' : ''}`}>
+      {/* 액자 — 병 라벨식 이중 괘선 프레임. 진행 중엔 눌러서 내 뚜껑을 찍는다 */}
+      <button
+        type="button"
+        className={`muralview-frame${live ? ' is-live' : ''}`}
+        onClick={attach}
+        disabled={!live}
+        aria-label={live ? '벽화를 눌러 내 뚜껑 붙이기' : undefined}
+      >
         <motion.svg
           viewBox={`0 0 ${width} ${height}`}
           className="muralview-art"
@@ -239,14 +243,14 @@ export default function MuralView({
             </g>
           )}
         </motion.svg>
-      </div>
+      </button>
 
       {/* 통계 */}
       <div className="muralview-stats">
         {live ? (
           <>
             <span className="muralview-stat">
-              모인 병 <strong>{cheers.toLocaleString()}</strong> / {goal.toLocaleString()}
+              모인 처음 <strong>{cheers.toLocaleString()}</strong> / {goal.toLocaleString()}
             </span>
             {myCaps > 0 && (
               <span className="muralview-stat is-mine">
@@ -259,35 +263,15 @@ export default function MuralView({
         )}
       </div>
 
-      {/* 기여 — 손에 쥔 내 뚜껑. 누르면 벽화에 스며나듯 맺힌다 */}
+      {/* 기여 안내 — 벽화 자체를 눌러 내 뚜껑을 찍는다 */}
       {live && (
-        <div className="muralview-table">
-          <motion.button
-            type="button"
-            className="muralview-glass"
-            onClick={attach}
-            disabled={complete || remaining <= 0 || pending !== null}
-            aria-label="뚜껑을 눌러 벽화에 붙이기"
-            animate={clink > 0 && !reducedMotion ? { scale: [1, 0.82, 1.06, 1] } : undefined}
-            transition={{ duration: 0.35 }}
-            key={clink}
-          >
-            {/* 실제 판매 처음처럼의 병뚜껑 (공식 제품 사진에서 잘라냄) */}
-            <img
-              src="/cap-real.png"
-              alt=""
-              aria-hidden="true"
-              className="muralview-realcap"
-            />
-          </motion.button>
-          <p className="muralview-table-hint">
-            {complete
-              ? '벽화가 완성됐습니다!'
-              : remaining > 0
-                ? `내 뚜껑 ${remaining}개 · 눌러서 벽화에 붙이기`
-                : '뚜껑을 다 붙였습니다 · 새 병을 따면 또 생깁니다'}
-          </p>
-        </div>
+        <p className="muralview-table-hint">
+          {complete
+            ? '벽화가 완성됐습니다!'
+            : remaining > 0
+              ? `벽화를 눌러 내 뚜껑 찍기 · 남은 뚜껑 ${remaining}개`
+              : '뚜껑을 다 붙였습니다 · 새 병을 따면 또 생깁니다'}
+        </p>
       )}
 
       <button type="button" className="muralview-close" onClick={onClose} aria-label="닫기">

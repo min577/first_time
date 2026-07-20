@@ -115,7 +115,7 @@ export default function EntryStats() {
       <p className="entrystats-pct">{pct}%</p>
       <p className="entrystats-title">이번 주 벽화가 차오르고 있습니다</p>
       <p className="entrystats-desc">
-        지금까지 병 {weekCaps.toLocaleString()}개 · 다 차면 이번 주 벽화가 완성됩니다
+        모인 처음 {weekCaps.toLocaleString()} · 다 차면 이번 주 벽화가 완성됩니다
       </p>
       <p className="entrystats-attendee">당신은 {attendee.toLocaleString()}번째 출석입니다</p>
 
