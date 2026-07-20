@@ -95,27 +95,7 @@ export default function ConfessionSlide({
         onClick={() => setIsFlipped((f) => !f)}
         onKeyDown={(e) => e.key === 'Enter' && setIsFlipped((f) => !f)}
       >
-        <div className={`cslide-card-inner${isFlipped ? ' is-flipped' : ''}`}>
-          <div className="cslide-face cslide-front">
-            <p className="cslide-text">"{confession.text}"</p>
-            <p className="cslide-author">
-              - {confession.author}
-              {mine && onRemove && (
-                <button
-                  type="button"
-                  className="cslide-delete"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onRemove(confession.id)
-                  }}
-                  aria-label="내 고백 삭제"
-                >
-                  삭제
-                </button>
-              )}
-            </p>
-            <span className="cslide-flip-hint">누르면 그날의 사진</span>
-          </div>
+        {isFlipped ? (
           <div className="cslide-face cslide-back">
             <div className="cslide-polaroid">
               {confession.photo && !photoFailed ? (
@@ -131,8 +111,15 @@ export default function ConfessionSlide({
               )}
               <p className="cslide-polaroid-caption">{confession.author}, 그날 밤</p>
             </div>
+            <span className="cslide-flip-hint">누르면 고백으로 돌아가기</span>
           </div>
-        </div>
+        ) : (
+          <div className="cslide-face cslide-front">
+            <p className="cslide-text">“{confession.text}”</p>
+            <p className="cslide-author">{confession.author}</p>
+            <span className="cslide-flip-hint">누르면 그날의 사진</span>
+          </div>
+        )}
       </div>
 
       <div className="cslide-actions">
@@ -153,13 +140,23 @@ export default function ConfessionSlide({
         >
           포토카드
         </button>
+        {mine && onRemove && (
+          <button
+            type="button"
+            className="cslide-action is-danger"
+            onClick={() => onRemove(confession.id)}
+            aria-label="내 고백 삭제"
+          >
+            삭제
+          </button>
+        )}
       </div>
 
       {course && (
         <Link
           to={`/app/courses/${course.slug}`}
           className="cslide-course"
-          aria-label={`${course.title} 안내서로 이동`}
+          aria-label={`${course.title} 강의로 이동`}
         >
           ↗ {course.title}
         </Link>

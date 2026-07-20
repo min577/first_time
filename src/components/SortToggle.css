@@ -1,20 +1,25 @@
 .sorttoggle {
   display: inline-flex;
   gap: 4px;
+  padding: 3px;
+  border-radius: var(--radius-control);
+  background: var(--color-paper-raised);
 }
 
 .sorttoggle-btn {
-  font-size: 11px;
+  min-height: var(--control-height);
+  padding-inline: 12px;
+  border-radius: calc(var(--radius-control) - 3px);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--sub);
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--line);
-  background: var(--paper);
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    color var(--dur-short) var(--ease-out);
 }
 
 .sorttoggle-btn.is-active {
-  background: var(--green);
-  border-color: var(--green);
-  color: var(--paper);
+  background: var(--color-paper);
+  color: var(--color-brand);
 }

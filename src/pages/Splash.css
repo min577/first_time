@@ -1,47 +1,56 @@
+/* Hallmark · playful · Marquee Hero · DESIGN.md · app · P5/H5/E4/S5/R5/V5 · slop/contrast/responsive: pass */
 .splash {
   position: relative;
   display: flex;
+  min-height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 24px;
-  background: var(--green);
-  color: var(--paper);
+  padding: clamp(24px, 8dvh, 64px) 24px calc(92px + env(safe-area-inset-bottom));
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   text-align: center;
 }
 
 .splash-head {
-  margin-bottom: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
 }
 
-.splash-eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  opacity: 0.8;
+.splash-intro {
+  color: var(--color-on-brand);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .splash-logo {
-  margin: 14px 0 4px;
+  width: 236px;
+  max-width: 78%;
+  aspect-ratio: 1252 / 650;
+  overflow: hidden;
   line-height: 0;
 }
 
 .splash-logo-img {
-  width: 236px;
-  max-width: 78%;
+  width: 100%;
+  max-width: none;
   height: auto;
-}
-
-.splash-subtitle {
-  font-size: 14px;
-  opacity: 0.85;
 }
 
 .splash-footer {
   position: absolute;
-  left: 0;
   right: 0;
-  bottom: calc(16px + env(safe-area-inset-bottom));
-  font-size: 11px;
-  opacity: 0.55;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-inline: 20px;
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-sm);
+  line-height: 1.45;
 }

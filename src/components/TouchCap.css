@@ -1,102 +1,89 @@
 .touchcap {
   display: flex;
+  width: min(100%, 280px);
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  gap: var(--space-sm);
+}
+
+.touchcap-guide {
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+  word-break: keep-all;
 }
 
 .touchcap-zone {
   position: relative;
-  width: 130px;
-  height: 130px;
-  border: 2px dashed rgba(250, 249, 244, 0.55);
-  border-radius: 50%;
-  display: flex;
+  display: inline-flex;
+  min-height: 52px;
   align-items: center;
   justify-content: center;
-  color: var(--paper);
-  touch-action: none;
+  gap: var(--space-xs);
+  padding-inline: var(--space-lg);
+  border: 1px solid var(--color-on-brand-rule);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  color: var(--color-brand);
+  font-size: var(--text-base);
+  font-weight: 700;
+  white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.2s ease;
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
 }
 
 .touchcap-zone:active {
-  border-color: rgba(250, 249, 244, 0.9);
+  transform: translateY(1px);
 }
 
-.touchcap-zone.is-stamped {
-  border-style: solid;
-  border-color: rgba(250, 249, 244, 0.35);
+.touchcap-zone:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
-.touchcap-zone.is-pressing {
-  transform: scale(0.96);
+.touchcap-mark,
+.stampmark {
+  display: inline-flex;
 }
 
-/* 꾹 눌러 찍기: 누르는 동안 잉크 링이 차오른다 */
-.touchcap-holdring {
-  position: absolute;
-  inset: -4px;
-  transform: rotate(-90deg);
-  pointer-events: none;
-}
-
-.touchcap-holdring circle {
-  fill: none;
-  stroke: var(--paper);
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-dasharray: 384;
-  stroke-dashoffset: 384;
-  animation: touchcap-holdfill 0.6s linear forwards;
-}
-
-@keyframes touchcap-holdfill {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.touchcap-copy {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.touchcap-copy strong {
-  font-weight: 700;
+.touchcap-mark svg {
+  width: 24px;
+  height: 24px;
 }
 
 .touchcap-ink {
   position: absolute;
   inset: -2px;
-  border-radius: 50%;
-  border: 3px solid var(--green-light);
+  border: 2px solid var(--color-brand-bright);
+  border-radius: var(--radius-control);
   pointer-events: none;
 }
 
-.stampmark {
-  display: flex;
-}
-
 .touchcap-status {
-  margin-top: 14px;
-  font-size: 12px;
-  min-height: 18px;
-  color: rgba(250, 249, 244, 0.7);
+  min-height: 22px;
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
   text-align: center;
+  word-break: keep-all;
 }
 
 .touchcap-done {
   display: inline-block;
-  font-size: 14px;
+  color: var(--color-on-brand);
+  font-size: var(--text-sm);
   font-weight: 700;
-  color: var(--paper);
 }
 
 .touchcap-record {
-  margin-top: 6px;
-  font-size: 11px;
-  color: rgba(250, 249, 244, 0.85);
-  background: rgba(250, 249, 244, 0.12);
-  padding: 4px 12px;
+  padding: 6px 12px;
   border-radius: var(--radius-pill);
+  background: var(--color-brand-overlay);
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  text-align: center;
+  word-break: keep-all;
 }

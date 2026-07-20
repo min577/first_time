@@ -6,6 +6,7 @@
   position: relative; /* 벽화 확대 뷰 오버레이가 폰 화면 안에만 뜨도록 기준점 역할 */
   height: 100%;
   background: var(--paper);
+  contain: paint;
 }
 
 .judge-panel {
@@ -17,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 64px;
+    gap: 0;
     min-height: 100%;
     padding: 40px 32px;
     background: var(--green-pale);
@@ -26,7 +27,7 @@
   .device-screen {
     flex: 0 0 auto;
     width: var(--phone-width);
-    height: min(812px, calc(100vh - 72px));
+    height: min(812px, calc(100dvh - 72px));
     min-height: 560px;
     border-radius: 28px;
     overflow: hidden;
@@ -37,7 +38,7 @@
   }
 
   .judge-panel {
-    display: block;
+    display: none;
     width: 320px;
     color: var(--ink);
   }
@@ -114,5 +115,15 @@
     border-top: 1px solid var(--line);
     padding-top: 14px;
     max-width: 260px;
+  }
+}
+
+@media (min-width: 60rem) {
+  .device-layout {
+    gap: 64px;
+  }
+
+  .judge-panel {
+    display: block;
   }
 }
