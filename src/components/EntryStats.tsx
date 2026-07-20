@@ -1,27 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { CONFESSIONS } from '../data/confessions'
 import { readJSON } from '../hooks/useLocalList'
 import './EntryStats.css'
 
-// 개교 벽화와 같은 수치 (고백실 참조) — 이번 주 모인 잔의 총량
-const WEEK_GOAL = 20000
+// 개교 벽화(출석판)와 같은 수치 — 이번 주 열린 병의 수
+const WEEK_GOAL = 10000
+const WEEK_SEED = 6408
 // 이번 학기 누적 출석 시드 — 내 도장 수가 더해져 'N번째 출석'이 된다
 const ATTENDEE_SEED = 24846
 
 const AUTO_MS = 2600
 const FILL_MS = 1200
 
-// 입장 직후 인터스티셜: 이번 주의 잔이 몇 % 찼는지 + 나는 몇 번째 출석인지
+// 입장 직후 인터스티셜: 이번 주 벽화가 몇 % 찼는지 + 나는 몇 번째 출석인지
 export default function EntryStats() {
   const navigate = useNavigate()
   const reducedMotion = useReducedMotion()
 
-  const weekCheers =
-    CONFESSIONS.reduce((sum, c) => sum + c.cheers, 0) +
-    readJSON<string[]>('chg.raised', []).length
-  const target = Math.round(Math.min(weekCheers / WEEK_GOAL, 1) * 100)
+  const weekCaps = WEEK_SEED + readJSON<number>('chg.muralExtra', 0)
+  const target = Math.round(Math.min(weekCaps / WEEK_GOAL, 1) * 100)
   const attendee = ATTENDEE_SEED + readJSON<number>('chg.stamps', 0)
 
   const [pct, setPct] = useState(reducedMotion ? target : 0)
@@ -115,9 +113,9 @@ export default function EntryStats() {
       </svg>
 
       <p className="entrystats-pct">{pct}%</p>
-      <p className="entrystats-title">이번 주의 잔이 차오르고 있습니다</p>
+      <p className="entrystats-title">이번 주 벽화가 차오르고 있습니다</p>
       <p className="entrystats-desc">
-        지금까지 {weekCheers.toLocaleString()}잔 · 잔이 가득 차면 이번 주 라벨이 인쇄됩니다
+        지금까지 병 {weekCaps.toLocaleString()}개 · 다 차면 이번 주 벽화가 완성됩니다
       </p>
       <p className="entrystats-attendee">당신은 {attendee.toLocaleString()}번째 출석입니다</p>
 

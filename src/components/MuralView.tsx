@@ -246,7 +246,7 @@ export default function MuralView({
         {live ? (
           <>
             <span className="muralview-stat">
-              모인 잔 <strong>{cheers.toLocaleString()}</strong> / {goal.toLocaleString()}
+              모인 병 <strong>{cheers.toLocaleString()}</strong> / {goal.toLocaleString()}
             </span>
             {myCaps > 0 && (
               <span className="muralview-stat is-mine">
@@ -255,7 +255,7 @@ export default function MuralView({
             )}
           </>
         ) : (
-          <span className="muralview-stat">{doneCount} · 라벨로 인쇄되어 병에 붙었습니다</span>
+          <span className="muralview-stat">{doneCount} · 개교 벽화 갤러리에 걸렸습니다</span>
         )}
       </div>
 
@@ -272,72 +272,13 @@ export default function MuralView({
             transition={{ duration: 0.35 }}
             key={clink}
           >
-            {/* 실제 처음처럼 병뚜껑 (윗면) - 초록 톱니 캡에 흰 붓글씨 로고 */}
-            <svg viewBox="0 0 52 52" width="50" height="50" aria-hidden="true">
-              <defs>
-                <radialGradient id="mv-realcap" cx="0.35" cy="0.3" r="0.9">
-                  <stop offset="0%" stopColor="#4cbf7e" />
-                  <stop offset="55%" stopColor="#1e8a62" />
-                  <stop offset="100%" stopColor="#0b5c3f" />
-                </radialGradient>
-              </defs>
-              {/* 톱니 주름 */}
-              {Array.from({ length: 20 }, (_, i) => {
-                const angle = (i / 20) * Math.PI * 2
-                return (
-                  <circle
-                    key={i}
-                    cx={26 + Math.cos(angle) * 22}
-                    cy={26 + Math.sin(angle) * 22}
-                    r="2.6"
-                    fill="#0b5c3f"
-                  />
-                )
-              })}
-              <circle cx="26" cy="26" r="22" fill="url(#mv-realcap)" />
-              {/* 상판 프레스 라인 */}
-              <circle
-                cx="26"
-                cy="26"
-                r="18"
-                fill="none"
-                stroke="rgba(255, 255, 255, 0.4)"
-                strokeWidth="1"
-              />
-              {/* 두루미 */}
-              <path
-                d="M21.5,14.5 q2.5,-2.6 4.5,-0.3 q2,-2.3 4.5,-0.6"
-                fill="none"
-                stroke="#ffffff"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-              />
-              {/* 붓글씨 로고 */}
-              <text
-                x="26"
-                y="26.5"
-                textAnchor="middle"
-                fill="#ffffff"
-                fontFamily="var(--font-display)"
-                fontWeight="700"
-                fontSize="9.5"
-              >
-                처음
-              </text>
-              <text
-                x="26"
-                y="37"
-                textAnchor="middle"
-                fill="#ffffff"
-                fontFamily="var(--font-display)"
-                fontWeight="700"
-                fontSize="9.5"
-              >
-                처럼
-              </text>
-              {/* 금속 광택 */}
-              <ellipse cx="19" cy="16" rx="6.5" ry="4" fill="#ffffff" opacity="0.28" />
-            </svg>
+            {/* 실제 판매 처음처럼의 병뚜껑 (공식 제품 사진에서 잘라냄) */}
+            <img
+              src="/cap-real.png"
+              alt=""
+              aria-hidden="true"
+              className="muralview-realcap"
+            />
           </motion.button>
           <p className="muralview-table-hint">
             {complete

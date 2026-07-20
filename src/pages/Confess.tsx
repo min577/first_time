@@ -17,23 +17,24 @@ import SortToggle, { type SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
 
-// 개교 벽화: 모두의 잔(뚜껑)이 글자를 완성하면 이번 주 라벨이 인쇄소로 간다
-const MURAL_GOAL = 20000
+// 개교 벽화 = 출석판: 병을 딴 사람들의 뚜껑이 모여 글자를 완성한다
+const MURAL_GOAL = 10000 // 병
+const MURAL_SEED = 6408 // 이번 주 먼저 출석한 사람들의 뚜껑
 
 const PAST_MURALS = [
   {
     key: 'last-week',
     text: '건배',
     title: '지난주 벽화 · 건배',
-    desc: "지난주에 다 함께 완성한 글자입니다. '보호자 칸에 제 이름을 쓰는데 손이 떨렸습니다'가 라벨 2호로 인쇄됐습니다.",
-    count: '18,204잔으로 완성',
+    desc: '지난주에 출석한 9,821명의 뚜껑으로 완성된 글자입니다.',
+    count: '병 9,821개로 완성',
   },
   {
     key: 'anniversary',
     text: '20',
     title: '개교 기념 · 20',
     desc: '개교 20주년을 축하하며 모두가 함께 채운 첫 글자입니다.',
-    count: '32,000잔으로 완성',
+    count: '병 20,000개로 완성',
   },
 ]
 
@@ -113,14 +114,10 @@ export default function Confess() {
   const [tickets, setTickets] = useState(() => readJSON<number>('chg.tickets', 0))
   const [justConfessed, setJustConfessed] = useState(false)
 
-  // 개교 벽화 — 잔을 들거나 뚜껑을 보탤 때마다 실시간으로 차오른다
-  const [raisedCount, setRaisedCount] = useState(() => readJSON<string[]>('chg.raised', []).length)
+  // 개교 벽화 — 내가 뚜껑을 붙일 때마다 실시간으로 차오른다
   const [muralExtra, setMuralExtra] = useState(() => readJSON<number>('chg.muralExtra', 0))
   useEffect(() => {
-    const onRaise = () => {
-      setRaisedCount(readJSON<string[]>('chg.raised', []).length)
-      setMuralExtra(readJSON<number>('chg.muralExtra', 0))
-    }
+    const onRaise = () => setMuralExtra(readJSON<number>('chg.muralExtra', 0))
     window.addEventListener('chg:raise', onRaise)
     return () => window.removeEventListener('chg:raise', onRaise)
   }, [])
@@ -130,8 +127,8 @@ export default function Confess() {
   const gridAnniv = useTextDots('20', 13)
   const pastGrids = [gridLastWeek, gridAnniv]
 
-  const muralCheers = items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount + muralExtra
-  const muralRatio = Math.min(muralCheers / MURAL_GOAL, 1)
+  const muralCaps = MURAL_SEED + muralExtra
+  const muralRatio = Math.min(muralCaps / MURAL_GOAL, 1)
   const muralFilled = Math.round(muralRatio * gridTotal(gridThisWeek))
 
   // 정렬 + 릴스 트랙
@@ -201,11 +198,12 @@ export default function Confess() {
             <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
           </button>
           <p className="confessr-mural-count">
-            개교 벽화 '처음' · {muralCheers.toLocaleString()} / {MURAL_GOAL.toLocaleString()}잔 ·{' '}
+            개교 벽화 '처음' · 병 {muralCaps.toLocaleString()} / {MURAL_GOAL.toLocaleString()}개 ·{' '}
             {Math.round(muralRatio * 100)}%
           </p>
           <p className="confessr-mural-desc">
-            잔을 들면 뚜껑이 글자를 채웁니다. 완성되면 이번 주 라벨이 인쇄됩니다.
+            병을 딴 사람의 뚜껑이 출석 도장처럼 글자에 박힙니다. 다 차면 이번 주 벽화가
+            완성됩니다.
           </p>
           <div className="confessr-pastchips">
             {PAST_MURALS.map((mural, i) => (
@@ -258,9 +256,9 @@ export default function Confess() {
             key="mural-live"
             grid={gridThisWeek}
             title="이번 주 벽화 · 처음"
-            desc="누군가의 고백에 잔을 들면 그 잔이 병뚜껑이 되어 글자를 채웁니다. '처음' 두 글자가 완성되면 이번 주 라벨이 실제로 인쇄됩니다."
+            desc="병을 딴 사람만 뚜껑을 붙일 수 있습니다. 출석 도장 찍듯, 모두의 뚜껑이 '처음' 두 글자를 완성합니다."
             live
-            baseCheers={items.reduce((sum, c) => sum + c.cheers, 0) + raisedCount}
+            baseCheers={MURAL_SEED}
             goal={MURAL_GOAL}
             onClose={() => setMuralOpen(null)}
           />
