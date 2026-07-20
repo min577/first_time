@@ -113,7 +113,6 @@ export default function EntryStats() {
       </svg>
 
       <p className="entrystats-pct">{pct}%</p>
-      <p className="entrystats-title">벽화가 {pct}% 완성됐어요.</p>
       <p className="entrystats-desc">{weekCaps.toLocaleString()}개의 처음이 모였어요.</p>
       <p className="entrystats-attendee">{attendee.toLocaleString()}번째로 입장했어요.</p>
 

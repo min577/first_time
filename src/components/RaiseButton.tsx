@@ -50,8 +50,8 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
       onClick={raise}
       aria-label={
         raised
-          ? `잔 들었어요. 다시 누르면 취소됩니다. 현재 ${total.toLocaleString()}명`
-          : `잔 들기. 현재 ${total.toLocaleString()}명`
+          ? `잔 들었어요. 다시 누르면 취소돼요. 지금까지 ${total.toLocaleString()}잔`
+          : `잔 들기. 지금까지 ${total.toLocaleString()}잔`
       }
     >
       <motion.span

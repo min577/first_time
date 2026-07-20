@@ -31,16 +31,9 @@
   line-height: 1.1;
 }
 
-.entrystats-title {
-  font-weight: 700;
-  font-size: var(--text-base);
-  margin-top: 2px;
-  word-break: keep-all;
-}
-
 .entrystats-desc {
   color: var(--color-on-brand-muted);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   margin-top: 8px;
   word-break: keep-all;
 }

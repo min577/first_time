@@ -39,7 +39,7 @@ export default function TouchCap({ onEntered }: Props) {
 
   return (
     <div className="touchcap">
-      <p className="touchcap-guide">QR로 들어왔다면 바로 시작할 수 있어요.</p>
+      <p className="touchcap-guide">먼저 해본 사람들의 조언을 읽고, 나의 처음도 남길 수 있어요.</p>
       <button
         type="button"
         className={`touchcap-zone${stamped ? ' is-stamped' : ''}`}
@@ -67,7 +67,7 @@ export default function TouchCap({ onEntered }: Props) {
       </button>
 
       <p className="touchcap-status" role="status">
-        {stamped ? (
+        {stamped && (
           <motion.span
             className="touchcap-done"
             initial={{ opacity: 0, y: 4 }}
@@ -76,8 +76,6 @@ export default function TouchCap({ onEntered }: Props) {
           >
             입장했어요. 고백권 1장이 생겼어요.
           </motion.span>
-        ) : (
-          '버튼을 누르면 강의 목록으로 이동해요.'
         )}
       </p>
 
