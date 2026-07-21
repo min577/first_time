@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 24px 20px 20px;
+  padding: var(--sp-6) var(--sp-5) var(--sp-7);
 }
 
 .toast-head {
@@ -21,10 +21,13 @@
 .toast-title {
   font-size: 26px;
   color: var(--ink);
-  margin-bottom: 6px;
+  margin-bottom: var(--sp-2);
 }
 
 .toast-sub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sentence);
   font-size: 13px;
   color: var(--sub);
   word-break: keep-all;
@@ -36,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-block: 18px;
+  padding-block: var(--sp-5);
 }
 
 /* 뽑기 전 - 빈 무대 */
@@ -47,7 +50,7 @@
   gap: 12px;
   width: 100%;
   max-width: 300px;
-  padding: 36px 24px;
+  padding: var(--sp-8) var(--sp-6);
   border: 1.5px dashed var(--line);
   border-radius: var(--radius-card);
   color: var(--sub);
@@ -61,7 +64,7 @@
 .toast-card {
   width: 100%;
   max-width: 300px;
-  padding: 24px 22px 20px;
+  padding: var(--sp-6) var(--sp-6) var(--sp-5);
   border-radius: var(--radius-card);
   background: linear-gradient(170deg, #0d6847 0%, #0b5c3f 58%, #084430 100%);
   box-shadow:
@@ -76,8 +79,8 @@
 /* 어느 자리의 건배사인지 - 라벨 최상단 소인 */
 .toast-card-occasion {
   display: inline-block;
-  margin-bottom: 14px;
-  padding: 3px 12px;
+  margin-bottom: var(--sp-4);
+  padding: var(--sp-1) var(--sp-3);
   border: 1px solid rgba(250, 249, 244, 0.4);
   border-radius: var(--radius-pill);
   font-size: 11.5px;
@@ -91,14 +94,14 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   color: rgba(250, 249, 244, 0.55);
-  margin-bottom: 6px;
+  margin-bottom: var(--sp-2);
 }
 
 .toast-card-lead {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 21px;
-  line-height: 1.4;
+  line-height: 1.7;
   color: var(--paper);
   word-break: keep-all;
   margin-bottom: 16px;
@@ -108,7 +111,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 18px;
-  line-height: 1.4;
+  line-height: 1.7;
   color: var(--amber);
   word-break: keep-all;
 }
@@ -117,7 +120,7 @@
 .toast-controls {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--sp-3);
   padding-top: 14px;
 }
 
@@ -129,7 +132,7 @@
 .toast-occasion {
   flex: 1;
   min-height: 44px;
-  padding: 10px 0;
+  padding: var(--sp-3) 0;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   background: var(--paper);
@@ -149,7 +152,7 @@
 .toast-draw {
   width: 100%;
   min-height: 50px;
-  padding: 14px 0;
+  padding: var(--sp-4) 0;
   border-radius: var(--radius-pill);
   background: var(--amber);
   color: var(--ink);
@@ -165,7 +168,7 @@
 /* 낮은 화면(작은 폰)에서는 무대를 압축해 조작부가 항상 손 닿는 곳에 있게 */
 @media (max-height: 640px) {
   .toastmaker {
-    padding: 14px 16px 12px;
+    padding: var(--sp-4) var(--sp-4) var(--sp-3);
   }
 
   .toast-head {
@@ -179,7 +182,7 @@
 
   .toast-title {
     font-size: 21px;
-    margin-bottom: 3px;
+    margin-bottom: var(--sp-1);
   }
 
   .toast-sub {
@@ -191,16 +194,16 @@
   }
 
   .toast-card {
-    padding: 16px 16px 14px;
+    padding: var(--sp-4) var(--sp-4) var(--sp-4);
   }
 
   .toast-card-occasion {
-    margin-bottom: 10px;
+    margin-bottom: var(--sp-3);
   }
 
   .toast-card-lead {
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: var(--sp-3);
   }
 
   .toast-card-response {
@@ -219,6 +222,6 @@
 
   .toast-draw {
     min-height: 44px;
-    padding: 11px 0;
+    padding: var(--sp-3) 0;
   }
 }

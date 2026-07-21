@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 9px;
+  padding: var(--sp-1) var(--sp-2);
   border-radius: var(--radius-pill);
   background: var(--green);
   color: var(--paper);

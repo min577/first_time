@@ -1,9 +1,9 @@
 .course-room {
-  padding: 20px 20px 32px;
+  padding: var(--sp-6) var(--sp-5) var(--sp-7);
 }
 
 .room-head {
-  margin-bottom: 18px;
+  margin-bottom: var(--sp-5);
 }
 
 .room-back {
@@ -29,7 +29,7 @@
 .room-title {
   font-size: 24px;
   color: var(--ink);
-  margin-bottom: 6px;
+  margin-bottom: var(--sp-2);
 }
 
 .room-sub {
@@ -42,7 +42,7 @@
 .room-comfort {
   position: relative;
   margin-bottom: 20px;
-  padding: 18px 20px;
+  padding: var(--sp-5);
   background: var(--green-pale);
   border-radius: var(--radius-card);
   text-align: center;
@@ -108,23 +108,23 @@
 .room-vote-help {
   font-size: 12.5px;
   color: var(--sub);
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-3);
 }
 
 .room-tips {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 26px;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
 }
 
 /* 그 시절엔 - 학번 뱃지가 붙은 회상 카드 */
 .room-memories {
-  margin-bottom: 26px;
+  margin-bottom: var(--sp-6);
 }
 
 .room-memories .room-section-title {
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-3);
 }
 
 .room-memories-list {
@@ -135,7 +135,7 @@
 }
 
 .room-memory {
-  padding: 12px 14px;
+  padding: var(--sp-3) var(--sp-4);
   border: 1px dashed var(--line);
   border-radius: var(--radius-card);
 }
@@ -147,9 +147,9 @@
   color: var(--green-light);
   border: 1px solid var(--green-pale);
   background: var(--green-pale);
-  padding: 2px 8px;
+  padding: var(--sp-1) var(--sp-2);
   border-radius: var(--radius-pill);
-  margin-bottom: 6px;
+  margin-bottom: var(--sp-2);
 }
 
 .room-memory-text {
@@ -169,12 +169,12 @@
 .room-composer-title {
   font-size: 15px;
   color: var(--green);
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-3);
 }
 
 .room-confess {
-  margin-top: 26px;
-  padding: 18px 16px;
+  margin-top: var(--sp-6);
+  padding: var(--sp-5) var(--sp-4);
   background: var(--green-pale);
   border-radius: var(--radius-card);
   text-align: center;
@@ -190,7 +190,7 @@
 
 .room-confess-btn {
   width: 100%;
-  padding: 12px 14px;
+  padding: var(--sp-3) var(--sp-4);
   border-radius: var(--radius-pill);
   background: var(--green);
   color: var(--paper);
@@ -204,7 +204,7 @@
 }
 
 .room-confess-sub {
-  margin-top: 10px;
+  margin-top: var(--sp-3);
   font-size: 12.5px;
   color: var(--sub);
 }

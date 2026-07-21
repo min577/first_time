@@ -127,7 +127,14 @@ export default function MuralView({
         {title}
         {!live && <span className="muralview-done">완성</span>}
       </p>
-      <p className="muralview-desc">{desc}</p>
+      <p className="muralview-desc">
+        {desc.split('. ').map((sentence, i) => {
+          // split('. ')는 구분자(마침표+공백)를 통째로 제거하므로 마지막 조각을 뺀
+          // 나머지 조각은 마침표를 잃는다 — 문장마다 마침표 유무를 보정해 되살린다
+          const text = sentence.endsWith('.') ? sentence : `${sentence}.`
+          return <span key={i}>{text}</span>
+        })}
+      </p>
 
       {/* 액자 — 병 라벨식 이중 괘선 프레임. 진행 중엔 눌러서 내 뚜껑을 찍는다 */}
       <button
@@ -265,11 +272,17 @@ export default function MuralView({
       {/* 기여 안내 — 벽화 자체를 눌러 내 뚜껑을 찍는다 */}
       {live && (
         <p className="muralview-table-hint">
-          {complete
-            ? '벽화가 완성됐어요!'
-            : remaining > 0
-              ? `벽화를 누르면 내 뚜껑이 박혀요 · 남은 뚜껑 ${remaining}개`
-              : '내 뚜껑을 다 썼어요 · 새 병을 따면 또 생겨요'}
+          {complete ? (
+            '벽화가 완성됐어요!'
+          ) : remaining > 0 ? (
+            <>
+              <span>벽화를 누르면 내 뚜껑이 박혀요.</span>
+              <br />
+              <span>남은 뚜껑 {remaining}개</span>
+            </>
+          ) : (
+            '내 뚜껑을 다 썼어요 · 새 병을 따면 또 생겨요'
+          )}
         </p>
       )}
 

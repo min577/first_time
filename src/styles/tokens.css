@@ -16,8 +16,25 @@
   --font-display: 'Gowun Batang', serif;   /* 제목·고백 본문 — 대학 교재/개론 수업 감성 */
   --font-body: 'Pretendard Variable', Pretendard, sans-serif;
 
+  /* 간격 스케일 — 4px 기반. 카드 패딩/섹션 마진/gap 전부 이 중 하나를 참조한다 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+  /* 확장 단계 — 히어로/풀블리드 화면(Splash, Confess 인트로, ConfessionSlide) 전용.
+     카드 패딩·리스트 gap에는 사용 금지 */
+  --sp-9: 48px;
+  --sp-10: 64px;
+  /* 문장 블록(courses-sub 패턴) 사이의 타이트한 줄 gap 전용 예외 토큰 */
+  --sp-sentence: 2px;
+
   /* 레이아웃 */
   --radius-card: 14px;
-  --radius-pill: 20px;
+  --radius-sheet: 18px;   /* 바텀시트 전용(카드보다 한 단계 큰 반경) */
+  --radius-pill: 999px;   /* 20px → 999px: 44px 등 모든 버튼 높이에서 완전한 캡슐이 되도록 */
   --phone-width: 375px;
 }

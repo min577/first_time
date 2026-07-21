@@ -2,8 +2,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 10px;
-  padding: 6px 12px;
+  margin-top: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
   border-radius: var(--radius-pill);
   background: var(--green-pale);
 }

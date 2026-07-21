@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 64px;
+    gap: var(--sp-10, 64px);
     min-height: 100%;
     padding: 40px 32px;
     background: var(--green-pale);
@@ -46,7 +46,7 @@
     font-size: 12px;
     letter-spacing: 0.08em;
     color: var(--sub);
-    margin-bottom: 14px;
+    margin-bottom: var(--sp-4);
   }
 
   .judge-title {
@@ -59,20 +59,20 @@
     font-family: var(--font-display);
     font-size: 16px;
     color: var(--ink);
-    margin-bottom: 28px;
+    margin-bottom: var(--sp-7);
   }
 
   .judge-loop {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: var(--sp-7);
   }
 
   .judge-loop li {
     display: flex;
     align-items: baseline;
-    gap: 10px;
+    gap: var(--sp-3);
     font-size: 14px;
     color: var(--ink);
   }
@@ -113,6 +113,6 @@
     color: var(--sub);
     border-top: 1px solid var(--line);
     padding-top: 14px;
-    max-width: 260px;
+    max-width: 300px;
   }
 }

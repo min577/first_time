@@ -58,7 +58,10 @@ export default function ToastMaker() {
         </svg>
         <div>
           <h1 className="toast-title">오늘의 건배사</h1>
-          <p className="toast-sub">건배사가 처음이어도 괜찮아요. 모임을 고르고 뽑아보세요.</p>
+          <p className="toast-sub">
+            <span>건배사가 처음이어도 괜찮아요.</span>
+            <span>모임을 고르고 뽑아보세요.</span>
+          </p>
         </div>
       </header>
 

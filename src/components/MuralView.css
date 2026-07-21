@@ -10,8 +10,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 22px 24px;
+  gap: var(--sp-1);
+  padding: var(--sp-6) var(--sp-6);
   color: var(--paper);
   text-align: center;
   overflow: hidden;
@@ -49,25 +49,28 @@
   font-weight: 700;
   color: var(--green);
   background: var(--paper);
-  padding: 2px 8px;
+  padding: var(--sp-1) var(--sp-2);
   border-radius: var(--radius-pill);
   vertical-align: middle;
 }
 
 .muralview-desc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sentence);
   font-size: 12.5px;
   line-height: 1.6;
   opacity: 0.78;
   word-break: keep-all;
-  max-width: 268px;
+  max-width: 300px;
 }
 
 /* 액자 — 병 라벨식 이중 괘선, 벽감에 들어간 작품. 진행 중엔 눌러서 도장 찍기 */
 .muralview-frame {
   margin: 12px 0 8px;
-  padding: 14px 22px;
+  padding: var(--sp-4) var(--sp-6);
   -webkit-tap-highlight-color: transparent;
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: rgba(4, 32, 22, 0.35);
   box-shadow:
     0 0 0 1px rgba(250, 249, 244, 0.32),
@@ -120,7 +123,7 @@
 
 .muralview-stats {
   display: flex;
-  gap: 6px;
+  gap: var(--sp-2);
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -129,7 +132,7 @@
   font-size: 11px;
   opacity: 0.9;
   background: rgba(250, 249, 244, 0.12);
-  padding: 5px 12px;
+  padding: var(--sp-1) var(--sp-3);
   border-radius: var(--radius-pill);
 }
 
@@ -152,7 +155,7 @@
 
 .muralview-glass {
   padding: 6px 18px 2px;
-  border-radius: 14px;
+  border-radius: var(--radius-card);
   -webkit-tap-highlight-color: transparent;
   /* 테이블 면 */
   background: linear-gradient(180deg, transparent 74%, rgba(4, 32, 22, 0.5) 74%);
@@ -175,7 +178,7 @@
 }
 
 .muralview-table-hint {
-  margin-top: 10px;
+  margin-top: var(--sp-3);
 }
 
 .muralview-table-hint {
@@ -204,7 +207,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 8px 22px;
+  padding: var(--sp-2) var(--sp-6);
   font-size: 13px;
   font-weight: 600;
   color: rgba(250, 249, 244, 0.85);

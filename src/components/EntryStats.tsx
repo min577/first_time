@@ -115,11 +115,17 @@ export default function EntryStats() {
       <p className="entrystats-pct">{pct}%</p>
       <p className="entrystats-title">이번 주 벽화가 차오르고 있어요</p>
       <p className="entrystats-desc">
-        모인 처음 {weekCaps.toLocaleString()} · 다 차면 이번 주 벽화가 완성돼요
+        <span>모인 처음 {weekCaps.toLocaleString()}</span>
+        <br />
+        <span>다 차면 이번 주 벽화가 완성돼요</span>
       </p>
       <p className="entrystats-attendee">{attendee.toLocaleString()}번째로 출석했어요</p>
 
-      <p className="entrystats-hint">잠시 후 강의 목록으로 이동해요 · 누르면 바로 이동</p>
+      <p className="entrystats-hint">
+        <span>잠시 후 강의 목록으로 이동해요.</span>
+        <br />
+        <span>누르면 바로 이동해요.</span>
+      </p>
     </button>
   )
 }

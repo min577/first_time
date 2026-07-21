@@ -12,7 +12,7 @@
 }
 
 .splash-head {
-  margin-bottom: 52px;
+  margin-bottom: var(--sp-9, 48px);
 }
 
 .splash-eyebrow {
@@ -25,7 +25,7 @@
 .splash-logo {
   width: 236px;
   max-width: 78%;
-  margin: 14px auto 0;
+  margin: var(--sp-4) auto 0;
   aspect-ratio: 1252 / 650;
   overflow: hidden;
   line-height: 0;

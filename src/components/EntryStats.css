@@ -17,13 +17,13 @@
   font-size: 12px;
   letter-spacing: 0.14em;
   opacity: 0.75;
-  margin-bottom: 14px;
+  margin-bottom: var(--sp-4);
 }
 
 .entrystats-glass {
   width: 108px;
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-3);
 }
 
 .entrystats-pct {
@@ -51,8 +51,8 @@
 .entrystats-attendee {
   font-size: 13px;
   font-weight: 700;
-  margin-top: 14px;
-  padding: 6px 14px;
+  margin-top: var(--sp-4);
+  padding: var(--sp-2) var(--sp-4);
   border-radius: var(--radius-pill);
   background: rgba(250, 249, 244, 0.14);
 }

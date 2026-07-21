@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: var(--sp-3);
 }
 
 .composer-helper {
@@ -55,7 +55,7 @@
 .composer-submit {
   flex: 0 0 auto;
   min-height: 40px;
-  padding: 8px 18px;
+  padding: var(--sp-2) var(--sp-5);
   border-radius: var(--radius-pill);
   background: var(--green);
   color: var(--paper);
@@ -72,8 +72,8 @@
 
 /* 선배 서약 / 훈계 점검 — 차단이 아니라 한 번 붙잡는 단계 */
 .composer-guard {
-  margin-top: 10px;
-  padding: 12px 14px;
+  margin-top: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
   border: 1px dashed var(--green-light);
   border-radius: var(--radius-card);
   background: var(--paper);
@@ -89,7 +89,7 @@
   font-weight: 700;
   font-size: 13px;
   color: var(--green);
-  margin-bottom: 6px;
+  margin-bottom: var(--sp-2);
   word-break: keep-all;
 }
 
@@ -102,7 +102,7 @@
   line-height: 1.6;
   color: var(--sub);
   word-break: keep-all;
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-3);
 }
 
 .composer-guard-actions {
@@ -125,7 +125,7 @@
 }
 
 .composer-guard-pass {
-  padding: 8px 14px;
+  padding: var(--sp-2) var(--sp-4);
   border-radius: var(--radius-pill);
   border: 1px solid var(--line);
   color: var(--sub);

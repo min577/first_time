@@ -63,6 +63,13 @@ h3 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.35;
+  text-wrap: balance;
+}
+
+/* 본문·안내문: 마지막 줄 외톨이 어절(orphan) 방지 */
+p,
+blockquote {
+  text-wrap: pretty;
 }
 
 .app-shell {
@@ -88,7 +95,7 @@ h3 {
 }
 
 .page-placeholder {
-  padding: 48px 20px;
+  padding: var(--sp-9, 48px) var(--sp-5);
   text-align: center;
 }
 

@@ -17,7 +17,11 @@ export default function Splash() {
 
       <TouchCap onEntered={() => setEntered(true)} />
 
-      <p className="splash-footer">만 19세 이상 · 지나친 음주는 처음을 망칠 수 있어요</p>
+      <p className="splash-footer">
+        <span>만 19세 이상</span>
+        <br />
+        <span>지나친 음주는 처음을 망칠 수 있어요</span>
+      </p>
 
       {/* 도장이 찍히면 이번 주의 잔이 얼마나 찼는지 보여주고 입장한다 */}
       {entered && <EntryStats />}

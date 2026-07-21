@@ -187,7 +187,11 @@ export default function Confess() {
       {/* 릴스 트랙: 첫 장은 개교 벽화, 이후 사연들 */}
       <div className="confessr-track" ref={trackRef}>
         <section className="confessr-intro">
-          <h1 className="confessr-hero">어른의 처음은 아무도 축하해주지 않는다</h1>
+          <h1 className="confessr-hero">
+            <span>어른의 처음은</span>
+            <br />
+            <span>아무도 축하해주지 않는다</span>
+          </h1>
           <p className="confessr-hero-sub">여기선 익명으로 털어놔도 돼요.</p>
 
           <button
@@ -203,7 +207,8 @@ export default function Confess() {
             {Math.round(muralRatio * 100)}%
           </p>
           <p className="confessr-mural-desc">
-            병을 딴 사람의 뚜껑이 도장처럼 글자에 박혀요. 다 차면 이번 주 벽화가 완성돼요.
+            <span>병을 딴 사람의 뚜껑이 도장처럼 글자에 박혀요.</span>
+            <span>다 차면 이번 주 벽화가 완성돼요.</span>
           </p>
           <div className="confessr-pastchips">
             {PAST_MURALS.map((mural, i) => (
@@ -246,7 +251,9 @@ export default function Confess() {
 
       {justConfessed && (
         <p className="confessr-toast" role="status">
-          고백을 남겼어요. 잔을 많이 받으면 라벨 인쇄 후보가 돼요.
+          <span>고백을 남겼어요.</span>
+          <br />
+          <span>잔을 많이 받으면 라벨 인쇄 후보가 돼요.</span>
         </p>
       )}
 

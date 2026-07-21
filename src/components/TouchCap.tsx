@@ -114,7 +114,9 @@ export default function TouchCap({ onEntered }: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: 0.25 }}
           >
-            출석 완료 · 고백권이 1장 생겼어요
+            <span>출석 완료</span>
+            <br />
+            <span>고백권이 1장 생겼어요</span>
           </motion.span>
         ) : (
           '병뚜껑 안 QR로 들어오면 출석 도장이 쌓여요'

@@ -32,7 +32,11 @@ export default function DeviceFrame({ children }: { children: ReactNode }) {
         <Link to="/about" className="judge-about">
           캠페인 소개 →
         </Link>
-        <p className="judge-hint">오른쪽 화면을 직접 조작해보세요. 모바일 QR 접속과 동일한 경험입니다.</p>
+        <p className="judge-hint">
+          <span>오른쪽 화면을 직접 조작해보세요.</span>
+          <br />
+          <span>모바일 QR 접속과 동일한 경험이에요.</span>
+        </p>
       </aside>
 
       <div className="device-screen">{children}</div>
