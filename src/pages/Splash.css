@@ -16,25 +16,24 @@
 }
 
 .splash-eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  opacity: 0.8;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
+/* 로고 원본 하단에 박힌 구 슬로건 띠를 비율 크롭으로 숨긴다 (1252x769 → 1252x650) */
 .splash-logo {
-  margin: 14px 0 4px;
+  width: 236px;
+  max-width: 78%;
+  margin: 14px auto 0;
+  aspect-ratio: 1252 / 650;
+  overflow: hidden;
   line-height: 0;
 }
 
 .splash-logo-img {
-  width: 236px;
-  max-width: 78%;
+  width: 100%;
   height: auto;
-}
-
-.splash-subtitle {
-  font-size: 14px;
-  opacity: 0.85;
 }
 
 .splash-footer {
@@ -42,6 +41,8 @@
   left: 0;
   right: 0;
   bottom: calc(16px + env(safe-area-inset-bottom));
-  font-size: 11px;
-  opacity: 0.55;
+  padding-inline: 20px;
+  font-size: 12px;
+  opacity: 0.65;
+  word-break: keep-all;
 }

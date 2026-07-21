@@ -79,7 +79,7 @@ export default function TouchCap({ onEntered }: Props) {
         onPointerUp={() => releaseHold(true)}
         onPointerLeave={() => releaseHold(false)}
         onTouchStart={handleTouchStart}
-        aria-label="입장하기 - 뚜껑을 화면에 대거나 탭하세요"
+        aria-label="꾹 눌러서 출석 도장 찍고 입장하기"
       >
         {pressing && !stamped && (
           <svg className="touchcap-holdring" viewBox="0 0 130 130" aria-hidden="true">
@@ -99,9 +99,9 @@ export default function TouchCap({ onEntered }: Props) {
           </>
         ) : (
           <span className="touchcap-copy">
-            뚜껑을
+            꾹 눌러서
             <br />
-            <strong>화면에 대보세요</strong>
+            <strong>출석 도장 찍기</strong>
           </span>
         )}
       </button>
@@ -114,17 +114,19 @@ export default function TouchCap({ onEntered }: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: 0.25 }}
           >
-            출석 완료 · 고백권 +1장
+            출석 완료 · 고백권이 1장 생겼어요
           </motion.span>
         ) : (
-          '한정판 터치캡을 화면에 찍어 입장하세요 · 일반 병은 뚜껑 안 QR로'
+          '병뚜껑 안 QR로 들어오면 출석 도장이 쌓여요'
         )}
       </p>
 
       {!stamped && stampCount > 0 && (
         <p className="touchcap-record">
           출석 도장 {Math.min(stampCount, STAMP_GOAL)}/{STAMP_GOAL}
-          {stampCount >= STAMP_GOAL ? ' · 개근상 굿즈 교환 가능!' : ' · 다 모으면 개근상 굿즈'}
+          {stampCount >= STAMP_GOAL
+            ? ' · 개근상 굿즈를 받을 수 있어요'
+            : ' · 다 모으면 개근상 굿즈를 드려요'}
         </p>
       )}
     </div>
