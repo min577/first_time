@@ -41,8 +41,8 @@ export default function Courses() {
           </span>
         </h1>
         <p className="courses-sub">
-          <span>지금 내 앞에 온 '처음'을 고르세요.</span>
-          <span>먼저 해본 선배들의 조언을 볼 수 있어요.</span>
+          <span>지금 당신은 어떤 처음을 맞이하고 있나요?</span>
+          <span>그 경험을 먼저 겪었던 선배들의 조언이 필요하진 않으신가요?</span>
         </p>
         <StatusStrip />
         <div className="courses-persona" role="radiogroup" aria-label="요즘 나는">
@@ -65,14 +65,10 @@ export default function Courses() {
       {ordered.map((category) => {
         const catIdx = CATEGORIES.indexOf(category) // 과목코드는 원래 편 순서 기준으로 고정
         const list = COURSES.filter((c) => c.category === category)
-        const isMine = category === myCategory
         return (
           <section key={category} className="courses-section" aria-label={category}>
             <h2 className="courses-category">
-              <span>
-                {category}
-                {isMine && <span className="courses-category-mine">나의 편</span>}
-              </span>
+              <span>{category}</span>
             </h2>
             <ul className="courses-list">
               {list.map((course, i) => (

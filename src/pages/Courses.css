@@ -116,18 +116,6 @@
   color: var(--paper);
 }
 
-.courses-category-mine {
-  margin-left: 6px;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--paper);
-  background: var(--green-light);
-  padding: 2px 7px;
-  border-radius: var(--radius-pill);
-  vertical-align: middle;
-}
-
 .courses-section {
   margin-bottom: 22px;
 }
