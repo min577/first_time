@@ -130,26 +130,31 @@
   margin-bottom: var(--sp-3);
 }
 
+/* 수강편람 한 장 - 낱개 카드 대신 괘선으로 행이 쌓이는 표 */
 .courses-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--green);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+}
+
+.courses-list li + li {
+  border-top: 1px solid var(--line);
 }
 
 .course-card {
   display: flex;
+  min-height: 60px;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: var(--sp-4);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  background: var(--paper);
-  transition: border-color 0.15s ease;
+  padding: var(--sp-3) var(--sp-4);
+  transition: background-color 0.15s ease;
 }
 
 .course-card:active {
-  border-color: var(--green-light);
+  background-color: var(--green-pale);
 }
 
 .course-main {
