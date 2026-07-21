@@ -26,9 +26,9 @@
 }
 
 .raise-btn.is-raised {
-  background: var(--amber-pale);
-  border-color: var(--amber);
-  color: var(--amber-deep);
+  background: var(--green-pale);
+  border-color: var(--green);
+  color: var(--green);
 }
 
 .raise-glass {
@@ -42,7 +42,7 @@
 }
 
 .raise-btn.is-raised .raise-count {
-  color: var(--amber-deep);
+  color: var(--green);
 }
 
 .raise-float {
@@ -51,7 +51,7 @@
   left: 50%;
   font-size: 12px;
   font-weight: 700;
-  color: var(--amber-deep);
+  color: var(--green);
   pointer-events: none;
   white-space: nowrap;
 }

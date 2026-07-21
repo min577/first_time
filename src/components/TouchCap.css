@@ -17,6 +17,26 @@
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
   transition: border-color 0.2s ease;
+  animation: touchcap-breathe 3.2s ease-in-out infinite;
+}
+
+/* 도장 자리가 은은하게 숨쉰다 — 눌러 달라는 신호 */
+@keyframes touchcap-breathe {
+  0%,
+  100% {
+    border-color: rgba(250, 249, 244, 0.55);
+    transform: scale(1);
+  }
+  50% {
+    border-color: rgba(250, 249, 244, 0.85);
+    transform: scale(1.025);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .touchcap-zone {
+    animation: none;
+  }
 }
 
 .touchcap-zone:active {

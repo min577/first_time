@@ -40,11 +40,27 @@
 
 /* 들어가며 - 안내서 챕터를 여는 위로 한 줄 */
 .room-comfort {
+  position: relative;
   margin-bottom: 20px;
   padding: 18px 20px;
   background: var(--green-pale);
   border-radius: var(--radius-card);
   text-align: center;
+  overflow: hidden;
+}
+
+/* 교재 챕터 첫머리의 큰 따옴표 — 은은한 인쇄 장식 */
+.room-comfort::before {
+  content: '\201C';
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--green);
+  opacity: 0.12;
+  pointer-events: none;
 }
 
 /* 들어가며 표제 — 교재 챕터 제목답게 또렷한 위계 */

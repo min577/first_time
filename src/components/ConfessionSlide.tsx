@@ -104,7 +104,7 @@ export default function ConfessionSlide({
           <div className="cslide-face cslide-front">
             <p className="cslide-text">"{confession.text}"</p>
             <p className="cslide-author">- {confession.author}</p>
-            <span className="cslide-flip-hint">누르면 그날의 사진</span>
+            <span className="cslide-flip-hint">사진 보기</span>
           </div>
           <div className="cslide-face cslide-back">
             <div className="cslide-polaroid">
