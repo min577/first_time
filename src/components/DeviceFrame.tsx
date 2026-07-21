@@ -16,7 +16,7 @@ export default function DeviceFrame({ children }: { children: ReactNode }) {
       <aside className="judge-panel">
         <p className="judge-eyebrow">제43회 DCA · 처음처럼 · Digital Campaign</p>
         <h1 className="judge-title">처음학개론</h1>
-        <p className="judge-concept">“병뚜껑을 따면 열리는 수업”</p>
+        <p className="judge-concept">"병뚜껑을 따면 열리는 수업"</p>
         <ol className="judge-loop">
           {LOOP_STEPS.map((step, i) => (
             <li key={step.title}>

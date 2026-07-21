@@ -1,150 +1,138 @@
-/* Hallmark · playful · Single Task · DESIGN.md · app · P5/H5/E4/S5/R5/V5 · slop/contrast/responsive: pass */
 .toastmaker {
-  padding: var(--space-lg) var(--space-md) var(--space-xl);
+  padding: 24px 20px 32px;
 }
 
 .toast-head {
-  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 3px solid var(--amber);
 }
 
-.toast-kicker {
-  margin-bottom: 4px;
-  color: var(--color-accent-ink);
-  font-size: var(--text-sm);
-  font-weight: 700;
+.toast-head-glass {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  margin-top: 2px;
 }
 
 .toast-title {
-  margin-bottom: var(--space-xs);
-  color: var(--color-ink);
-  font-size: var(--text-lg);
+  font-size: 26px;
+  color: var(--ink);
+  margin-bottom: 6px;
 }
 
 .toast-sub {
-  color: var(--color-muted);
-  font-size: var(--text-sm);
+  font-size: 13px;
+  color: var(--sub);
   word-break: keep-all;
 }
 
 .toast-occasions {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  margin-bottom: var(--space-md);
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .toast-occasion {
-  min-height: var(--control-height);
-  padding-inline: 8px;
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-control);
-  background: var(--color-paper);
-  color: var(--color-muted);
-  font-size: var(--text-sm);
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--sub);
+  font-size: 14px;
   font-weight: 600;
-  white-space: nowrap;
-  transition:
-    background-color var(--dur-short) var(--ease-out),
-    color var(--dur-short) var(--ease-out),
-    transform var(--dur-micro) var(--ease-out);
+  transition: all 0.15s ease;
 }
 
 .toast-occasion.is-active {
-  border-color: var(--color-brand);
-  background: var(--color-brand);
-  color: var(--color-on-brand);
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--paper);
 }
 
-.toast-occasion:active {
-  transform: translateY(1px);
-}
-
-.toast-draw,
-.toast-copy,
-.toast-redraw {
-  display: inline-flex;
-  min-height: var(--control-height);
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-control);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
-}
-
+/* 앰버 허용 구역: 건배사 뽑기 버튼 */
 .toast-draw {
   width: 100%;
-  background: var(--color-brand);
-  color: var(--color-on-brand);
+  padding: 14px 0;
+  border-radius: var(--radius-card);
+  background: var(--amber);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  transition: transform 0.1s ease;
+}
+
+.toast-draw:active {
+  transform: scale(0.98);
 }
 
 .toast-card {
-  padding-top: var(--space-lg);
-  border-top: 3px solid var(--color-accent);
-}
-
-.toast-result-title {
-  margin-bottom: var(--space-lg);
-  color: var(--color-ink);
-  font-size: var(--text-md);
-}
-
-.toast-lines {
-  display: grid;
-  gap: 6px;
-  padding: var(--space-lg) var(--space-md);
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--amber);
   border-radius: var(--radius-card);
-  background: var(--color-paper-raised);
+  padding: 22px 20px;
+  background: var(--paper);
+  text-align: center;
 }
 
 .toast-card-label {
-  color: var(--color-brand-bright);
-  font-size: var(--text-xs);
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--green-light);
+  margin-bottom: 6px;
 }
 
-.toast-card-label:not(:first-child) {
-  margin-top: var(--space-md);
-}
-
-.toast-card-lead,
-.toast-card-response {
-  color: var(--color-ink);
-  font-size: 1.125rem;
+.toast-card-lead {
+  font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.6;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink);
   word-break: keep-all;
+  margin-bottom: 18px;
 }
 
 .toast-card-response {
-  color: var(--color-brand);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--green);
+  margin-bottom: 18px;
 }
 
-.toast-sober {
-  margin-block: var(--space-md);
-  color: var(--color-muted);
-  font-size: var(--text-sm);
-}
-
-.toast-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-xs);
+.toast-card-foot {
+  font-size: 12px;
+  color: var(--sub);
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
 }
 
 .toast-copy {
-  background: var(--color-brand);
-  color: var(--color-on-brand);
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green-light);
+  text-decoration: underline;
+  padding: 4px 8px;
 }
 
-.toast-redraw {
-  border: 1px solid var(--color-rule);
-  color: var(--color-muted);
+.toast-copy:active {
+  color: var(--green);
 }
 
-@media (max-width: 22rem) {
-  .toast-actions {
-    grid-template-columns: 1fr;
-  }
+/* 절주 가이드 내장 — 건배사와 함께 반드시 한 줄 나온다 */
+.toast-sober {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--green-pale);
+  color: var(--green);
+  font-size: 11px;
+  word-break: keep-all;
 }

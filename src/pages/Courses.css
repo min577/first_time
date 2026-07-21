@@ -1,126 +1,208 @@
-/* Hallmark · playful · Index-First · DESIGN.md · app · P5/H5/E4/S5/R5/V5 · slop/contrast/responsive: pass */
 .courses {
-  padding: var(--space-lg) var(--space-md) var(--space-xl);
+  padding: 24px 20px 32px;
 }
 
+/* 교재 표지 - 병초록 표지에 크림 타이포, 병 라벨의 이중 괘선 */
 .courses-head {
-  margin-bottom: var(--space-xl);
+  position: relative;
+  margin-bottom: 24px;
+  padding: 20px 18px 18px;
+  background: var(--green);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 0 0 4px var(--green), inset 0 0 0 5px rgba(250, 249, 244, 0.45);
+}
+
+.courses-cap {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 62px;
+  height: auto;
+  opacity: 0.95;
+}
+
+.courses-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(250, 249, 244, 0.75);
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 .courses-title {
-  margin-bottom: var(--space-sm);
-  color: var(--color-ink);
-  font-size: var(--text-lg);
+  font-size: 26px;
+  color: var(--paper);
+  margin-bottom: 6px;
+}
+
+/* 낙관 — 표지에 찍힌 붉은 인장 */
+.courses-seal {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 4px;
+  border: 1.5px solid #d96a5f;
+  border-radius: 3px;
+  color: #f0a49b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transform: rotate(-4deg) translateY(-6px);
 }
 
 .courses-sub {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  color: var(--color-muted);
-  font-size: var(--text-sm);
-  line-height: 1.55;
+  font-size: 13px;
+  color: rgba(250, 249, 244, 0.85);
   word-break: keep-all;
+  max-width: 250px;
 }
 
+/* 표지(초록) 위에 놓이는 출석부·세대 선택 재조색 */
+.courses-head .statusstrip {
+  background: rgba(250, 249, 244, 0.14);
+}
+
+.courses-head .statusstrip-text {
+  color: var(--paper);
+}
+
+.courses-head .statusstrip-dot {
+  border-color: rgba(250, 249, 244, 0.5);
+}
+
+.courses-head .statusstrip-dot.is-filled {
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+.courses-head .courses-persona-label {
+  color: rgba(250, 249, 244, 0.7);
+}
+
+.courses-head .courses-persona-chip {
+  border-color: rgba(250, 249, 244, 0.4);
+  color: rgba(250, 249, 244, 0.85);
+  background: transparent;
+}
+
+.courses-head .courses-persona-chip.is-active {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--green);
+}
+
+/* 요즘 나는 — 세대 선택 시 내 편이 맨 위로 */
 .courses-persona {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  align-items: center;
   gap: 6px;
-  margin-top: var(--space-md);
+  margin-top: 12px;
+}
+
+.courses-persona-label {
+  font-size: 11px;
+  color: var(--sub);
+  margin-right: 2px;
 }
 
 .courses-persona-chip {
-  min-height: var(--control-height);
-  padding-inline: 8px;
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-control);
-  background: var(--color-paper);
-  color: var(--color-muted);
-  font-size: var(--text-sm);
+  font-size: 11px;
   font-weight: 600;
-  white-space: nowrap;
-  transition:
-    background-color var(--dur-short) var(--ease-out),
-    color var(--dur-short) var(--ease-out),
-    transform var(--dur-micro) var(--ease-out);
+  color: var(--sub);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--paper);
 }
 
 .courses-persona-chip.is-active {
-  border-color: var(--color-brand);
-  background: var(--color-brand);
-  color: var(--color-on-brand);
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--paper);
 }
 
-.courses-persona-chip:active {
-  transform: translateY(1px);
+.courses-category-mine {
+  margin-left: 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--green-light);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  vertical-align: middle;
 }
 
-.courses-section + .courses-section {
-  margin-top: var(--space-xl);
+.courses-section {
+  margin-bottom: 22px;
 }
 
 .courses-category {
-  margin-bottom: var(--space-sm);
-  padding-bottom: var(--space-xs);
-  border-bottom: 1px solid var(--color-rule);
-  color: var(--color-brand);
-  font-size: var(--text-base);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--green);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.courses-category-count {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sub);
 }
 
 .courses-list {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .course-card {
   display: flex;
-  min-height: 78px;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-sm);
-  padding: 14px 4px;
-  border-bottom: 1px solid var(--color-rule);
-  background: var(--color-paper);
-  transition:
-    color var(--dur-short) var(--ease-out),
-    transform var(--dur-micro) var(--ease-out);
+  gap: 12px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  transition: border-color 0.15s ease;
 }
 
 .course-card:active {
-  transform: translateX(2px);
+  border-color: var(--green-light);
 }
 
 .course-main {
   display: flex;
-  min-width: 0;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .course-code {
-  color: var(--color-brand-bright);
-  font-size: var(--text-xs);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
+  color: var(--green-light);
 }
 
 .course-title {
-  color: var(--color-ink);
-  font-size: var(--text-base);
+  font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.4;
-  word-break: keep-all;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.course-meta {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: var(--sub);
 }
 
 .course-arrow {
-  flex: 0 0 auto;
-  color: var(--color-brand-bright);
-  font-size: var(--text-md);
-}
-
-@media (min-width: 40rem) {
-  .courses {
-    padding-inline: var(--space-lg);
-  }
+  margin-left: 6px;
+  color: var(--green-light);
 }

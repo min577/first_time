@@ -1,14 +1,18 @@
 .muralview {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-modal);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* 하단 탭바는 덮지 않는다 - 탭 이동 가능 */
+  bottom: calc(58px + env(safe-area-inset-bottom));
+  z-index: 30;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2xs);
-  padding: var(--space-lg) var(--space-lg) calc(72px + env(safe-area-inset-bottom));
-  color: var(--color-on-brand);
+  gap: 5px;
+  padding: 22px 24px;
+  color: var(--paper);
   text-align: center;
   overflow: hidden;
   /* 이슬 맺힌 병 유리 배경 + 비네트 */
@@ -24,40 +28,50 @@
     100% 100%;
 }
 
-.muralview-title {
-  font-size: var(--text-md);
+.muralview-eyebrow {
+  font-size: 10px;
   font-weight: 700;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+}
+
+.muralview-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
   word-break: keep-all;
 }
 
 .muralview-done {
   margin-left: 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--green);
+  background: var(--paper);
   padding: 2px 8px;
   border-radius: var(--radius-pill);
-  background: var(--color-paper);
-  color: var(--color-brand);
-  font-size: var(--text-xs);
-  font-weight: 700;
   vertical-align: middle;
 }
 
 .muralview-desc {
-  max-width: 280px;
-  color: var(--color-on-brand-muted);
-  font-size: var(--text-sm);
+  font-size: 11.5px;
   line-height: 1.6;
+  opacity: 0.75;
   word-break: keep-all;
+  max-width: 258px;
 }
 
-/* 액자 — 병 라벨식 이중 괘선. 진행 중엔 눌러서 내 뚜껑을 붙인다 */
+/* 액자 — 병 라벨식 이중 괘선, 벽감에 들어간 작품. 진행 중엔 눌러서 도장 찍기 */
 .muralview-frame {
-  margin: var(--space-sm) 0 var(--space-xs);
+  margin: 12px 0 8px;
   padding: 14px 22px;
   -webkit-tap-highlight-color: transparent;
-  border-radius: var(--radius-control);
+  border-radius: 12px;
   background: rgba(4, 32, 22, 0.35);
   box-shadow:
     0 0 0 1px rgba(250, 249, 244, 0.32),
+    inset 0 0 0 4px rgba(4, 32, 22, 0),
     inset 0 0 0 5px rgba(250, 249, 244, 0.16),
     0 18px 34px rgba(0, 0, 0, 0.3);
 }
@@ -65,6 +79,22 @@
 .muralview-art {
   display: block;
   height: auto;
+}
+
+/* 완성작은 천천히 부유, 진행작은 고정(뚜껑이 정확한 자리에 날아와 박히도록) */
+.muralview-frame:not(.is-live) .muralview-art {
+  animation: muralview-float 7s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes muralview-float {
+  0%,
+  100% {
+    transform: rotateY(-8deg) rotateX(3deg);
+  }
+  50% {
+    transform: rotateY(8deg) rotateX(-3deg);
+  }
 }
 
 /* 등장 시 뚜껑이 하나씩 박힌다 */
@@ -88,25 +118,19 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .muralview-cap {
-    animation: none;
-  }
-}
-
 .muralview-stats {
   display: flex;
+  gap: 6px;
   flex-wrap: wrap;
-  gap: var(--space-2xs);
   justify-content: center;
-  margin-top: var(--space-2xs);
 }
 
 .muralview-stat {
-  padding: 6px 12px;
-  border-radius: var(--radius-pill);
+  font-size: 11px;
+  opacity: 0.9;
   background: rgba(250, 249, 244, 0.12);
-  font-size: var(--text-sm);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
 }
 
 .muralview-stat strong {
@@ -115,6 +139,31 @@
 
 .muralview-stat.is-mine {
   color: var(--amber);
+}
+
+/* 테이블 위의 잔 — 버튼이 아니라 오브젝트 */
+.muralview-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.muralview-glass {
+  padding: 6px 18px 2px;
+  border-radius: 14px;
+  -webkit-tap-highlight-color: transparent;
+  /* 테이블 면 */
+  background: linear-gradient(180deg, transparent 74%, rgba(4, 32, 22, 0.5) 74%);
+}
+
+.muralview-glass:active {
+  transform: scale(0.94);
+}
+
+.muralview-glass:disabled {
+  opacity: 0.45;
 }
 
 .muralview-frame.is-live {
@@ -126,25 +175,34 @@
 }
 
 .muralview-table-hint {
-  margin-top: var(--space-xs);
-  color: var(--color-on-brand-muted);
-  font-size: var(--text-sm);
-  word-break: keep-all;
+  margin-top: 10px;
+}
+
+.muralview-table-hint {
+  font-size: 10.5px;
+  opacity: 0.65;
+}
+
+/* 날아가는 뚜껑 */
+.muralview-flight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #f5c06a 0%, var(--amber) 55%, #8a5e18 100%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
 }
 
 .muralview-close {
   position: absolute;
-  bottom: calc(16px + env(safe-area-inset-bottom));
-  left: 50%;
-  display: inline-flex;
-  min-height: var(--control-height);
-  align-items: center;
-  padding-inline: var(--space-lg);
-  transform: translateX(-50%);
-  border: 1px solid var(--color-on-brand-rule);
-  border-radius: var(--radius-control);
-  color: var(--color-on-brand);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(250, 249, 244, 0.7);
+  text-decoration: underline;
+  padding: 6px;
 }
