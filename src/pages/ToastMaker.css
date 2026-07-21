@@ -107,32 +107,40 @@
 }
 
 .toast-card-foot {
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--sub);
   border-top: 1px solid var(--line);
   padding-top: 12px;
 }
 
+/* 복사는 결과의 주 행동 — 링크가 아니라 버튼 */
 .toast-copy {
-  margin-top: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--green-light);
-  text-decoration: underline;
-  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 10px 26px;
+  border-radius: var(--radius-pill);
+  background: var(--green);
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 0.1s ease;
 }
 
 .toast-copy:active {
-  color: var(--green);
+  transform: scale(0.97);
 }
 
 /* 절주 가이드 내장 — 건배사와 함께 반드시 한 줄 나온다 */
 .toast-sober {
+  display: inline-block;
   margin-top: 12px;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: var(--radius-pill);
   background: var(--green-pale);
   color: var(--green);
-  font-size: 11px;
+  font-size: 12.5px;
   word-break: keep-all;
 }

@@ -71,8 +71,8 @@ export default function ToastMaker() {
           <path d="M7 4h10l-1.2 15a2 2 0 0 1-2 1.8H10.2a2 2 0 0 1-2-1.8L7 4Z" />
         </svg>
         <div>
-          <h1 className="toast-title">건배사 생성기</h1>
-          <p className="toast-sub">건배사가 처음이어도 괜찮습니다. 자리를 고르고 뽑으세요.</p>
+          <h1 className="toast-title">오늘의 건배사</h1>
+          <p className="toast-sub">건배사가 처음이어도 괜찮아요. 자리를 고르고 뽑아보세요.</p>
         </div>
       </header>
 
@@ -105,15 +105,39 @@ export default function ToastMaker() {
             exit={reducedMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
           >
-            <p className="toast-card-label">선창</p>
-            <p className="toast-card-lead">"{result.lead}"</p>
-            <p className="toast-card-label">후창</p>
-            <p className="toast-card-response">"{result.response}"</p>
-            <p className="toast-card-foot">따라 읽기만 하면 됩니다. 나머지는 잔이 알아서.</p>
-            <p className="toast-sober">절주 한 줄 - {result.soberTip}</p>
-            <button type="button" className="toast-copy" onClick={copy} aria-label="건배사 복사하기">
-              {copied ? '복사됐습니다 - 단톡방에 미리 공유해두세요' : '건배사 복사하기'}
-            </button>
+            {/* 선창을 외치면 후창이 따라온다 — 실제 자리의 콜 앤 리스폰스 리듬 */}
+            <motion.div
+              initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
+              <p className="toast-card-label">선창</p>
+              <p className="toast-card-lead">"{result.lead}"</p>
+            </motion.div>
+            <motion.div
+              initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.22, delay: reducedMotion ? 0 : 0.4, ease: 'easeOut' }}
+            >
+              <p className="toast-card-label">후창</p>
+              <p className="toast-card-response">"{result.response}"</p>
+            </motion.div>
+            <motion.div
+              initial={reducedMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: reducedMotion ? 0 : 0.7 }}
+            >
+              <p className="toast-card-foot">따라 읽기만 하면 돼요.</p>
+              <p className="toast-sober">{result.soberTip}</p>
+              <button
+                type="button"
+                className="toast-copy"
+                onClick={copy}
+                aria-label="건배사 복사하기"
+              >
+                {copied ? '복사했어요' : '건배사 복사하기'}
+              </button>
+            </motion.div>
           </motion.article>
         )}
       </AnimatePresence>
