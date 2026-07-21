@@ -54,6 +54,8 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
           : `이 글에 잔 들기. 현재 ${total.toLocaleString()}잔`
       }
     >
+      <span className="raise-label">{raised ? '잔 들었어요' : '잔 들기'}</span>
+      <span className="raise-count">{total.toLocaleString()}</span>
       <motion.span
         className="raise-glass"
         animate={floating ? { rotate: [0, -14, 9, 0] } : { rotate: 0 }}
@@ -61,8 +63,6 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
       >
         <SojuGlass filled={raised} />
       </motion.span>
-      <span className="raise-label">{raised ? '잔 들었어요' : '잔 들기'}</span>
-      <span className="raise-count">{total.toLocaleString()}</span>
 
       <AnimatePresence>
         {floating && (

@@ -98,7 +98,7 @@ function CourseRoomView({ course }: { course: Course }) {
         >
           "{confessionOpener(course)}" 고백하러 가기 →
         </button>
-        <p className="room-confess-sub">이름은 남지 않아요. 사람들이 이 처음에 잔을 들어줘요.</p>
+        <p className="room-confess-sub">사람들이 당신의 처음에 잔을 들어줘요.</p>
       </section>
     </div>
   )

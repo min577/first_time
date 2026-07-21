@@ -42,7 +42,7 @@ export default function Courses() {
         </h1>
         <p className="courses-sub">
           <span>지금 당신은 어떤 처음을 맞이하고 있나요?</span>
-          <span>그 경험을 먼저 겪었던 선배들의 조언이 필요하진 않으신가요?</span>
+          <span>먼저 그 경험을 겪었던 선배들의 조언을 들어보세요.</span>
         </p>
         <StatusStrip />
         <div className="courses-persona" role="radiogroup" aria-label="요즘 나는">

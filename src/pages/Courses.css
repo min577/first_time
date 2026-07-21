@@ -47,7 +47,7 @@
   flex-direction: column;
   gap: 2px;
   font-size: 13.5px;
-  line-height: 1.55;
+  line-height: 1.6;
   color: rgba(250, 249, 244, 0.88);
   word-break: keep-all;
 }
@@ -117,18 +117,17 @@
 }
 
 .courses-section {
-  margin-bottom: 22px;
+  margin-bottom: 26px;
 }
 
+/* 편 제목 — 카드 테두리와 경쟁하는 선 없이 제목만으로 구획한다 */
 .courses-category {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--green);
   margin-bottom: 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px dashed var(--line);
 }
 
 .courses-list {
