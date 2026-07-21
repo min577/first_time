@@ -134,22 +134,38 @@ export default function ToastMaker() {
         </AnimatePresence>
       </div>
 
-      {/* 하단 조작부 — 자리 선택과 뽑기가 엄지 근처에 붙어 있다 */}
+      {/* 하단 조작부 — 모임 선택과 뽑기가 엄지 근처에 붙어 있다 */}
       <div className="toast-controls">
-        <div className="toast-occasions" role="radiogroup" aria-label="모임 선택">
-          {TOAST_OCCASIONS.map((item) => (
-            <button
-              key={item}
-              type="button"
-              role="radio"
-              aria-checked={occasion === item}
-              className={`toast-occasion${occasion === item ? ' is-active' : ''}`}
-              onClick={() => pickOccasion(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
+        <span className="toast-select">
+          <select
+            className="toast-select-input"
+            value={occasion}
+            onChange={(e) => pickOccasion(e.target.value as Occasion)}
+            aria-label="모임 선택"
+          >
+            {TOAST_OCCASIONS.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="toast-select-arrow"
+            viewBox="0 0 10 6"
+            width="12"
+            height="7"
+            aria-hidden="true"
+          >
+            <path
+              d="M1 1l4 4 4-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
 
         <button type="button" className="toast-draw" onClick={draw}>
           {result ? '다시 뽑기' : '건배사 뽑기'}

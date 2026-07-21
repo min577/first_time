@@ -61,10 +61,11 @@
 }
 
 /* 뽑힌 건배사 - 병 라벨식 초록 카드 */
+/* 카드 안쪽 여백은 네 방향 동일 - 후창 아래가 좁아 보이지 않게 */
 .toast-card {
   width: 100%;
   max-width: 300px;
-  padding: var(--sp-6) var(--sp-6) var(--sp-5);
+  padding: var(--sp-6);
   border-radius: var(--radius-card);
   background: linear-gradient(170deg, #0d6847 0%, #0b5c3f 58%, #084430 100%);
   box-shadow:
@@ -124,28 +125,34 @@
   padding-top: 14px;
 }
 
-.toast-occasions {
+/* 모임 선택 드롭다운 - 뽑기 버튼과 같은 폭, 같은 pill 문법 */
+.toast-select {
+  position: relative;
   display: flex;
-  gap: 8px;
+  align-items: center;
 }
 
-.toast-occasion {
-  flex: 1;
-  min-height: 44px;
-  padding: var(--sp-3) 0;
+.toast-select-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--sp-3) var(--sp-8) var(--sp-3) var(--sp-5);
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   background: var(--paper);
-  color: var(--sub);
-  font-size: 14px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
   font-weight: 600;
-  transition: all 0.15s ease;
+  cursor: pointer;
 }
 
-.toast-occasion.is-active {
-  background: var(--green);
-  border-color: var(--green);
-  color: var(--paper);
+.toast-select-arrow {
+  position: absolute;
+  right: var(--sp-5);
+  color: var(--sub);
+  pointer-events: none;
 }
 
 /* 앰버 허용 구역: 건배사 뽑기 버튼 — 칩과 같은 pill 문법 */
@@ -215,9 +222,8 @@
     padding-top: 10px;
   }
 
-  .toast-occasion {
-    min-height: 40px;
-    padding: 8px 0;
+  .toast-select-input {
+    min-height: 44px;
   }
 
   .toast-draw {
