@@ -76,15 +76,18 @@ export default function Composer({
 
   return (
     <div className="composer">
-      <textarea
-        className="composer-input"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={placeholder}
-        rows={rows}
-        maxLength={200}
-        aria-label={placeholder}
-      />
+      {/* 입력 카드는 입력만 담는다 — 행동 버튼은 카드 밖 */}
+      <div className="composer-box">
+        <textarea
+          className="composer-input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={placeholder}
+          rows={rows}
+          maxLength={200}
+          aria-label={placeholder}
+        />
+      </div>
       <div className="composer-foot">
         <span className="composer-helper">
           {helper}

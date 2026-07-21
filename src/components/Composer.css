@@ -1,10 +1,17 @@
-.composer {
+/* 입력 카드(연초록)는 입력만 담고, 도움말과 버튼은 카드 밖에 놓인다 */
+.composer-box {
   background: var(--green-pale);
   border-radius: var(--radius-card);
   padding: 12px;
 }
 
+.composer-box:focus-within {
+  outline: 2px solid var(--green-light);
+  outline-offset: 1px;
+}
+
 .composer-input {
+  display: block;
   width: 100%;
   border: none;
   background: transparent;
@@ -23,18 +30,13 @@
   outline: none;
 }
 
-.composer:focus-within {
-  outline: 2px solid var(--green-light);
-  outline-offset: 1px;
-}
-
 .composer-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 
 .composer-helper {
