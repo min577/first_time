@@ -5,6 +5,7 @@ import './ToastMaker.css'
 
 type Result = {
   key: number
+  occasion: Occasion
   lead: string
   response: string
   soberTip: string
@@ -47,6 +48,7 @@ export default function ToastMaker() {
     setCopied(false)
     setResult((prev) => ({
       key: (prev?.key ?? 0) + 1,
+      occasion,
       lead: pick(TOAST_LEADS[occasion], prev?.lead),
       response: pick(TOAST_RESPONSES, prev?.response),
       soberTip: pick(SOBER_TIPS, prev?.soberTip),
@@ -76,71 +78,113 @@ export default function ToastMaker() {
         </div>
       </header>
 
-      <div className="toast-occasions" role="radiogroup" aria-label="자리 선택">
-        {TOAST_OCCASIONS.map((item) => (
-          <button
-            key={item}
-            type="button"
-            role="radio"
-            aria-checked={occasion === item}
-            className={`toast-occasion${occasion === item ? ' is-active' : ''}`}
-            onClick={() => pickOccasion(item)}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-
-      <button type="button" className="toast-draw" onClick={draw} aria-label="건배사 뽑기">
-        {result ? '다시 뽑기' : '건배사 뽑기'}
-      </button>
-
-      <AnimatePresence mode="wait">
-        {result && (
-          <motion.article
-            key={result.key}
-            className="toast-card"
-            initial={reducedMotion ? false : { opacity: 0, y: 14, rotate: -1.5 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
-            exit={reducedMotion ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-          >
-            {/* 선창을 외치면 후창이 따라온다 — 실제 자리의 콜 앤 리스폰스 리듬 */}
-            <motion.div
-              initial={reducedMotion ? false : { opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22, ease: 'easeOut' }}
+      {/* 무대 — 뽑힌 건배사가 병 라벨 카드로 가운데에서 등장한다 */}
+      <div className="toast-stage">
+        <AnimatePresence mode="wait">
+          {result ? (
+            <motion.article
+              key={result.key}
+              className="toast-card"
+              initial={reducedMotion ? false : { opacity: 0, scale: 0.72, y: 22, rotate: -4 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+              exit={reducedMotion ? undefined : { opacity: 0, scale: 0.92, y: -10 }}
+              transition={
+                reducedMotion
+                  ? { duration: 0.15 }
+                  : { type: 'spring', stiffness: 300, damping: 22 }
+              }
             >
-              <p className="toast-card-label">선창</p>
-              <p className="toast-card-lead">"{result.lead}"</p>
-            </motion.div>
+              <p className="toast-card-occasion">{result.occasion}</p>
+
+              {/* 선창을 외치면 후창이 따라온다 — 실제 자리의 콜 앤 리스폰스 리듬 */}
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.22, delay: reducedMotion ? 0 : 0.15 }}
+              >
+                <p className="toast-card-label">선창</p>
+                <p className="toast-card-lead">"{result.lead}"</p>
+              </motion.div>
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.22, delay: reducedMotion ? 0 : 0.55 }}
+              >
+                <p className="toast-card-label">후창</p>
+                <p className="toast-card-response">"{result.response}"</p>
+              </motion.div>
+
+              <motion.div
+                className="toast-card-tail"
+                initial={reducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2, delay: reducedMotion ? 0 : 0.85 }}
+              >
+                <p className="toast-sober">{result.soberTip}</p>
+                <button
+                  type="button"
+                  className="toast-copy"
+                  onClick={copy}
+                  aria-label="건배사 복사하기"
+                >
+                  {copied ? '복사했어요' : '건배사 복사하기'}
+                </button>
+              </motion.div>
+            </motion.article>
+          ) : (
             <motion.div
-              initial={reducedMotion ? false : { opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22, delay: reducedMotion ? 0 : 0.4, ease: 'easeOut' }}
-            >
-              <p className="toast-card-label">후창</p>
-              <p className="toast-card-response">"{result.response}"</p>
-            </motion.div>
-            <motion.div
+              key="empty"
+              className="toast-empty"
               initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.2, delay: reducedMotion ? 0 : 0.7 }}
+              exit={reducedMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.15 }}
             >
-              <p className="toast-card-foot">따라 읽기만 하면 돼요.</p>
-              <p className="toast-sober">{result.soberTip}</p>
-              <button
-                type="button"
-                className="toast-copy"
-                onClick={copy}
-                aria-label="건배사 복사하기"
+              <svg
+                viewBox="0 0 24 24"
+                width="30"
+                height="30"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
               >
-                {copied ? '복사했어요' : '건배사 복사하기'}
-              </button>
+                <path d="M7 4h10l-1.2 15a2 2 0 0 1-2 1.8H10.2a2 2 0 0 1-2-1.8L7 4Z" />
+                <path d="M7.6 11h8.8" />
+              </svg>
+              <p>
+                자리를 고르고
+                <br />
+                건배사를 뽑아보세요
+              </p>
             </motion.div>
-          </motion.article>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* 하단 조작부 — 자리 선택과 뽑기가 엄지 근처에 붙어 있다 */}
+      <div className="toast-controls">
+        <div className="toast-occasions" role="radiogroup" aria-label="자리 선택">
+          {TOAST_OCCASIONS.map((item) => (
+            <button
+              key={item}
+              type="button"
+              role="radio"
+              aria-checked={occasion === item}
+              className={`toast-occasion${occasion === item ? ' is-active' : ''}`}
+              onClick={() => pickOccasion(item)}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+
+        <button type="button" className="toast-draw" onClick={draw}>
+          {result ? '다시 뽑기' : '건배사 뽑기'}
+        </button>
+      </div>
     </div>
   )
 }
