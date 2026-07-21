@@ -1,17 +1,28 @@
+/* 카드와 구분되는 실제 버튼 — 눌러 달라는 표정을 짓는다 */
 .raise-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--green-light);
   border-radius: var(--radius-pill);
   background: var(--paper);
-  color: var(--sub);
+  color: var(--green);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 4px rgba(27, 33, 29, 0.08);
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.raise-btn:active {
+  transform: translateY(1px);
+}
+
+.raise-label {
+  white-space: nowrap;
 }
 
 .raise-btn.is-raised {
@@ -26,6 +37,12 @@
 
 .raise-count {
   font-variant-numeric: tabular-nums;
+  color: var(--sub);
+  font-weight: 600;
+}
+
+.raise-btn.is-raised .raise-count {
+  color: var(--amber-deep);
 }
 
 .raise-float {

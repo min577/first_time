@@ -1,0 +1,43 @@
+.sortselect {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sortselect-input {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 36px;
+  padding: 6px 26px 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sortselect-arrow {
+  position: absolute;
+  right: 11px;
+  color: var(--sub);
+  pointer-events: none;
+}
+
+/* 어두운 배경(처음 고백) 위 재조색 */
+.sortselect.is-dark .sortselect-input {
+  border-color: rgba(250, 249, 244, 0.4);
+  background: transparent;
+  color: var(--paper);
+}
+
+.sortselect.is-dark .sortselect-arrow {
+  color: rgba(250, 249, 244, 0.7);
+}
+
+.sortselect.is-dark .sortselect-input option {
+  color: var(--ink);
+  background: var(--paper);
+}
