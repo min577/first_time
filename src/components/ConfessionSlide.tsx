@@ -5,7 +5,6 @@ import { LABEL_THRESHOLD } from '../data/confessions'
 import { findCourse } from '../data/courses'
 import RaiseButton from './RaiseButton'
 import LabelBadge from './LabelBadge'
-import { saveConfessionCard } from '../hooks/photocard'
 import './ConfessionSlide.css'
 
 // 그날의 술상 — 사연마다 소품이 다른 폴라로이드 속 장면 (사진이 없을 때의 폴백)
@@ -134,14 +133,6 @@ export default function ConfessionSlide({
           aria-label={`조언 ${commentCount}개 보기`}
         >
           조언 {commentCount}
-        </button>
-        <button
-          type="button"
-          className="cslide-action"
-          onClick={() => saveConfessionCard(confession)}
-          aria-label="포토카드로 저장"
-        >
-          포토카드
         </button>
         {mine && onRemove && (
           <button

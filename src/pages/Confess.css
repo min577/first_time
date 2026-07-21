@@ -75,12 +75,13 @@
   border-radius: var(--radius-pill);
 }
 
-/* 릴스 트랙 — proximity: 릴스 감은 남기되 스크롤을 빼앗지 않는다 */
+/* 릴스 트랙 — mandatory: 짧은 플릭에도 반드시 다음 장으로 넘어간다 */
 .confessr-track {
   height: 100%;
   overflow-y: auto;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -93,6 +94,7 @@
 .confessr-intro {
   height: 100%;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
   align-items: center;
