@@ -1,177 +1,167 @@
+/* Hallmark · playful · Long Document · DESIGN.md · app · P5/H5/E4/S5/R5/V5 · slop/contrast/responsive: pass */
 .course-room {
-  padding: 20px 20px 32px;
+  padding: var(--space-md) var(--space-md) var(--space-xl);
 }
 
 .room-head {
-  margin-bottom: 18px;
+  margin-bottom: var(--space-lg);
 }
 
 .room-back {
-  display: inline-block;
-  font-size: 13px;
+  display: inline-flex;
+  min-height: var(--control-height);
+  align-items: center;
+  margin-bottom: var(--space-md);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--sub);
-  margin-bottom: 16px;
-}
-
-.room-back:active {
-  color: var(--green);
+  white-space: nowrap;
 }
 
 .room-category {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--green-light);
   margin-bottom: 4px;
+  color: var(--color-brand-bright);
+  font-size: var(--text-xs);
+  font-weight: 700;
 }
 
 .room-title {
-  font-size: 24px;
-  color: var(--ink);
-  margin-bottom: 6px;
+  margin-bottom: var(--space-xs);
+  color: var(--color-ink);
+  font-size: var(--text-lg);
 }
 
 .room-sub {
-  font-size: 12px;
-  color: var(--sub);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  word-break: keep-all;
 }
 
-/* 들어가며 - 안내서 챕터를 여는 위로 한 줄 */
 .room-comfort {
-  margin-bottom: 20px;
-  padding: 18px 20px;
-  background: var(--green-pale);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-lg) var(--space-md);
   border-radius: var(--radius-card);
-  text-align: center;
+  background: var(--color-brand-soft);
 }
 
 .room-comfort-label {
-  font-size: 10px;
+  margin-bottom: var(--space-xs);
+  color: var(--color-brand);
+  font-size: var(--text-sm);
   font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--green-light);
-  margin-bottom: 8px;
 }
 
 .room-comfort-text {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
+  color: var(--color-brand-strong);
+  font-size: var(--text-base);
+  font-weight: 600;
   line-height: 1.7;
-  color: var(--green);
   word-break: keep-all;
 }
 
 .room-sorthead {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  gap: var(--space-sm);
+  margin-bottom: 4px;
 }
 
 .room-section-title {
-  font-family: var(--font-body);
-  font-size: 12px;
+  color: var(--color-ink);
+  font-size: var(--text-base);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--sub);
+}
+
+.room-vote-help {
+  margin-bottom: var(--space-sm);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
 }
 
 .room-tips {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 26px;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
 }
 
-/* 그 시절엔 - 학번 뱃지가 붙은 회상 카드 */
 .room-memories {
-  margin-bottom: 26px;
+  margin-bottom: var(--space-xl);
 }
 
 .room-memories .room-section-title {
-  margin-bottom: 10px;
+  margin-bottom: var(--space-sm);
 }
 
 .room-memories-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
 }
 
 .room-memory {
-  padding: 12px 14px;
-  border: 1px dashed var(--line);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-rule);
   border-radius: var(--radius-card);
 }
 
 .room-memory-era {
   display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--green-light);
-  border: 1px solid var(--green-pale);
-  background: var(--green-pale);
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
   margin-bottom: 6px;
+  color: var(--color-brand-bright);
+  font-size: var(--text-xs);
+  font-weight: 700;
 }
 
 .room-memory-text {
-  font-family: var(--font-display);
-  font-size: 14px;
+  color: var(--color-ink);
+  font-size: var(--text-sm);
   line-height: 1.65;
-  color: var(--ink);
   word-break: keep-all;
 }
 
 .room-memories-hint {
-  font-size: 11px;
-  color: var(--sub);
-  text-align: right;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
 }
 
 .room-composer-title {
-  font-size: 15px;
-  color: var(--green);
-  margin-bottom: 10px;
+  margin-bottom: var(--space-sm);
+  color: var(--color-ink);
+  font-size: var(--text-base);
 }
 
 .room-confess {
-  margin-top: 26px;
-  padding: 18px 16px;
-  background: var(--green-pale);
-  border-radius: var(--radius-card);
-  text-align: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-rule);
 }
 
 .room-confess-copy {
-  font-family: var(--font-display);
-  font-size: 14px;
-  color: var(--ink);
-  margin-bottom: 12px;
+  margin-bottom: var(--space-sm);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
   word-break: keep-all;
 }
 
 .room-confess-btn {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: var(--radius-pill);
-  background: var(--green);
-  color: var(--paper);
-  font-size: 14px;
+  display: inline-flex;
+  min-height: var(--control-height);
+  align-items: center;
+  padding-inline: var(--space-md);
+  border: 1px solid var(--color-brand);
+  border-radius: var(--radius-control);
+  color: var(--color-brand);
+  font-size: var(--text-sm);
   font-weight: 700;
-  word-break: keep-all;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
 }
 
 .room-confess-btn:active {
-  background: var(--green-light);
-}
-
-.room-confess-sub {
-  margin-top: 10px;
-  font-size: 11px;
-  color: var(--sub);
+  transform: translateY(1px);
 }

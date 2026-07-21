@@ -3,6 +3,7 @@
   align-items: center;
   gap: 8px;
   margin-top: 10px;
+  min-height: var(--control-height);
   padding: 6px 12px;
   border-radius: var(--radius-pill);
   background: var(--green-pale);
@@ -26,7 +27,7 @@
 }
 
 .statusstrip-text {
-  font-size: 11px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--green);
 }

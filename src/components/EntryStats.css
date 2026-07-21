@@ -1,22 +1,21 @@
 .entrystats {
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: var(--z-raised);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: var(--green);
-  color: var(--paper);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   text-align: center;
   padding: 24px;
 }
 
 .entrystats-eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  opacity: 0.75;
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-sm);
   margin-bottom: 14px;
 }
 
@@ -27,34 +26,25 @@
 }
 
 .entrystats-pct {
-  font-family: var(--font-display);
   font-weight: 700;
   font-size: 40px;
   line-height: 1.1;
 }
 
-.entrystats-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: 2px;
-  word-break: keep-all;
-}
-
 .entrystats-desc {
-  font-size: 12px;
-  opacity: 0.8;
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-base);
   margin-top: 8px;
   word-break: keep-all;
 }
 
 .entrystats-attendee {
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
   margin-top: 14px;
   padding: 6px 14px;
   border-radius: var(--radius-pill);
-  background: rgba(250, 249, 244, 0.14);
+  background: var(--color-brand-overlay);
 }
 
 .entrystats-hint {
@@ -62,6 +52,8 @@
   left: 0;
   right: 0;
   bottom: calc(18px + env(safe-area-inset-bottom));
-  font-size: 11px;
-  opacity: 0.55;
+  padding-inline: var(--space-md);
+  color: var(--color-on-brand-muted);
+  font-size: var(--text-xs);
+  word-break: keep-all;
 }

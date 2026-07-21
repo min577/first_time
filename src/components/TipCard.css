@@ -1,20 +1,19 @@
 .tip-card {
-  border: 1px solid var(--line);
+  padding: var(--space-md);
+  border: 1px solid var(--color-rule);
   border-radius: var(--radius-card);
-  padding: 16px;
-  background: var(--paper);
+  background: var(--color-paper);
 }
 
 .tip-card.is-mine {
-  background: var(--green-pale);
-  border-color: var(--green-pale);
+  border-color: var(--color-brand-soft);
+  background: var(--color-brand-soft);
 }
 
 .tip-text {
-  font-family: var(--font-display);
-  font-size: 16px;
+  color: var(--color-ink);
+  font-size: var(--text-base);
   line-height: 1.65;
-  color: var(--ink);
   word-break: keep-all;
 }
 
@@ -22,12 +21,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 12px;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
 }
 
 .tip-author {
-  font-size: 12px;
+  color: var(--color-brand-bright);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--green-light);
 }

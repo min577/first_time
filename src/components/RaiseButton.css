@@ -1,23 +1,32 @@
 .raise-btn {
   position: relative;
   display: inline-flex;
+  min-height: var(--control-height);
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  background: var(--paper);
-  color: var(--sub);
-  font-size: 13px;
+  padding-inline: 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
   font-weight: 600;
+  white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    color var(--dur-short) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
 }
 
 .raise-btn.is-raised {
-  background: var(--amber-pale);
-  border-color: var(--amber);
-  color: var(--amber-deep);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
+}
+
+.raise-btn:active {
+  transform: translateY(1px);
 }
 
 .raise-glass {
@@ -32,9 +41,9 @@
   position: absolute;
   top: -8px;
   left: 50%;
-  font-size: 12px;
+  color: var(--color-accent-ink);
+  font-size: var(--text-xs);
   font-weight: 700;
-  color: var(--amber-deep);
   pointer-events: none;
   white-space: nowrap;
 }

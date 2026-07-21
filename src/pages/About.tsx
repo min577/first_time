@@ -32,7 +32,7 @@ export default function About() {
       <header className="about-head">
         <p className="about-eyebrow">제43회 DCA · 처음처럼 · Digital Campaign</p>
         <h1 className="about-logo">처음학개론</h1>
-        <p className="about-concept">"병뚜껑을 따면 열리는 수업"</p>
+        <p className="about-concept">“병뚜껑을 따면 열리는 수업”</p>
       </header>
 
       <section className="about-section" aria-labelledby="about-bg">
@@ -50,9 +50,8 @@ export default function About() {
           Idea
         </h2>
         <p>
-          병뚜껑을 따면 열리는 수업, 처음학개론. 뚜껑 안 QR - 한정판은 뚜껑을 화면에 도장처럼
-          찍어 - 입장한다. 고백은 병 하나당 한 번뿐인 응모이고, 가장 많은 잔을 받은 처음이
-          다음 주의 라벨이 된다.
+          병뚜껑 안 QR로 들어오는 처음학개론. 고백은 병 하나당 한 번 남길 수 있고, 가장 많은
+          잔을 받은 처음이 다음 주의 라벨이 된다.
         </p>
         <ol className="about-loop" aria-label="참여 루프 4단계">
           {LOOP_STEPS.map((step, i) => (

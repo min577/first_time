@@ -122,8 +122,8 @@ export default function Composer({
 
       {guard === 'warn' && (
         <div className="composer-guard is-warn" role="alertdialog" aria-label="문장 점검">
-          <p className="composer-guard-title">이 한 줄, 처음인 사람에게 닿을까요?</p>
-          <p className="composer-guard-text">'나 때는'보다 '나는 이랬어'가 더 오래 남습니다.</p>
+          <p className="composer-guard-title">가르치는 말투일 수 있어요.</p>
+          <p className="composer-guard-text">'나 때는'보다 내 경험을 그대로 적으면 더 잘 읽혀요.</p>
           <div className="composer-guard-actions">
             <button
               type="button"

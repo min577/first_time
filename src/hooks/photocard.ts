@@ -58,7 +58,7 @@ export async function saveConfessionCard(confession: Confession) {
 
   // 폰트 준비 (앱에서 이미 로드된 웹폰트 사용)
   try {
-    await document.fonts.load('700 58px "Gowun Batang"')
+    await document.fonts.load('700 58px "Pretendard Variable"')
   } catch {
     // 폰트 로드 실패 시 시스템 세리프로 대체된다
   }
@@ -76,7 +76,7 @@ export async function saveConfessionCard(confession: Confession) {
   // 사연 본문
   ctx.fillStyle = '#FAF9F4'
   ctx.textAlign = 'center'
-  ctx.font = '700 58px "Gowun Batang", serif'
+  ctx.font = '700 58px "Pretendard Variable", Pretendard, sans-serif'
   const lines = wrapText(ctx, `"${confession.text}"`, 860).slice(0, 7)
   const lineHeight = 96
   const textTop = 520

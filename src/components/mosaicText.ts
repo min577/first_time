@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 
-// 글자를 뚜껑 도트 그리드로 변환한다 — 명조 글꼴을 캔버스에 그려 픽셀 샘플링
+// 글자를 뚜껑 도트 그리드로 변환한다 — 앱 UI와 같은 글꼴을 캔버스에 그려 픽셀 샘플링
 export type DotGrid = boolean[][]
 
 export function textDotGrid(text: string, cols = 18): DotGrid {
-  const font = '700 96px "Gowun Batang", Batang, serif'
+  const font = '700 96px "Pretendard Variable", Pretendard, sans-serif'
   const canvas = document.createElement('canvas')
   const measure = canvas.getContext('2d')
   if (!measure) return [[]]
