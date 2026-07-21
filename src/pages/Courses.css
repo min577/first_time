@@ -21,14 +21,6 @@
   opacity: 0.95;
 }
 
-.courses-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: rgba(250, 249, 244, 0.75);
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
 .courses-title {
   font-size: 26px;
   color: var(--paper);
@@ -49,11 +41,15 @@
   transform: rotate(-4deg) translateY(-6px);
 }
 
+/* 문장 하나가 한 줄 — 의미 단위로만 줄이 바뀐다 */
 .courses-sub {
-  font-size: 13px;
-  color: rgba(250, 249, 244, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(250, 249, 244, 0.88);
   word-break: keep-all;
-  max-width: 250px;
 }
 
 /* 표지(초록) 위에 놓이는 출석부·세대 선택 재조색 */
@@ -147,13 +143,6 @@
   border-bottom: 1px dashed var(--line);
 }
 
-.courses-category-count {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--sub);
-}
-
 .courses-list {
   display: flex;
   flex-direction: column;
@@ -196,13 +185,8 @@
   color: var(--ink);
 }
 
-.course-meta {
-  flex: 0 0 auto;
-  font-size: 12px;
-  color: var(--sub);
-}
-
 .course-arrow {
-  margin-left: 6px;
+  flex: 0 0 auto;
   color: var(--green-light);
+  font-size: 17px;
 }
