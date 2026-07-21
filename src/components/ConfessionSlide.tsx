@@ -93,27 +93,17 @@ export default function ConfessionSlide({
         tabIndex={0}
         aria-label={isFlipped ? '사연으로 돌아가기' : '그날의 사진 보기'}
         onClick={() => setIsFlipped((f) => !f)}
-        onKeyDown={(e) => e.key === 'Enter' && setIsFlipped((f) => !f)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setIsFlipped((f) => !f)
+          }
+        }}
       >
         <div className={`cslide-card-inner${isFlipped ? ' is-flipped' : ''}`}>
           <div className="cslide-face cslide-front">
             <p className="cslide-text">"{confession.text}"</p>
-            <p className="cslide-author">
-              - {confession.author}
-              {mine && onRemove && (
-                <button
-                  type="button"
-                  className="cslide-delete"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onRemove(confession.id)
-                  }}
-                  aria-label="내 고백 삭제"
-                >
-                  삭제
-                </button>
-              )}
-            </p>
+            <p className="cslide-author">- {confession.author}</p>
             <span className="cslide-flip-hint">누르면 그날의 사진</span>
           </div>
           <div className="cslide-face cslide-back">
@@ -153,13 +143,23 @@ export default function ConfessionSlide({
         >
           포토카드
         </button>
+        {mine && onRemove && (
+          <button
+            type="button"
+            className="cslide-action"
+            onClick={() => onRemove(confession.id)}
+            aria-label="내 고백 삭제"
+          >
+            삭제
+          </button>
+        )}
       </div>
 
       {course && (
         <Link
           to={`/app/courses/${course.slug}`}
           className="cslide-course"
-          aria-label={`${course.title} 안내서로 이동`}
+          aria-label={`${course.title} 강의로 이동`}
         >
           ↗ {course.title}
         </Link>

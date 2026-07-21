@@ -84,12 +84,11 @@ export default function MuralView({
 
   const capPos = (order: number) => positions[order] ?? { cx: width / 2, cy: height / 2 }
 
+  // 저장은 updater 밖에서 — updater는 렌더 시점에 실행돼 이벤트가 옛 값을 읽는다
   const commit = () => {
-    setMyCaps((prev) => {
-      const next = prev + 1
-      writeJSON('chg.muralExtra', next)
-      return next
-    })
+    const next = readJSON<number>('chg.muralExtra', 0) + 1
+    writeJSON('chg.muralExtra', next)
+    setMyCaps(next)
     window.dispatchEvent(new Event('chg:raise'))
   }
 
@@ -123,7 +122,7 @@ export default function MuralView({
       exit={reducedMotion ? undefined : { opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <p className="muralview-eyebrow">개교 벽화 갤러리</p>
+      <p className="muralview-eyebrow">벽화 갤러리</p>
       <p className="muralview-title">
         {title}
         {!live && <span className="muralview-done">완성</span>}
@@ -259,7 +258,7 @@ export default function MuralView({
             )}
           </>
         ) : (
-          <span className="muralview-stat">{doneCount} · 개교 벽화 갤러리에 걸렸습니다</span>
+          <span className="muralview-stat">{doneCount} · 벽화 갤러리에 걸렸어요</span>
         )}
       </div>
 
@@ -267,10 +266,10 @@ export default function MuralView({
       {live && (
         <p className="muralview-table-hint">
           {complete
-            ? '벽화가 완성됐습니다!'
+            ? '벽화가 완성됐어요!'
             : remaining > 0
-              ? `벽화를 눌러 내 뚜껑 찍기 · 남은 뚜껑 ${remaining}개`
-              : '뚜껑을 다 붙였습니다 · 새 병을 따면 또 생깁니다'}
+              ? `벽화를 누르면 내 뚜껑이 박혀요 · 남은 뚜껑 ${remaining}개`
+              : '내 뚜껑을 다 썼어요 · 새 병을 따면 또 생겨요'}
         </p>
       )}
 

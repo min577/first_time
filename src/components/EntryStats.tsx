@@ -113,13 +113,13 @@ export default function EntryStats() {
       </svg>
 
       <p className="entrystats-pct">{pct}%</p>
-      <p className="entrystats-title">이번 주 벽화가 차오르고 있습니다</p>
+      <p className="entrystats-title">이번 주 벽화가 차오르고 있어요</p>
       <p className="entrystats-desc">
-        모인 처음 {weekCaps.toLocaleString()} · 다 차면 이번 주 벽화가 완성됩니다
+        모인 처음 {weekCaps.toLocaleString()} · 다 차면 이번 주 벽화가 완성돼요
       </p>
-      <p className="entrystats-attendee">당신은 {attendee.toLocaleString()}번째 출석입니다</p>
+      <p className="entrystats-attendee">{attendee.toLocaleString()}번째로 출석했어요</p>
 
-      <p className="entrystats-hint">잠시 후 강의실로 이동합니다 · 탭하면 바로</p>
+      <p className="entrystats-hint">잠시 후 강의 목록으로 이동해요 · 누르면 바로 이동</p>
     </button>
   )
 }
