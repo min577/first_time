@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { SOBER_TIPS, TOAST_LEADS, TOAST_OCCASIONS, TOAST_RESPONSES, type Occasion } from '../data/toasts'
+import { TOAST_LEADS, TOAST_OCCASIONS, TOAST_RESPONSES, type Occasion } from '../data/toasts'
 import './ToastMaker.css'
 
 type Result = {
@@ -8,7 +8,6 @@ type Result = {
   occasion: Occasion
   lead: string
   response: string
-  soberTip: string
 }
 
 function pick<T>(list: readonly T[], avoid?: T): T {
@@ -24,34 +23,19 @@ export default function ToastMaker() {
   const reducedMotion = useReducedMotion()
   const [occasion, setOccasion] = useState<Occasion>('회식')
   const [result, setResult] = useState<Result | null>(null)
-  const [copied, setCopied] = useState(false)
 
-  // 자리를 바꾸면 이전 자리의 건배사는 치운다
+  // 모임을 바꾸면 이전 건배사는 치운다
   const pickOccasion = (next: Occasion) => {
     setOccasion(next)
     setResult(null)
-    setCopied(false)
-  }
-
-  const copy = async () => {
-    if (!result) return
-    try {
-      await navigator.clipboard.writeText(`선창: ${result.lead}\n후창: ${result.response}`)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 1500)
-    } catch {
-      // 클립보드가 막힌 환경(권한 거부 등)에서는 조용히 무시
-    }
   }
 
   const draw = () => {
-    setCopied(false)
     setResult((prev) => ({
       key: (prev?.key ?? 0) + 1,
       occasion,
       lead: pick(TOAST_LEADS[occasion], prev?.lead),
       response: pick(TOAST_RESPONSES, prev?.response),
-      soberTip: pick(SOBER_TIPS, prev?.soberTip),
     }))
   }
 
@@ -74,7 +58,7 @@ export default function ToastMaker() {
         </svg>
         <div>
           <h1 className="toast-title">오늘의 건배사</h1>
-          <p className="toast-sub">건배사가 처음이어도 괜찮아요. 자리를 고르고 뽑아보세요.</p>
+          <p className="toast-sub">건배사가 처음이어도 괜찮아요. 모임을 고르고 뽑아보세요.</p>
         </div>
       </header>
 
@@ -113,23 +97,6 @@ export default function ToastMaker() {
                 <p className="toast-card-label">후창</p>
                 <p className="toast-card-response">"{result.response}"</p>
               </motion.div>
-
-              <motion.div
-                className="toast-card-tail"
-                initial={reducedMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2, delay: reducedMotion ? 0 : 0.85 }}
-              >
-                <p className="toast-sober">{result.soberTip}</p>
-                <button
-                  type="button"
-                  className="toast-copy"
-                  onClick={copy}
-                  aria-label="건배사 복사하기"
-                >
-                  {copied ? '복사했어요' : '건배사 복사하기'}
-                </button>
-              </motion.div>
             </motion.article>
           ) : (
             <motion.div
@@ -155,7 +122,7 @@ export default function ToastMaker() {
                 <path d="M7.6 11h8.8" />
               </svg>
               <p>
-                자리를 고르고
+                모임을 고르고
                 <br />
                 건배사를 뽑아보세요
               </p>
@@ -166,7 +133,7 @@ export default function ToastMaker() {
 
       {/* 하단 조작부 — 자리 선택과 뽑기가 엄지 근처에 붙어 있다 */}
       <div className="toast-controls">
-        <div className="toast-occasions" role="radiogroup" aria-label="자리 선택">
+        <div className="toast-occasions" role="radiogroup" aria-label="모임 선택">
           {TOAST_OCCASIONS.map((item) => (
             <button
               key={item}

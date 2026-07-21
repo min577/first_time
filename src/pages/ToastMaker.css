@@ -9,8 +9,6 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding-bottom: 14px;
-  border-bottom: 3px solid var(--amber);
 }
 
 .toast-head-glass {
@@ -100,7 +98,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 21px;
-  line-height: 1.5;
+  line-height: 1.4;
   color: var(--paper);
   word-break: keep-all;
   margin-bottom: 16px;
@@ -110,46 +108,9 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 18px;
-  line-height: 1.5;
+  line-height: 1.4;
   color: var(--amber);
   word-break: keep-all;
-}
-
-.toast-card-tail {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px dashed rgba(250, 249, 244, 0.25);
-}
-
-/* 절주 가이드 내장 — 건배사와 함께 반드시 한 줄 나온다 */
-.toast-sober {
-  display: inline-block;
-  padding: 6px 13px;
-  border-radius: var(--radius-pill);
-  background: rgba(250, 249, 244, 0.13);
-  color: rgba(250, 249, 244, 0.85);
-  font-size: 12px;
-  word-break: keep-all;
-}
-
-/* 복사는 결과의 주 행동 */
-.toast-copy {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 44px;
-  margin-top: 12px;
-  border-radius: var(--radius-pill);
-  background: var(--paper);
-  color: var(--green);
-  font-size: 14px;
-  font-weight: 700;
-  transition: transform 0.1s ease;
-}
-
-.toast-copy:active {
-  transform: scale(0.97);
 }
 
 /* 하단 조작부 */
@@ -184,12 +145,12 @@
   color: var(--paper);
 }
 
-/* 앰버 허용 구역: 건배사 뽑기 버튼 */
+/* 앰버 허용 구역: 건배사 뽑기 버튼 — 칩과 같은 pill 문법 */
 .toast-draw {
   width: 100%;
   min-height: 50px;
   padding: 14px 0;
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-pill);
   background: var(--amber);
   color: var(--ink);
   font-size: 16px;
@@ -244,21 +205,6 @@
 
   .toast-card-response {
     font-size: 16px;
-  }
-
-  .toast-card-tail {
-    margin-top: 10px;
-    padding-top: 9px;
-  }
-
-  .toast-sober {
-    font-size: 11.5px;
-    padding: 5px 11px;
-  }
-
-  .toast-copy {
-    min-height: 40px;
-    margin-top: 9px;
   }
 
   .toast-controls {
