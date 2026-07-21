@@ -56,7 +56,7 @@ export default function EntryStats() {
 
   return (
     <button type="button" className="entrystats" onClick={go} aria-label="강의실로 입장하기">
-      <p className="entrystats-eyebrow">이번 주 벽화</p>
+      <p className="entrystats-eyebrow">출석 확인</p>
 
       <svg viewBox="0 0 120 140" className="entrystats-glass" aria-hidden="true">
         <defs>
@@ -113,10 +113,19 @@ export default function EntryStats() {
       </svg>
 
       <p className="entrystats-pct">{pct}%</p>
-      <p className="entrystats-desc">{weekCaps.toLocaleString()}개의 처음이 모였어요.</p>
-      <p className="entrystats-attendee">{attendee.toLocaleString()}번째로 입장했어요.</p>
+      <p className="entrystats-title">이번 주 벽화가 차오르고 있어요</p>
+      <p className="entrystats-desc">
+        <span>모인 처음 {weekCaps.toLocaleString()}</span>
+        <br />
+        <span>다 차면 이번 주 벽화가 완성돼요</span>
+      </p>
+      <p className="entrystats-attendee">{attendee.toLocaleString()}번째로 출석했어요</p>
 
-      <p className="entrystats-hint">곧 강의 목록으로 이동해요. 바로 보려면 화면을 눌러주세요.</p>
+      <p className="entrystats-hint">
+        <span>잠시 후 강의 목록으로 이동해요.</span>
+        <br />
+        <span>누르면 바로 이동해요.</span>
+      </p>
     </button>
   )
 }

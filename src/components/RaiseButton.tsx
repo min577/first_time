@@ -50,10 +50,12 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
       onClick={raise}
       aria-label={
         raised
-          ? `잔 들었어요. 다시 누르면 취소돼요. 지금까지 ${total.toLocaleString()}잔`
-          : `잔 들기. 지금까지 ${total.toLocaleString()}잔`
+          ? `잔을 들었어요. 다시 누르면 거둬요. 현재 ${total.toLocaleString()}잔`
+          : `이 글에 잔 들기. 현재 ${total.toLocaleString()}잔`
       }
     >
+      <span className="raise-label">{raised ? '잔 들었어요' : '잔 들기'}</span>
+      <span className="raise-count">{total.toLocaleString()}</span>
       <motion.span
         className="raise-glass"
         animate={floating ? { rotate: [0, -14, 9, 0] } : { rotate: 0 }}
@@ -61,8 +63,6 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
       >
         <SojuGlass filled={raised} />
       </motion.span>
-      <span className="raise-label">{raised ? '잔 들었어요' : '잔 들기'}</span>
-      <span className="raise-count">{total.toLocaleString()}</span>
 
       <AnimatePresence>
         {floating && (
@@ -74,7 +74,7 @@ export default function RaiseButton({ id, count, onRaise }: Props) {
             onAnimationComplete={() => setFloating(false)}
             aria-hidden="true"
           >
-            +1
+            +1잔
           </motion.span>
         )}
       </AnimatePresence>

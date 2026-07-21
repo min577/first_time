@@ -6,7 +6,6 @@
   position: relative; /* 벽화 확대 뷰 오버레이가 폰 화면 안에만 뜨도록 기준점 역할 */
   height: 100%;
   background: var(--paper);
-  contain: paint;
 }
 
 .judge-panel {
@@ -18,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
+    gap: var(--sp-10, 64px);
     min-height: 100%;
     padding: 40px 32px;
     background: var(--green-pale);
@@ -27,7 +26,7 @@
   .device-screen {
     flex: 0 0 auto;
     width: var(--phone-width);
-    height: min(812px, calc(100dvh - 72px));
+    height: min(812px, calc(100vh - 72px));
     min-height: 560px;
     border-radius: 28px;
     overflow: hidden;
@@ -38,7 +37,7 @@
   }
 
   .judge-panel {
-    display: none;
+    display: block;
     width: 320px;
     color: var(--ink);
   }
@@ -47,7 +46,7 @@
     font-size: 12px;
     letter-spacing: 0.08em;
     color: var(--sub);
-    margin-bottom: 14px;
+    margin-bottom: var(--sp-4);
   }
 
   .judge-title {
@@ -60,20 +59,20 @@
     font-family: var(--font-display);
     font-size: 16px;
     color: var(--ink);
-    margin-bottom: 28px;
+    margin-bottom: var(--sp-7);
   }
 
   .judge-loop {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: var(--sp-7);
   }
 
   .judge-loop li {
     display: flex;
     align-items: baseline;
-    gap: 10px;
+    gap: var(--sp-3);
     font-size: 14px;
     color: var(--ink);
   }
@@ -114,16 +113,6 @@
     color: var(--sub);
     border-top: 1px solid var(--line);
     padding-top: 14px;
-    max-width: 260px;
-  }
-}
-
-@media (min-width: 60rem) {
-  .device-layout {
-    gap: 64px;
-  }
-
-  .judge-panel {
-    display: block;
+    max-width: 300px;
   }
 }

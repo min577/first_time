@@ -3,7 +3,8 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { confessionOpener, findCourse, type Course, type Tip } from '../data/courses'
 import { newId, useLocalList } from '../hooks/useLocalList'
 import TipCard from '../components/TipCard'
-import SortToggle, { type SortMode } from '../components/SortToggle'
+import SortSelect from '../components/SortSelect'
+import type { SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './CourseRoom.css'
 
@@ -36,17 +37,18 @@ function CourseRoomView({ course }: { course: Course }) {
         </Link>
         <p className="room-category">{course.category}</p>
         <h1 className="room-title">{course.title}</h1>
-        <p className="room-sub">이 경험을 먼저 해본 선배들이 남긴 조언이에요.</p>
+        <p className="room-sub">이 경험을 먼저 해본 선배들이 적어준 조언이에요.</p>
       </header>
 
+      {/* 들어가며 - 챕터를 여는 위로 한 줄 */}
       <blockquote className="room-comfort">
-        <p className="room-comfort-label">선배의 한마디</p>
+        <p className="room-comfort-label">들어가며</p>
         <p className="room-comfort-text">{course.comfort}</p>
       </blockquote>
 
       <div className="room-sorthead">
         <h2 className="room-section-title">선배들의 조언</h2>
-        <SortToggle value={sort} onChange={setSort} />
+        <SortSelect value={sort} onChange={setSort} />
       </div>
       <p className="room-vote-help">도움이 됐다면 잔을 들어주세요.</p>
 
@@ -58,6 +60,7 @@ function CourseRoomView({ course }: { course: Course }) {
         ))}
       </ul>
 
+      {/* 그 시절엔 - 3049에겐 향수, 2030에겐 재미. 세대를 한 테이블에 앉히는 장치 */}
       {course.memories && course.memories.length > 0 && (
         <section className="room-memories" aria-label="그 시절의 처음">
           <h2 className="room-section-title">그 시절엔</h2>
@@ -69,7 +72,7 @@ function CourseRoomView({ course }: { course: Course }) {
               </li>
             ))}
           </ul>
-          <p className="room-memories-hint">당신의 경험도 조언으로 남겨주세요.</p>
+          <p className="room-memories-hint">그 시절의 경험도 조언으로 남겨주세요.</p>
         </section>
       )}
 
@@ -84,16 +87,18 @@ function CourseRoomView({ course }: { course: Course }) {
         />
       </section>
 
+      {/* 열람 → 고백을 한 흐름으로: 이 수업의 처음을 그대로 고백실로 가져간다 */}
       <section className="room-confess" aria-label="고백실로 이동">
-        <p className="room-confess-copy">아직 마음에 걸린다면 익명으로 남겨보세요.</p>
+        <p className="room-confess-copy">읽어도 아직 마음이 무겁다면, 털어놔도 돼요.</p>
         <button
           type="button"
           className="room-confess-btn"
           onClick={() => navigate('/app/confess', { state: { courseSlug: course.slug } })}
-          aria-label={`${confessionOpener(course)} 고백 남기기`}
+          aria-label={`"${confessionOpener(course)}" 고백하러 가기`}
         >
-          이 처음 고백하기 →
+          "{confessionOpener(course)}" 고백하러 가기 →
         </button>
+        <p className="room-confess-sub">사람들이 당신의 처음에 잔을 들어줘요.</p>
       </section>
     </div>
   )

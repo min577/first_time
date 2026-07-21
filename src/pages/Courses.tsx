@@ -5,75 +5,78 @@ import { readJSON, writeJSON } from '../hooks/useLocalList'
 import StatusStrip from '../components/StatusStrip'
 import './Courses.css'
 
-type Persona = 'all' | 'student' | 'worker' | 'family'
+type Persona = 'student' | 'worker' | 'parent'
 
-const PERSONAS: {
-  key: Persona
-  label: string
-  category?: (typeof CATEGORIES)[number]
-}[] = [
-  { key: 'all', label: '전체' },
+const PERSONAS: { key: Persona; label: string; category: (typeof CATEGORIES)[number] }[] = [
   { key: 'student', label: '학생', category: '학생편' },
-  { key: 'worker', label: '직장', category: '직장인편' },
-  { key: 'family', label: '가족', category: '인생편' },
+  { key: 'worker', label: '직장인', category: '직장인편' },
+  { key: 'parent', label: '부모', category: '인생편' },
 ]
 
 export default function Courses() {
-  const [persona, setPersona] = useState<Persona>(() => {
-    const saved = readJSON<Persona | null>('chg.persona', 'all')
-    return PERSONAS.some((item) => item.key === saved) ? (saved as Persona) : 'all'
-  })
+  // 요즘 나는 — 고르면 내 세대의 편이 맨 위로 온다
+  const [persona, setPersona] = useState<Persona | null>(() =>
+    readJSON<Persona | null>('chg.persona', null),
+  )
 
   const pick = (key: Persona) => {
-    setPersona(key)
-    writeJSON('chg.persona', key)
+    const next = persona === key ? null : key
+    setPersona(next)
+    writeJSON('chg.persona', next)
   }
 
-  const selectedCategory = PERSONAS.find((item) => item.key === persona)?.category
-  const categories = selectedCategory ? [selectedCategory] : [...CATEGORIES]
+  const myCategory = PERSONAS.find((p) => p.key === persona)?.category
+  const ordered = myCategory
+    ? [myCategory, ...CATEGORIES.filter((c) => c !== myCategory)]
+    : [...CATEGORIES]
 
   return (
     <div className="courses">
       <header className="courses-head">
-        <h1 className="courses-title">강의 목록</h1>
+        <img src="/cap.png" alt="" aria-hidden="true" className="courses-cap" />
+        <h1 className="courses-title">
+          강의 목록
+          <span className="courses-seal" aria-hidden="true">
+            처음
+          </span>
+        </h1>
         <p className="courses-sub">
-          <span>지금 필요한 강의를 골라보세요.</span>
-          <span>먼저 해본 선배들의 조언을 볼 수 있어요.</span>
+          <span>지금 당신은 어떤 처음을 맞이하고 있나요?</span>
+          <span>먼저 그 경험을 겪었던 선배들의 조언을 들어보세요.</span>
         </p>
         <StatusStrip />
-        <div className="courses-persona" role="radiogroup" aria-label="강의 대상 필터">
-          {PERSONAS.map((item) => (
+        <div className="courses-persona" role="radiogroup" aria-label="요즘 나는">
+          <span className="courses-persona-label">요즘 나는</span>
+          {PERSONAS.map((p) => (
             <button
-              key={item.key}
+              key={p.key}
               type="button"
               role="radio"
-              aria-checked={persona === item.key}
-              className={`courses-persona-chip${persona === item.key ? ' is-active' : ''}`}
-              onClick={() => pick(item.key)}
+              aria-checked={persona === p.key}
+              className={`courses-persona-chip${persona === p.key ? ' is-active' : ''}`}
+              onClick={() => pick(p.key)}
             >
-              {item.label}
+              {p.label}
             </button>
           ))}
         </div>
       </header>
 
-      {categories.map((category) => {
-        const categoryIndex = CATEGORIES.indexOf(category)
-        const list = COURSES.filter((course) => course.category === category)
-
+      {ordered.map((category) => {
+        const catIdx = CATEGORIES.indexOf(category) // 과목코드는 원래 편 순서 기준으로 고정
+        const list = COURSES.filter((c) => c.category === category)
         return (
-          <section key={category} className="courses-section" aria-labelledby={`category-${category}`}>
-            <h2 className="courses-category" id={`category-${category}`}>
-              {category}
+          <section key={category} className="courses-section" aria-label={category}>
+            <h2 className="courses-category">
+              <span>{category}</span>
             </h2>
             <ul className="courses-list">
-              {list.map((course, index) => (
+              {list.map((course, i) => (
                 <li key={course.slug}>
                   <Link className="course-card" to={`/app/courses/${course.slug}`}>
                     <span className="course-main">
-                      <span className="course-code">
-                        처음학 {(categoryIndex + 1) * 100 + index + 1}
-                      </span>
+                      {/* 수강편람 감성: 과목코드 (학생편 1XX · 직장인편 2XX · 인생편 3XX) */}
+                      <span className="course-code">처음학 {(catIdx + 1) * 100 + i + 1}</span>
                       <span className="course-title">{course.title}</span>
                     </span>
                     <span className="course-arrow" aria-hidden="true">

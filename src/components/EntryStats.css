@@ -1,50 +1,60 @@
 .entrystats {
   position: absolute;
   inset: 0;
-  z-index: var(--z-raised);
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: var(--color-brand);
-  color: var(--color-on-brand);
+  background: var(--green);
+  color: var(--paper);
   text-align: center;
   padding: 24px;
 }
 
 .entrystats-eyebrow {
-  color: var(--color-on-brand-muted);
-  font-size: var(--text-sm);
-  margin-bottom: 14px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+  margin-bottom: var(--sp-4);
 }
 
 .entrystats-glass {
   width: 108px;
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: var(--sp-3);
 }
 
 .entrystats-pct {
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 40px;
   line-height: 1.1;
 }
 
+.entrystats-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 2px;
+  word-break: keep-all;
+}
+
 .entrystats-desc {
-  color: var(--color-on-brand-muted);
-  font-size: var(--text-base);
+  font-size: 12px;
+  opacity: 0.8;
   margin-top: 8px;
   word-break: keep-all;
 }
 
 .entrystats-attendee {
-  font-size: var(--text-sm);
+  font-size: 13px;
   font-weight: 700;
-  margin-top: 14px;
-  padding: 6px 14px;
+  margin-top: var(--sp-4);
+  padding: var(--sp-2) var(--sp-4);
   border-radius: var(--radius-pill);
-  background: var(--color-brand-overlay);
+  background: rgba(250, 249, 244, 0.14);
 }
 
 .entrystats-hint {
@@ -52,8 +62,6 @@
   left: 0;
   right: 0;
   bottom: calc(18px + env(safe-area-inset-bottom));
-  padding-inline: var(--space-md);
-  color: var(--color-on-brand-muted);
-  font-size: var(--text-xs);
-  word-break: keep-all;
+  font-size: 11px;
+  opacity: 0.55;
 }

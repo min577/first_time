@@ -11,11 +11,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  min-height: 58px;
-  padding: 7px 0;
+  gap: var(--sp-1);
+  padding: var(--sp-2) 0 var(--sp-2);
   color: var(--sub);
-  transition: color var(--dur-short) var(--ease-out);
+  transition: color 0.15s ease;
 }
 
 .tabbar-item.is-active {
@@ -23,7 +22,7 @@
 }
 
 .tabbar-label {
-  font-size: var(--text-xs);
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: -0.01em;
 }

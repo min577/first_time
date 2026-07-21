@@ -10,37 +10,28 @@
 }
 
 html,
-body {
-  overflow-x: clip;
-}
-
-html,
 body,
 #root {
   height: 100%;
 }
 
+/* 행간 스케일: 제목 1.35 · 압축 UI 1.45 · 본문 1.6 · 디스플레이 인용 1.7 */
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-ui);
-  font-size: var(--text-base);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-size-adjust: 100%;
 }
 
 button {
-  min-width: 0;
   font: inherit;
   color: inherit;
   background: none;
   border: none;
   cursor: pointer;
-}
-
-button:disabled {
-  cursor: not-allowed;
 }
 
 input,
@@ -54,6 +45,13 @@ a {
   text-decoration: none;
 }
 
+/* 키보드 사용자에게만 보이는 포커스 링 */
+:focus-visible {
+  outline: 2.5px solid var(--green-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 ul,
 ol {
   list-style: none;
@@ -62,33 +60,32 @@ ol {
 h1,
 h2,
 h3 {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  font-family: var(--font-ui);
+  font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.025em;
+  line-height: 1.35;
+  text-wrap: balance;
 }
 
-:focus-visible {
-  outline: 3px solid var(--color-focus);
-  outline-offset: 2px;
+/* 본문·안내문: 마지막 줄 외톨이 어절(orphan) 방지 */
+p,
+blockquote {
+  text-wrap: pretty;
 }
 
 .app-shell {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--color-paper);
+  background: var(--paper);
 }
 
 .app-main {
   flex: 1;
-  min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
+/* 폰 화면 안 스크롤바 숨김 — 실기기 모바일처럼 보이게 (스크롤 동작은 유지) */
 .device-screen *::-webkit-scrollbar {
   display: none;
 }
@@ -98,27 +95,26 @@ h3 {
 }
 
 .page-placeholder {
-  padding: var(--space-xl) var(--space-md);
+  padding: var(--sp-9, 48px) var(--sp-5);
   text-align: center;
 }
 
 .page-placeholder h1 {
-  margin-bottom: var(--space-xs);
-  font-size: var(--text-md);
+  font-size: 22px;
+  margin-bottom: 8px;
 }
 
 .page-placeholder p {
-  color: var(--color-muted);
-  font-size: var(--text-sm);
+  color: var(--sub);
+  font-size: 13px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 150ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 150ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

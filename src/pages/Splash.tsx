@@ -9,7 +9,7 @@ export default function Splash() {
   return (
     <div className="splash">
       <header className="splash-head">
-        <p className="splash-intro">어른들에게도 처음은 있으니까</p>
+        <p className="splash-eyebrow">어른들에게도 처음은 있으니까</p>
         <h1 className="splash-logo">
           <img src="/logo.png" alt="처음학개론" className="splash-logo-img" />
         </h1>
@@ -17,10 +17,11 @@ export default function Splash() {
 
       <TouchCap onEntered={() => setEntered(true)} />
 
-      <footer className="splash-footer">
-        <p>만 19세 이상만 이용할 수 있어요.</p>
-        <p>술은 천천히, 내 속도에 맞게 즐겨요.</p>
-      </footer>
+      <p className="splash-footer">
+        <span>만 19세 이상</span>
+        <br />
+        <span>지나친 음주는 처음을 망칠 수 있어요</span>
+      </p>
 
       {/* 도장이 찍히면 이번 주의 잔이 얼마나 찼는지 보여주고 입장한다 */}
       {entered && <EntryStats />}

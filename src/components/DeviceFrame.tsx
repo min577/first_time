@@ -16,7 +16,7 @@ export default function DeviceFrame({ children }: { children: ReactNode }) {
       <aside className="judge-panel">
         <p className="judge-eyebrow">제43회 DCA · 처음처럼 · Digital Campaign</p>
         <h1 className="judge-title">처음학개론</h1>
-        <p className="judge-concept">“병뚜껑을 따면 열리는 수업”</p>
+        <p className="judge-concept">"병뚜껑을 따면 열리는 수업"</p>
         <ol className="judge-loop">
           {LOOP_STEPS.map((step, i) => (
             <li key={step.title}>
@@ -32,7 +32,11 @@ export default function DeviceFrame({ children }: { children: ReactNode }) {
         <Link to="/about" className="judge-about">
           캠페인 소개 →
         </Link>
-        <p className="judge-hint">오른쪽 화면을 직접 조작해보세요. 모바일 QR 접속과 동일한 경험입니다.</p>
+        <p className="judge-hint">
+          <span>오른쪽 화면을 직접 조작해보세요.</span>
+          <br />
+          <span>모바일 QR 접속과 동일한 경험이에요.</span>
+        </p>
       </aside>
 
       <div className="device-screen">{children}</div>

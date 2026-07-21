@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
@@ -13,7 +13,8 @@ import ConfessionSlide from '../components/ConfessionSlide'
 import CapMosaic from '../components/CapMosaic'
 import { gridTotal, useTextDots } from '../components/mosaicText'
 import MuralView from '../components/MuralView'
-import SortToggle, { type SortMode } from '../components/SortToggle'
+import SortSelect from '../components/SortSelect'
+import type { SortMode } from '../components/SortToggle'
 import Composer from '../components/Composer'
 import './Confess.css'
 
@@ -25,18 +26,16 @@ const PAST_MURALS = [
   {
     key: 'last-week',
     text: '건배',
-    title: '지난주 벽화',
-    buttonLabel: '지난주 벽화 보기',
+    title: '지난주 벽화 · 건배',
     desc: '지난주에 모인 뚜껑으로 완성한 글자예요.',
-    count: '9,821개의 처음으로 완성했어요.',
+    count: '9,821개의 처음으로 완성했어요',
   },
   {
     key: 'anniversary',
     text: '20',
-    title: '처음처럼 20주년 벽화',
-    buttonLabel: '20주년 벽화 보기',
-    desc: '처음처럼 20주년에 모인 뚜껑으로 완성한 벽화예요.',
-    count: '20,000개의 처음으로 완성했어요.',
+    title: '20주년 벽화 · 20',
+    desc: '처음처럼 20주년을 맞아 함께 채운 글자예요.',
+    count: '20,000개의 처음으로 완성했어요',
   },
 ]
 
@@ -133,8 +132,10 @@ export default function Confess() {
   const muralRatio = Math.min(muralCaps / MURAL_GOAL, 1)
   const muralFilled = Math.round(muralRatio * gridTotal(gridThisWeek))
 
+  // 정렬 + 릴스 트랙
   const [sort, setSort] = useState<SortMode>('latest')
   const sorted = sort === 'popular' ? [...items].sort((a, b) => b.cheers - a.cheers) : items
+  const trackRef = useRef<HTMLDivElement>(null)
 
   // 오버레이들
   const [muralOpen, setMuralOpen] = useState<number | null>(null)
@@ -163,22 +164,35 @@ export default function Confess() {
     setComposerOpen(false)
     setJustConfessed(true)
     window.setTimeout(() => setJustConfessed(false), 2600)
+    // 최신순으로 바꾸고 내 고백(첫 사연 슬라이드)으로 이동
     setSort('latest')
+    window.setTimeout(() => {
+      trackRef.current?.scrollTo({
+        top: trackRef.current.clientHeight,
+        behavior: reducedMotion ? 'auto' : 'smooth',
+      })
+    }, 80)
   }
 
   return (
     <div className="confessr">
+      {/* 상단 오버레이 바 */}
       <header className="confessr-top">
         <span className="confessr-title">처음 고백</span>
         <div className="confessr-tools">
-          <SortToggle value={sort} onChange={setSort} />
+          <SortSelect value={sort} onChange={setSort} dark />
         </div>
       </header>
 
-      <div className="confessr-track">
+      {/* 릴스 트랙: 첫 장은 개교 벽화, 이후 사연들 */}
+      <div className="confessr-track" ref={trackRef}>
         <section className="confessr-intro">
-          <h1 className="confessr-hero">어른에게도 처음은 있어요.</h1>
-          <p className="confessr-hero-sub">이름 없이 고백을 남길 수 있어요.</p>
+          <h1 className="confessr-hero">
+            <span>어른의 처음은</span>
+            <br />
+            <span>아무도 축하해주지 않는다</span>
+          </h1>
+          <p className="confessr-hero-sub">여기선 익명으로 털어놔도 돼요.</p>
 
           <button
             type="button"
@@ -188,9 +202,13 @@ export default function Confess() {
           >
             <CapMosaic grid={gridThisWeek} dot={5} filled={muralFilled} animateIn />
           </button>
-          <p className="confessr-mural-count">이번 주 벽화 {Math.round(muralRatio * 100)}%</p>
+          <p className="confessr-mural-count">
+            이번 주 벽화 '처음' · {muralCaps.toLocaleString()} / {MURAL_GOAL.toLocaleString()} ·{' '}
+            {Math.round(muralRatio * 100)}%
+          </p>
           <p className="confessr-mural-desc">
-            {muralCaps.toLocaleString()}개의 처음이 모였어요. 벽화를 누르면 크게 볼 수 있어요.
+            <span>병을 딴 사람의 뚜껑이 도장처럼 글자에 박혀요.</span>
+            <span>다 차면 이번 주 벽화가 완성돼요.</span>
           </p>
           <div className="confessr-pastchips">
             {PAST_MURALS.map((mural, i) => (
@@ -200,23 +218,13 @@ export default function Confess() {
                 className="confessr-pastchip"
                 onClick={() => setMuralOpen(i + 1)}
               >
-                {mural.buttonLabel}
+                {mural.title.replace(' 벽화', '')} 完
               </button>
             ))}
           </div>
-        </section>
 
-        <div className="confessr-addbar">
-          <span className="confessr-ticket">남은 고백권 {tickets}장</span>
-          <button
-            type="button"
-            className="confessr-add"
-            onClick={() => setComposerOpen(true)}
-            aria-label="고백 남기기"
-          >
-            고백 남기기
-          </button>
-        </div>
+          <p className="confessr-swipe-hint">위로 쓸어올려 사연 보기</p>
+        </section>
 
         {sorted.map((confession) => (
           <ConfessionSlide
@@ -230,9 +238,22 @@ export default function Confess() {
         ))}
       </div>
 
+      {/* 고백하기 플로팅 — 고백권이 응모권이다 */}
+      <button
+        type="button"
+        className="confessr-add"
+        onClick={() => setComposerOpen(true)}
+        aria-label={`고백 남기기. 남은 고백권 ${tickets}장`}
+      >
+        고백 남기기
+        <span className="confessr-add-ticket">{tickets}장</span>
+      </button>
+
       {justConfessed && (
         <p className="confessr-toast" role="status">
-          고백을 남겼어요.
+          <span>고백을 남겼어요.</span>
+          <br />
+          <span>잔을 많이 받으면 라벨 인쇄 후보가 돼요.</span>
         </p>
       )}
 
@@ -241,8 +262,8 @@ export default function Confess() {
           <MuralView
             key="mural-live"
             grid={gridThisWeek}
-            title="이번 주 벽화"
-            desc="이번 주에 모인 뚜껑으로 '처음' 두 글자를 채우고 있어요."
+            title="이번 주 벽화 · 처음"
+            desc="병을 딴 사람만 뚜껑을 붙일 수 있어요. 모두의 뚜껑이 '처음' 두 글자를 완성해요."
             live
             baseCheers={MURAL_SEED}
             goal={MURAL_GOAL}
@@ -289,14 +310,14 @@ export default function Confess() {
             >
               {tickets > 0 ? (
                 <>
-                  <p className="confessr-sheet-title">고백 남기기</p>
+                  <p className="confessr-sheet-title">나의 처음 고백하기</p>
                   <Composer
                     key={fromCourse?.slug ?? 'plain'}
                     placeholder="어떤 처음을 겪고 있는지 적어주세요."
                     helper={
                       fromCourse
-                        ? `'${fromCourse.title}' 강의에서 이어진 고백이에요 · 고백권 ${tickets}장`
-                        : `남은 고백권 ${tickets}장 · 이름은 공개되지 않아요.`
+                        ? `'${fromCourse.title}' 강의에서 이어진 고백 · 고백권 ${tickets}장`
+                        : `고백권 ${tickets}장 · 이름은 공개되지 않아요`
                     }
                     submitLabel="고백하기"
                     rows={3}
@@ -306,12 +327,14 @@ export default function Confess() {
                 </>
               ) : (
                 <div className="confessr-locked">
-                  <p className="confessr-sheet-title">남은 고백권이 없어요.</p>
+                  <p className="confessr-sheet-title">고백은 병 하나당 한 번이에요</p>
                   <p className="confessr-locked-sub">
-                    새 병의 QR로 다시 입장하면 고백권 1장이 생겨요.
+                    새 병의 뚜껑으로 입장하면 고백권이 다시 생겨요.
+                    <br />
+                    그동안 다른 처음에 잔과 조언을 건네보세요.
                   </p>
                   <Link to="/" className="confessr-locked-btn">
-                    처음 화면으로
+                    뚜껑 찍으러 가기 →
                   </Link>
                 </div>
               )}

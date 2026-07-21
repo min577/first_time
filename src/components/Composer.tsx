@@ -76,15 +76,18 @@ export default function Composer({
 
   return (
     <div className="composer">
-      <textarea
-        className="composer-input"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={placeholder}
-        rows={rows}
-        maxLength={200}
-        aria-label={placeholder}
-      />
+      {/* 입력 카드는 입력만 담는다 — 행동 버튼은 카드 밖 */}
+      <div className="composer-box">
+        <textarea
+          className="composer-input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={placeholder}
+          rows={rows}
+          maxLength={200}
+          aria-label={placeholder}
+        />
+      </div>
       <div className="composer-foot">
         <span className="composer-helper">
           {helper}
@@ -122,7 +125,7 @@ export default function Composer({
 
       {guard === 'warn' && (
         <div className="composer-guard is-warn" role="alertdialog" aria-label="문장 점검">
-          <p className="composer-guard-title">가르치는 말투일 수 있어요.</p>
+          <p className="composer-guard-title">가르치는 말투일 수 있어요</p>
           <p className="composer-guard-text">'나 때는'보다 내 경험을 그대로 적으면 더 잘 읽혀요.</p>
           <div className="composer-guard-actions">
             <button

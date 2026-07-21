@@ -1,35 +1,31 @@
-/* Hallmark · playful · Marquee Hero · DESIGN.md · app · P5/H5/E4/S5/R5/V5 · slop/contrast/responsive: pass */
 .splash {
   position: relative;
   display: flex;
-  min-height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(24px, 8dvh, 64px) 24px calc(92px + env(safe-area-inset-bottom));
-  background: var(--color-brand);
-  color: var(--color-on-brand);
+  height: 100%;
+  padding: 24px;
+  background: var(--green);
+  color: var(--paper);
   text-align: center;
 }
 
 .splash-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--sp-9, 48px);
 }
 
-.splash-intro {
-  color: var(--color-on-brand);
-  font-size: var(--text-base);
+.splash-eyebrow {
+  font-size: 15px;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
+/* 로고 원본 하단에 박힌 구 슬로건 띠를 비율 크롭으로 숨긴다 (1252x769 → 1252x650) */
 .splash-logo {
   width: 236px;
   max-width: 78%;
+  margin: var(--sp-4) auto 0;
   aspect-ratio: 1252 / 650;
   overflow: hidden;
   line-height: 0;
@@ -37,20 +33,16 @@
 
 .splash-logo-img {
   width: 100%;
-  max-width: none;
   height: auto;
 }
 
 .splash-footer {
   position: absolute;
-  right: 0;
-  bottom: calc(20px + env(safe-area-inset-bottom));
   left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  right: 0;
+  bottom: calc(16px + env(safe-area-inset-bottom));
   padding-inline: 20px;
-  color: var(--color-on-brand-muted);
-  font-size: var(--text-sm);
-  line-height: 1.45;
+  font-size: 12px;
+  opacity: 0.65;
+  word-break: keep-all;
 }

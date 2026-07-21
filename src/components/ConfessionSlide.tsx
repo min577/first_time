@@ -100,7 +100,12 @@ export default function ConfessionSlide({
           }
         }}
       >
-        {isFlipped ? (
+        <div className={`cslide-card-inner${isFlipped ? ' is-flipped' : ''}`}>
+          <div className="cslide-face cslide-front">
+            <p className="cslide-text">"{confession.text}"</p>
+            <p className="cslide-author">- {confession.author}</p>
+            <span className="cslide-flip-hint">사진 보기</span>
+          </div>
           <div className="cslide-face cslide-back">
             <div className="cslide-polaroid">
               {confession.photo && !photoFailed ? (
@@ -116,15 +121,8 @@ export default function ConfessionSlide({
               )}
               <p className="cslide-polaroid-caption">{confession.author}, 그날 밤</p>
             </div>
-            <span className="cslide-flip-hint">누르면 고백으로 돌아가기</span>
           </div>
-        ) : (
-          <div className="cslide-face cslide-front">
-            <p className="cslide-text">“{confession.text}”</p>
-            <p className="cslide-author">{confession.author}</p>
-            <span className="cslide-flip-hint">누르면 그날의 사진</span>
-          </div>
-        )}
+        </div>
       </div>
 
       <div className="cslide-actions">
@@ -148,7 +146,7 @@ export default function ConfessionSlide({
         {mine && onRemove && (
           <button
             type="button"
-            className="cslide-action is-danger"
+            className="cslide-action"
             onClick={() => onRemove(confession.id)}
             aria-label="내 고백 삭제"
           >
