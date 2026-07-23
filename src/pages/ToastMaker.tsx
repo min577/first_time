@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { TOAST_LEADS, TOAST_OCCASIONS, TOAST_RESPONSES, type Occasion } from '../data/toasts'
+import {
+  SOBER_TIPS,
+  TOAST_LEADS,
+  TOAST_OCCASIONS,
+  TOAST_RESPONSES,
+  type Occasion,
+} from '../data/toasts'
 import './ToastMaker.css'
 
 type Result = {
@@ -8,6 +14,7 @@ type Result = {
   occasion: Occasion
   lead: string
   response: string
+  soberTip: string
 }
 
 function pick<T>(list: readonly T[], avoid?: T): T {
@@ -36,6 +43,7 @@ export default function ToastMaker() {
       occasion,
       lead: pick(TOAST_LEADS[occasion], prev?.lead),
       response: pick(TOAST_RESPONSES, prev?.response),
+      soberTip: pick(SOBER_TIPS, prev?.soberTip),
     }))
   }
 
@@ -100,6 +108,16 @@ export default function ToastMaker() {
                 <p className="toast-card-label">후창</p>
                 <p className="toast-card-response">"{result.response}"</p>
               </motion.div>
+
+              {/* 절주 한 줄 — 축배의 순간에 책임을 심는다 (책임 음주 내장) */}
+              <motion.p
+                className="toast-card-sober"
+                initial={reducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.25, delay: reducedMotion ? 0 : 0.9 }}
+              >
+                {result.soberTip}
+              </motion.p>
             </motion.article>
           ) : (
             <motion.div
